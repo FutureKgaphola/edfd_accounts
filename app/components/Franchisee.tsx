@@ -1,0 +1,39 @@
+"use client";
+
+import { Button } from "flowbite-react";
+import { customsubmitTheme } from "../SiteTheme/Theme";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import NoHistory from "./NoHistory";
+import NoApplication from "./NoApplication";
+
+const Franchisee = () => {
+    const router = useRouter();
+    const [tab,setTab]=useState<string>('progress');
+    useEffect(()=>{
+        setTab('progress')
+    },[]);
+    return (
+        <div className="gap-2">
+            <div className="bg-slate-50 border gap-2 p-3 flex items-end justify-end">
+                <Button onClick={()=>setTab('progress')} color="light" theme={customsubmitTheme} pill>
+                    Current Application
+                </Button>
+                <Button onClick={()=>setTab('History')} color="appsuccess" theme={customsubmitTheme} pill>
+                    History
+                </Button>
+                <Button onClick={() => router.push("/applyloan/Franchisee")} color="appsuccess" theme={customsubmitTheme} pill>
+                    Apply for a loan
+                </Button>
+            </div>
+            <div>
+                {tab =='progress' ? <NoApplication/> : 
+                tab =='History' ? <NoHistory/> : null
+            }
+                
+            </div>
+        </div>
+    );
+}
+
+export default Franchisee;

@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
+import {Providers} from "./providers";
+import { SiteFooter } from "./components/SiteFooter";
+import { PoppinsBold, PoppinsLight, PoppinsRegular } from "./customFonts/fonts";
+import { Nav_bar } from "./components/Navbar";
+
+
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -26,9 +32,14 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${PoppinsLight.variable} ${PoppinsBold.variable} ${PoppinsRegular.variable} antialiased`}
       >
+        <Providers>
+          <Nav_bar/>
         {children}
+        <SiteFooter />
+        </Providers>
+        
       </body>
     </html>
   );
