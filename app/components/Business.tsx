@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import ActiveBusiness_loan from "./ActiveBusiness_loan";
 import NoHistory from "./NoHistory";
+import { HistoryTable } from "./HistoryTable";
 
 const Business = () => {
     const router = useRouter();
@@ -28,7 +29,7 @@ const Business = () => {
             </div>
             <div>
                 {tab =='progress' ? <ActiveBusiness_loan/> : 
-                tab =='History' ? <NoHistory/> : null
+                tab =='History' ? <HistoryTable/>: null
             }
                 
             </div>

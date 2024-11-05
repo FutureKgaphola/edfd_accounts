@@ -3,33 +3,48 @@ import { Label, Select } from "flowbite-react";
 import { customselectTheme } from "../SiteTheme/Theme";
 import Business from "../components/Business";
 import { useState } from "react";
-import NoApplication from "../components/NoApplication";
 import Procurement from "../components/Procurement";
 import Building from "../components/Building";
 import Franchisee from "../components/Franchisee";
+import Image from "next/image";
+import ledalogo from '../assets/images/logoleda.png';
 
 const dashboard = () => {
     const [loanType, setLoanType] = useState<string>('---');
     const [tab, setTab] = useState<string>('in progress');
     return (
-        <div className="w-full mt-2 pt-2 mb-1 items-center justify-center content-center"
+        <div className="w-full mb-1 items-center justify-center content-center"
         >
             <div className="h-72 w-full" style={{
                 backgroundImage:
-                    "url('https://cdn.pixabay.com/photo/2017/11/27/21/31/computer-2982270_1280.jpg')",
+                    "url('https://cdn.pixabay.com/photo/2016/11/19/15/43/tree-1839959_1280.jpg')",
+                backgroundRepeat: 'no-repeat',
+                backgroundSize: 'cover',
+                height: '50dvh',
+                backgroundPosition: 'center'
 
             }}>
                 <div className="mb-2 flex p-3 items-center justify-center">
-                    <div>
-                        <Label htmlFor="relation" value="Choose a loan you want to manage or apply *" />
-                        <Select onChange={((e: any) => setLoanType(e?.target.value))} className="max-w-lg" id="Service" theme={customselectTheme} color={"success"} required>
-                            <option >---</option>
-                            <option >Business</option>
-                            <option >Procurement</option>
-                            <option >Building</option>
-                            <option >Franchisee</option>
+                    <div className="bg-slate-50 p-4 rounded-md place-self-center mt-4">
+                        <Image src={ledalogo} className="h-20 w-24 mx-auto" alt="..." />
+                        <Label className="text-lg font-poppinsBold" htmlFor="Service" value="Choose a loan you want to manage or apply for *" />
+                        <Select
+                            onChange={(e: any) => setLoanType(e?.target.value)}
+                            className="max-w-2xl"
+                            id="Service"
+                            theme={customselectTheme}
+                            color="success"
+                            required
+                        >
+                            <option>---</option>
+                            <option>Business</option>
+                            <option>Procurement</option>
+                            <option>Building</option>
+                            <option>Franchisee</option>
                         </Select>
+                        <p className="font-poppinsLight text-sm text-center mt-2">Copyright © 2024 Limpopo Connexion. All rights reserved.</p>
                     </div>
+
                 </div>
             </div>
 
@@ -37,9 +52,7 @@ const dashboard = () => {
                 loanType == "Procurement" ? <Procurement /> :
                     loanType == "Building" ? <Building /> :
                         loanType == "Franchisee" ? <Franchisee /> : null}
-
         </div>
-
     );
 }
 

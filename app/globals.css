@@ -12,4 +12,8 @@
 .fdiv h2{
   color: white; 
 }
+.tblHeader{
+  @apply bg-gray-700 text-white
+}
+
 

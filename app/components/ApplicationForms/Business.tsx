@@ -3,7 +3,8 @@ import { customCheckboxTheme, customInputBoxTheme, customselectTheme, customsubm
 import { HiInformationCircle } from "react-icons/hi";
 import { useState } from "react";
 import { Slider } from "@nextui-org/slider";
-
+import tree from "../../assets/images/tree.jpg"
+import Image from "next/image";
 const Business = () => {
     const [loanAmount, setLoanAmount] = useState<any | number[]>(20000);
     const [repaymentMonths, setRepaymentMonths] = useState<any | number[]>(6);
@@ -13,17 +14,16 @@ const Business = () => {
         <>
             <div className="w-full overflow-clip h-full mt-18 mb-8 items-center justify-center">
                 <div className="relative">
-                    {/* <Image className="w-full h-72" src={lion} alt="" />
-                    <div className="absolute bg-appGreen top-1/2 z-10 left-6 g-2 p-2">
+                    <Image className="w-full h-72 bg-no-repeat object-cover" src={tree} alt=".."/>
+                    <div className="absolute bg-appGreen top-1 z-10 left-6 g-2 p-2">
                         <p className="font-poppinsLight text-white">Online Application</p>
                         <h3 className="text-white font-poppinsBold text-5xl">Let's get started!</h3>
-
-                    </div> */}
+                    </div>
                 </div>
 
                 <div className="flex justify-center items-center">
 
-                    <div>
+                    <div className="z-10 -mt-24">
                         <Card className="max-w-screen-xl h-fit m-4 p-2 self-center">
                             <form>
                                 <h3 className="text-xl font-medium text-gray-900 dark:text-white">Applying for a business Loan.</h3>
@@ -68,7 +68,7 @@ const Business = () => {
                                                 <div>
                                                     <Label htmlFor="file-upload-helper-text" value="Upload ID document (certified ID)" />
                                                 </div>
-                                                <FileInput id="file-upload-helper-text" helperText="pdf (8MB)" />
+                                                <FileInput accept='application/pdf' id="file-upload-helper-text" helperText="pdf (8MB)" />
                                             </div>
                                         </div>
 

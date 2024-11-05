@@ -4,6 +4,7 @@ export const customsubmitTheme: CustomFlowbiteTheme['button'] = {
     color: {
         appsuccess: "text-white hover:text-white bg-appGreen border border-transparent enabled:hover:bg-appGreen focus:ring-4 focus:ring-green-300 dark:bg-appGreen dark:enabled:hover:bg-black dark:focus:ring-appGreen",
         success: "text-white bg-appGreen border border-transparent enabled:hover:bg-appGreen focus:ring-4 focus:ring-green-300 dark:bg-appGreen dark:enabled:hover:bg-black dark:focus:ring-appGreen focus:border-appGreen",
+        "failure": "border border-transparent bg-red-700 text-white focus:ring-4 focus:ring-red-300 enabled:hover:bg-red-800 dark:bg-red-600 dark:focus:ring-red-900 dark:enabled:hover:bg-red-700",
         light: "border border-gray-300 bg-white text-gray-900 focus:ring-4 focus:ring-green-300 enabled:hover:bg-appGreen hover:text-white dark:border-gray-600 dark:bg-gray-600 dark:text-white dark:focus:ring-green-300 dark:enabled:hover:border-gray-700 hover:text-white dark:enabled:hover:ring-green-300",
     }
 };
@@ -17,6 +18,43 @@ export const customCheckboxTheme: CustomFlowbiteTheme['checkbox'] = {
     }
 };
 
+//Footer
+export const customFooterTheme:CustomFlowbiteTheme['footer']={
+    "root": {
+    "base": "w-full rounded-lg bg-white shadow dark:bg-gray-800 md:flex md:items-center md:justify-between",
+    "container": "w-full p-6",
+    "bgDark": "bg-gray-800"
+  },
+  "groupLink": {
+    "base": "flex flex-wrap text-sm text-gray-500 dark:text-white",
+    "link": {
+      "base": "me-4 last:mr-0 md:mr-6",
+      "href": "hover:underline"
+    },
+    "col": "flex-col space-y-4"
+  },
+  "icon": {
+    "base": "text-gray-500 dark:hover:text-white",
+    "size": "h-5 w-5"
+  },
+  "title": {
+    "base": "mb-6 text-sm font-semibold uppercase text-gray-500 dark:text-white"
+  },
+  "divider": {
+    "base": "my-6 w-full border-gray-200 dark:border-gray-700 sm:mx-auto lg:my-8"
+  },
+  "copyright": {
+    "base": "text-sm text-gray-500 dark:text-gray-400 sm:text-center",
+    "href": "ml-1 hover:underline",
+    "span": "ml-1"
+  },
+  "brand": {
+    "base": "mb-4 flex items-center sm:mb-0",
+    "img": "mr-3 h-8",
+    "span": "self-center whitespace-nowrap text-2xl font-semibold text-gray-800 dark:text-white"
+  }
+}
+
 //badge
 export const customBadgeTheme: CustomFlowbiteTheme['badge'] = {
     root: {
@@ -25,6 +63,30 @@ export const customBadgeTheme: CustomFlowbiteTheme['badge'] = {
         }
     }
 };
+export const customThemeTable:CustomFlowbiteTheme['table']={
+    "root": {
+    "base": "w-full text-left text-sm text-gray-500 dark:text-gray-400 bg-black ",
+    "shadow": "absolute left-0 top-0 -z-10 h-full w-full rounded-lg bg-black drop-shadow-md dark:bg-black",
+    "wrapper": "relative"
+  },
+  "body": {
+    "base": "group/body",
+    "cell": {
+      "base": "bg-black px-6 py-4 group-first/body:group-first/row:first:rounded-tl-lg group-first/body:group-first/row:last:rounded-tr-lg group-last/body:group-last/row:first:rounded-bl-lg group-last/body:group-last/row:last:rounded-br-lg"
+    }
+  },
+  "head": {
+    "base": "group/head text-xs uppercase text-appGreen bg-black dark:text-gray-400",
+    "cell": {
+      "base": "bg-black px-6 py-3 group-first/head:first:rounded-tl-lg group-first/head:last:rounded-tr-lg dark:bg-gray-700"
+    }
+  },
+  "row": {
+    "base": "group/row",
+    "hovered": "hover:bg-gray-50 dark:hover:bg-gray-600",
+    "striped": "odd:bg-white even:bg-gray-50 odd:dark:bg-gray-800 even:dark:bg-gray-700"
+  }
+}
 //badge
 export const customAlertTheme: CustomFlowbiteTheme['alert'] = {
     "base": "flex flex-col gap-2 p-4 text-sm",

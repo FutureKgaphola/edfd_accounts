@@ -21,7 +21,7 @@ const Login = () => {
     return ( 
         <div className="w-full h-full mt-2 pt-2 mb-1 flex items-center justify-center">
             <div>
-                <form onSubmit={(e)=>handleSubmit(e)} className="flex max-w-md flex-col gap-4 w-screen flex-grow border p-7 rounded-md shadow-md">
+                <form onSubmit={(e)=>handleSubmit(e)} className=" bg-slate-50 flex max-w-md flex-col gap-4 w-screen flex-grow border p-7 rounded-md shadow-md">
                     <h2 className="text-lg">Log Into Your Account</h2>
                     <div>
                         <div className="mb-2 block">
