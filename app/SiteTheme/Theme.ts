@@ -1,4 +1,8 @@
 import { CustomFlowbiteTheme } from 'flowbite-react';
+
+export const NetworkTitle = "We Could Not Detect Internet Connection.";
+export const NetworkMessage = "Please toogle or troubleshoot your internet connection.";
+
 //submit button
 export const customsubmitTheme: CustomFlowbiteTheme['button'] = {
     color: {
