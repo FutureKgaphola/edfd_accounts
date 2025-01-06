@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
-import {Providers} from "./providers";
+import { Providers } from "./providers";
 import { SiteFooter } from "./components/SiteFooter";
 import { PoppinsBold, PoppinsLight, PoppinsRegular } from "./customFonts/fonts";
 import { Nav_bar } from "./components/Navbar";
+import StoreProvider from "./StoreProvider";
 
 
 
@@ -34,12 +35,14 @@ export default function RootLayout({
       <body
         className={`${PoppinsLight.variable} ${PoppinsBold.variable} ${PoppinsRegular.variable} antialiased`}
       >
-        <Providers>
-          <Nav_bar/>
-        {children}
-        <SiteFooter />
-        </Providers>
-        
+        <StoreProvider>
+          <Providers>
+            <Nav_bar />
+            {children}
+            <SiteFooter />
+          </Providers>
+        </StoreProvider>
+
       </body>
     </html>
   );

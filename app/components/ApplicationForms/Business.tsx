@@ -5,6 +5,7 @@ import { useState } from "react";
 import { Slider } from "@nextui-org/slider";
 import tree from "../../assets/images/tree.jpg"
 import Image from "next/image";
+import LoanCalculator from "../LoanCalculator";
 const Business = () => {
     const [loanAmount, setLoanAmount] = useState<any | number[]>(20000);
     const [repaymentMonths, setRepaymentMonths] = useState<any | number[]>(6);
@@ -30,7 +31,7 @@ const Business = () => {
 
                                 <div className="space-y-6">
                                     <Alert color="warning" icon={HiInformationCircle} rounded>
-                                        <span className="font-medium">Please note!</span> Personal data may be collected in order to process your loan. take note of our TnC and POPI ACT for your assurance.
+                                        <span className="font-medium">Please note!</span> Personal data may be collected in order to process your loan. take note of our tnc&apos;s and POPI ACT for your assurance.
                                     </Alert>
                                     <div className="xl:flex gap-2">
 
@@ -105,32 +106,7 @@ const Business = () => {
                                         </div>
 
                                         <div>
-                                            <div className="mt-1">
-                                                <p className="mb-2">How much would you like to borrow? <strong>R {loanAmount.toLocaleString()}</strong></p>
-                                                <Slider
-                                                    step={100}
-                                                    maxValue={500000}
-                                                    minValue={20000}
-                                                    defaultValue={loanAmount}
-                                                    value={loanAmount}
-                                                    onChange={(value) => setLoanAmount(value)}
-                                                    className="max-w-md"
-                                                    color="foreground"
-                                                />
-                                            </div>
-                                            <div className="mt-1">
-                                                <p className="mb-2">Repay the loan over <strong>{repaymentMonths} months</strong></p>
-                                                <Slider
-                                                    step={1}
-                                                    maxValue={72}
-                                                    minValue={6}
-                                                    defaultValue={repaymentMonths}
-                                                    value={repaymentMonths}
-                                                    onChange={(value) => setRepaymentMonths(value)}
-                                                    className="max-w-md"
-                                                    color="foreground"
-                                                />
-                                            </div>
+                                            <LoanCalculator/>
                                         </div>
 
                                     </div>
