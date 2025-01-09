@@ -157,7 +157,7 @@ const ActiveBusiness_loan = () => {
                                             <div>
                                                 <div className="flex flex-col max-w-md">
                                                     <Label htmlFor="file-upload-helper-text" value="Acknowledment of Debt *" />
-                                                    <Label htmlFor="file-upload-helper-text" className="text-sm font-thin text-wrap" value="This document has been sent to your email. All buisness partners are required to sign and attach here." />
+                                                    <Label htmlFor="file-upload-helper-text" className="text-sm font-thin text-wrap" value="This document will/has been sent to your email. All buisness partners are required to sign and attach here." />
                                                 </div>
                                                 <FileInput id="file-upload-helper-text" helperText="pdf (8MB)" />
                                                 <p className="text-red-600 text-sm">awaiting upload *</p>

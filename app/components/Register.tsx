@@ -1,0 +1,86 @@
+"use client"
+
+import { Alert, Button, Checkbox, Label, TextInput } from "flowbite-react";
+import { Offline, Online } from "react-detect-offline";
+import Link from "next/link";
+import { HiMail, HiInformationCircle } from "react-icons/hi";
+import { FormEvent, useState } from "react";
+import { NetworkMessage, NetworkTitle } from "../TempData/StaticData";
+import { customCheckboxTheme, customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
+import { useRouter } from "next/navigation";
+
+const Register = () => {
+    const [username, SetUserName] = useState("");
+    const [password, setPassword] = useState("");
+    const[IdNo,setIdNo]=useState("");
+    const[phone,setPhone]=useState("");
+    const [loading, setloading] = useState(false);
+    const [tncs, setTnCs] = useState<boolean>(false);
+    const router = useRouter();
+    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+    }
+    return (
+        <div className="w-full h-full mt-2 pt-2 mb-1 flex items-center justify-center">
+            <div>
+                <form onSubmit={(e) => handleSubmit(e)} className=" bg-slate-50 flex max-w-md flex-col gap-4 w-screen flex-grow border p-7 rounded-md shadow-md">
+                    <h2 className="text-lg">Let's Sign up for an Account</h2>
+                    <p className="text-sm font-thin">Be truthfull with the information you are about to provide as they will be used to determine you loan's success.</p>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="email1" value="Your Email" />
+                        </div>
+                        <TextInput onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
+                    </div>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="password1" value="Your password" />
+                            <p className="text-sm font-thin">{password}</p>
+                        </div>
+                        <TextInput onChange={(e: any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" required />
+                    </div>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="phone" value="Your phone *" />
+                        </div>
+                        <TextInput onChange={(e: any) => setPhone(e.target.value)} value={phone} theme={customInputBoxTheme} color={"focuscolor"} id="phone" type="text" required />
+                    </div>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="idno" value="Your SA-ID *" />
+                        </div>
+                        <TextInput
+                        required maxLength={13}
+                         onChange={(e: any) => setIdNo(e.target.value)} value={IdNo} theme={customInputBoxTheme} color={"focuscolor"} id="idno" type="text" />
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                            <Checkbox id="agree" checked={tncs} onChange={() => setTnCs(tncs ? false : true)} theme={customCheckboxTheme} color="success" />
+                            <Label htmlFor="agree" className="flex">
+                                I agree with the&nbsp;
+                                <Link href="#" className="text-appGreen hover:underline dark:text-appGreen">
+                                    terms and conditions
+                                </Link>
+                            </Label>
+                        </div>
+
+                    <Online>
+                        <Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="submit" color="appsuccess">Sign Up</Button>
+                    </Online>
+                    <Offline>
+                        <Alert color="warning" icon={HiInformationCircle}>
+                            <span className="font-medium">Info alert!</span> {NetworkTitle}
+                            <p className="text-xs text-gray-500">{NetworkMessage}</p>
+                        </Alert></Offline>
+                    <hr></hr>
+                    <div className="flex justify-end gap-2">
+                        <p>Done signing up?</p> <Link className="text-appGreen" href={"/"}> Login</Link>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    );
+}
+
+export default Register;

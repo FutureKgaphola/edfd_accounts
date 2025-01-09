@@ -1,0 +1,31 @@
+// lib/dbConfig.js
+//const sql = require("mssql");
+import sql from "mssql";
+
+const config = {
+  user: 'future', // Replace with your SQL Server username
+  password: '123456', // Replace with your SQL Server password
+  server: 'localhost', // Replace with your SQL Server host (e.g., localhost or an IP address)
+  database: 'edfdDB', // Replace with your database name
+  pool: {
+    max: 10,
+    min: 0,
+    idleTimeoutMillis: 30000
+  },
+  options: {
+    encrypt: false, // Use true if connecting to Azure SQL
+    trustServerCertificate: true, // Use true for local development
+  },
+};
+
+export async function connectToDatabase() {
+  try {
+    const pool = await sql.connect(config);
+    console.log("Connected to SQL Server");
+    return pool;
+  } catch (err) {
+    console.error("Database connection failed: ", err);
+    throw err;
+  }
+}
+
