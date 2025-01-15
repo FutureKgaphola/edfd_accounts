@@ -1,6 +1,11 @@
+"use client";
+
 import Register from "../components/Register";
+import { usePublic_pages } from "../hooks/usePublic_pages";
 
 const RegisterPage = () => {
+    const {IsNotSignedin}=usePublic_pages();
+      IsNotSignedin();
     return (
         <div
             style={{

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import NoHistory from "./NoHistory";
 import NoApplication from "./NoApplication";
 
-const Franchisee = () => {
+const Franchisee = ({loanType}:{loanType:string}) => {
     const router = useRouter();
     const [tab,setTab]=useState<string>('progress');
     useEffect(()=>{
@@ -22,7 +22,7 @@ const Franchisee = () => {
                 <Button onClick={()=>setTab('History')} color="appsuccess" theme={customsubmitTheme} pill>
                     History
                 </Button>
-                <Button onClick={() => router.push("/applyloan/Franchisee")} color="appsuccess" theme={customsubmitTheme} pill>
+                <Button onClick={() => router.push(`/applyloan/${loanType}`)} color="appsuccess" theme={customsubmitTheme} pill>
                     Apply for a loan
                 </Button>
             </div>

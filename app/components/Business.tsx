@@ -8,7 +8,7 @@ import ActiveBusiness_loan from "./ActiveBusiness_loan";
 import NoHistory from "./NoHistory";
 import { HistoryTable } from "./HistoryTable";
 
-const Business = () => {
+const Business = ({loanType}:{loanType:string}) => {
     const router = useRouter();
     const [tab,setTab]=useState<string>('progress');
     useEffect(()=>{
@@ -23,7 +23,7 @@ const Business = () => {
                 <Button onClick={()=>setTab('History')} color="appsuccess" theme={customsubmitTheme} pill>
                     History
                 </Button>
-                <Button onClick={() => router.push("/applyloan/Business")} color="appsuccess" theme={customsubmitTheme} pill>
+                <Button onClick={() => router.push(`/applyloan/${loanType}`)} color="appsuccess" theme={customsubmitTheme} pill>
                     Apply for a loan
                 </Button>
             </div>

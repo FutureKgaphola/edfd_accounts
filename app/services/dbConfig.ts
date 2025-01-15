@@ -1,5 +1,3 @@
-// lib/dbConfig.js
-//const sql = require("mssql");
 import sql from "mssql";
 
 const config = {

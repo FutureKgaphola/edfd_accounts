@@ -13,7 +13,7 @@ export function SiteFooter() {
           <div>
             <Footer.Title title="Company" />
             <Footer.LinkGroup col>
-              <Footer.Link as={Link} href="/about">About</Footer.Link>
+              <Footer.Link as={Link} href="/about">About</Footer.Link>// this takes you to the module one to read about the loans.
               <Footer.Link target="_blank" href="https://www.lieda.co.za/index.php/jobs/">Careers</Footer.Link>
             </Footer.LinkGroup>
           </div>

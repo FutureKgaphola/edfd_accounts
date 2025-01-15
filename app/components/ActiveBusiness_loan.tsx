@@ -3,7 +3,7 @@ import { Alert, Badge, Button, Card, Checkbox, FileInput, Label, Progress, Selec
 import { customBadgeTheme, customCheckboxTheme, customInputBoxTheme, customProgTheme, customselectTheme, customsubmitTheme } from "../SiteTheme/Theme";
 import { HiInformationCircle } from "react-icons/hi";
 import { useState } from "react";
-import { Slider } from "@nextui-org/slider";
+
 const ActiveBusiness_loan = () => {
     const [loanAmount, setLoanAmount] = useState<any | number[]>(20000);
     const [repaymentMonths, setRepaymentMonths] = useState<any | number[]>(6);
@@ -88,7 +88,7 @@ const ActiveBusiness_loan = () => {
                                             <div className="mb-2 block">
                                                 <Label htmlFor="empstatus" value="Place of Operation *" />
                                             </div>
-                                            <Select value="Mpumalanga" className="max-w-md" id="empstatus" theme={customselectTheme} color={"success"} required>
+                                            <Select defaultValue={"Mpumalanga"} className="max-w-md" id="empstatus" theme={customselectTheme} color={"success"} required>
                                                 <option >---</option>
                                                 <option >Limpopo</option>
                                                 <option >Gauteng</option>

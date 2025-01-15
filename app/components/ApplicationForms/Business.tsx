@@ -6,6 +6,7 @@ import { Slider } from "@nextui-org/slider";
 import tree from "../../assets/images/tree.jpg"
 import Image from "next/image";
 import LoanCalculator from "../LoanCalculator";
+import { Breadcrumbs } from "../BreadCrumbs";
 const Business = () => {
     const [loanAmount, setLoanAmount] = useState<any | number[]>(20000);
     const [repaymentMonths, setRepaymentMonths] = useState<any | number[]>(6);
@@ -27,6 +28,7 @@ const Business = () => {
                     <div className="z-10 -mt-24">
                         <Card className="max-w-screen-xl h-fit m-4 p-2 self-center">
                             <form>
+                                <Breadcrumbs/>
                                 <h3 className="text-xl font-medium text-gray-900 dark:text-white">Applying for a business Loan.</h3>
 
                                 <div className="space-y-6">

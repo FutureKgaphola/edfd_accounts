@@ -9,8 +9,11 @@ import { useState } from "react";
 import { failureMessage, successMessage } from "../notifications/successError";
 import validator from 'validator';
 import { sendPasswordResetEmail } from "../_logic/passReset";
+import { usePublic_pages } from "../hooks/usePublic_pages";
 
 export default function ForgotPassword() {
+    const {IsNotSignedin}=usePublic_pages();
+      IsNotSignedin();
 
     const [email, setEmail] = useState("");
     const [loading, setloading] = useState(false);

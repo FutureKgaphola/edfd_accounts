@@ -8,15 +8,25 @@ import { FormEvent, useState } from "react";
 import { NetworkMessage, NetworkTitle } from "../TempData/StaticData";
 import { customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
 import { useRouter } from "next/navigation";
+import { useLogin } from "../hooks/useLogin";
+import { failureMessage } from "../notifications/successError";
 
 const Login = () => {
     const [username, SetUserName] = useState("");
     const [password, setPassword] = useState("");
-    const [loading, setloading] = useState(false);
+    const {handleLogin, loading}=useLogin();
     const router=useRouter();
     const handleSubmit=(e:FormEvent<HTMLFormElement>)=>{
         e.preventDefault();
-        router.push('/dashboard');
+        handleLogin(username,password).then(()=>{
+            if (!sessionStorage.getItem('utoken') || sessionStorage.getItem('utoken') == null) return;
+            SetUserName("");
+            setPassword("");
+            router.push('/dashboard');
+        }).catch((error:any)=>{
+            failureMessage(String(error.message));
+        })
+       
     }
     return ( 
         <div className="w-full h-full mt-2 pt-2 mb-1 flex items-center justify-center">

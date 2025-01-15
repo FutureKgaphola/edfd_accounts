@@ -37,7 +37,6 @@ export default function RootLayout({
       >
         <StoreProvider>
           <Providers>
-            <Nav_bar />
             {children}
             <SiteFooter />
           </Providers>

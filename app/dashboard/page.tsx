@@ -8,11 +8,14 @@ import Building from "../components/Building";
 import Franchisee from "../components/Franchisee";
 import Image from "next/image";
 import ledalogo from '../assets/images/logoleda.png';
+import { Nav_bar } from "../components/Navbar";
 
 const dashboard = () => {
     const [loanType, setLoanType] = useState<string>('---');
     const [tab, setTab] = useState<string>('in progress');
     return (
+        <>
+        <Nav_bar />
         <div className="w-full mb-1 items-center justify-center content-center"
         >
             <div className="h-72 w-full" style={{
@@ -48,11 +51,13 @@ const dashboard = () => {
                 </div>
             </div>
 
-            {loanType == "Business" ? <Business /> :
-                loanType == "Procurement" ? <Procurement /> :
-                    loanType == "Building" ? <Building /> :
-                        loanType == "Franchisee" ? <Franchisee /> : null}
+            {loanType == "Business" ? <Business loanType={loanType} /> :
+                loanType == "Procurement" ? <Procurement loanType={loanType} /> :
+                    loanType == "Building" ? <Building loanType={loanType} /> :
+                        loanType == "Franchisee" ? <Franchisee loanType={loanType} /> : null}
         </div>
+        </>
+        
     );
 }
 

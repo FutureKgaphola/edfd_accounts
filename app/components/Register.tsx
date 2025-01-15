@@ -3,22 +3,47 @@
 import { Alert, Button, Checkbox, Label, TextInput } from "flowbite-react";
 import { Offline, Online } from "react-detect-offline";
 import Link from "next/link";
-import { HiMail, HiInformationCircle } from "react-icons/hi";
-import { FormEvent, useState } from "react";
+import { HiMail, HiInformationCircle, HiUserAdd } from "react-icons/hi";
+import { FormEvent, useEffect, useState } from "react";
 import { NetworkMessage, NetworkTitle } from "../TempData/StaticData";
 import { customCheckboxTheme, customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
 import { useRouter } from "next/navigation";
+import { useSignup } from "../hooks/useSignup";
+import { useDispatch } from "react-redux";
+import { AuthActions } from "@/lib/features/Auth/AuthuserSlice";
 
 const Register = () => {
+    const { handleSignup, loading } = useSignup();
     const [username, SetUserName] = useState("");
     const [password, setPassword] = useState("");
-    const[IdNo,setIdNo]=useState("");
-    const[phone,setPhone]=useState("");
-    const [loading, setloading] = useState(false);
+    const [IdNo, setIdNo] = useState("");
+    const [phone, setPhone] = useState("");
+    const [Name, SetName] = useState("");
+
     const [tncs, setTnCs] = useState<boolean>(false);
+    const dispatch=useDispatch();
     const router = useRouter();
-    const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+    useEffect(()=>{
+        if (typeof window !== "undefined") {
+            dispatch(AuthActions.setAuthToken({ token: sessionStorage?.getItem("utoken") ?? null}));
+        }
+    },[]);
+    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        handleSignup(username, phone, Name, IdNo, password).then(() => {
+            if (!sessionStorage.getItem('utoken') || sessionStorage.getItem('utoken') == null) return;
+            ResetForm();
+            router.replace('/dashboard');
+        })
+    }
+
+    const ResetForm = () => {
+        SetUserName("");
+        SetName("");
+        setPassword("");
+        setIdNo("");
+        setPhone("");
+        setTnCs(false);
     }
     return (
         <div className="w-full h-full mt-2 pt-2 mb-1 flex items-center justify-center">
@@ -26,6 +51,12 @@ const Register = () => {
                 <form onSubmit={(e) => handleSubmit(e)} className=" bg-slate-50 flex max-w-md flex-col gap-4 w-screen flex-grow border p-7 rounded-md shadow-md">
                     <h2 className="text-lg">Let's Sign up for an Account</h2>
                     <p className="text-sm font-thin">Be truthfull with the information you are about to provide as they will be used to determine you loan's success.</p>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="name" value="Your Name" />
+                        </div>
+                        <TextInput onChange={(e: any) => SetName(e.target.value)} value={Name} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
+                    </div>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="email1" value="Your Email" />
@@ -39,6 +70,7 @@ const Register = () => {
                         </div>
                         <TextInput onChange={(e: any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" required />
                     </div>
+
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="phone" value="Your phone *" />
@@ -50,19 +82,19 @@ const Register = () => {
                             <Label htmlFor="idno" value="Your SA-ID *" />
                         </div>
                         <TextInput
-                        required maxLength={13}
-                         onChange={(e: any) => setIdNo(e.target.value)} value={IdNo} theme={customInputBoxTheme} color={"focuscolor"} id="idno" type="text" />
+                            required maxLength={13}
+                            onChange={(e: any) => setIdNo(e.target.value)} value={IdNo} theme={customInputBoxTheme} color={"focuscolor"} id="idno" type="text" />
                     </div>
 
                     <div className="flex items-center gap-2">
-                            <Checkbox id="agree" checked={tncs} onChange={() => setTnCs(tncs ? false : true)} theme={customCheckboxTheme} color="success" />
-                            <Label htmlFor="agree" className="flex">
-                                I agree with the&nbsp;
-                                <Link href="#" className="text-appGreen hover:underline dark:text-appGreen">
-                                    terms and conditions
-                                </Link>
-                            </Label>
-                        </div>
+                        <Checkbox id="agree" checked={tncs} onChange={() => setTnCs(tncs ? false : true)} theme={customCheckboxTheme} color="success" />
+                        <Label htmlFor="agree" className="flex">
+                            I agree with the&nbsp;
+                            <Link href="#" className="text-appGreen hover:underline dark:text-appGreen">
+                                terms and conditions
+                            </Link>
+                        </Label>
+                    </div>
 
                     <Online>
                         <Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="submit" color="appsuccess">Sign Up</Button>

@@ -1,7 +1,11 @@
+"use client";
 
 import Login from "./components/login";
+import { usePublic_pages } from "./hooks/usePublic_pages";
 
 export default function Home() {
+  const {IsNotSignedin}=usePublic_pages();
+  IsNotSignedin();
   return (
     <div
       style={{
