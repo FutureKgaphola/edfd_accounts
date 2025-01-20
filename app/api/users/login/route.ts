@@ -37,8 +37,14 @@ export const POST=async(req:Request)=>{
           { status: 400 }
         );
       }
-  
+
       const { password: _, ...userWithoutPassword } = user;
+      if(userWithoutPassword.verify_tk!=="verified"){
+        return NextResponse.json(
+          { message: 'Please verify your email address. check you mail box for verification link' },
+          { status: 400 }
+        );
+      }
       const token = CreateToken(user.id);
       return NextResponse.json(
         { message: 'Login successful', user: userWithoutPassword,token },

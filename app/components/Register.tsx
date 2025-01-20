@@ -12,14 +12,16 @@ import { useSignup } from "../hooks/useSignup";
 import { useDispatch } from "react-redux";
 import { AuthActions } from "@/lib/features/Auth/AuthuserSlice";
 
+
 const Register = () => {
     const { handleSignup, loading } = useSignup();
+    
     const [username, SetUserName] = useState("");
     const [password, setPassword] = useState("");
     const [IdNo, setIdNo] = useState("");
     const [phone, setPhone] = useState("");
     const [Name, SetName] = useState("");
-
+    const [note,setNote]=useState("");
     const [tncs, setTnCs] = useState<boolean>(false);
     const dispatch=useDispatch();
     const router = useRouter();
@@ -30,10 +32,20 @@ const Register = () => {
     },[]);
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        handleSignup(username, phone, Name, IdNo, password).then(() => {
-            if (!sessionStorage.getItem('utoken') || sessionStorage.getItem('utoken') == null) return;
+        handleSignup(username, phone, Name, IdNo, password).then(async(result) => {
+            await fetch("http://localhost:3000/api/users/sendVerifylink",{
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                method:'POST',
+                body: JSON.stringify({
+                    email:result?.user.email,
+                    name:result?.user.name,
+                    token:result?.token
+                })
+
+            })
             ResetForm();
-            router.replace('/dashboard');
         })
     }
 
@@ -44,6 +56,7 @@ const Register = () => {
         setIdNo("");
         setPhone("");
         setTnCs(false);
+        setNote("kindly check your email for a verification link");
     }
     return (
         <div className="w-full h-full mt-2 pt-2 mb-1 flex items-center justify-center">
@@ -104,6 +117,7 @@ const Register = () => {
                             <span className="font-medium">Info alert!</span> {NetworkTitle}
                             <p className="text-xs text-gray-500">{NetworkMessage}</p>
                         </Alert></Offline>
+                        {note && <p className="text-appGreen">{note}</p>}
                     <hr></hr>
                     <div className="flex justify-end gap-2">
                         <p>Done signing up?</p> <Link className="text-appGreen" href={"/"}> Login</Link>

@@ -7,7 +7,6 @@ import { CreateToken } from "@/lib/TokenGenerator/getToken";
 
 export const POST = async (req: Request) => {
   try {
-    
     const { email, name, password, phone, saId } = await req.json();
     // Validate the input data
     if (!isValidData(email, name, password, phone, saId)) {
@@ -22,7 +21,7 @@ export const POST = async (req: Request) => {
 
     // Connect to the database
     const pool = await connectToDatabase();
-
+    const tempToken=CreateToken(saId.trim());
     // Insert the user data
     const result=await pool.request()
       .input("email", sql.VarChar, email.trim())
@@ -30,13 +29,13 @@ export const POST = async (req: Request) => {
       .input("password", sql.VarChar, hashedPassword)
       .input("phone", sql.VarChar, phone.trim())
       .input("saId", sql.VarChar, saId.trim())
-      .query("INSERT INTO users (email, name, password, phone, saId) OUTPUT inserted.* inserted.name VALUES (@email, @name, @password, @phone, @saId)");
-      const userId = result.recordset[0].id;
+      .input("verify_tk",sql.VarChar,tempToken.trim())
+      .query("INSERT INTO users (email, name, password, phone,saId,verify_tk) OUTPUT inserted.* VALUES (@email, @name, @password, @phone, @saId, @verify_tk)");
+      //const userId = result.recordset[0].id;
       const user = result.recordset[0];
       const { password: _, ...userWithoutPassword } = user;
-      const token = CreateToken(userId);
     return NextResponse.json(
-      { message: "User added successfully",token, user: userWithoutPassword },
+      { message: "User added successfully",token:tempToken, user: userWithoutPassword },
       { status: 201 }
     );
   } catch (error: any) {
@@ -47,7 +46,6 @@ export const POST = async (req: Request) => {
         { status: 409 }
       );
     }
-    console.log(error);
     // Handle unexpected errors
     return NextResponse.json(
       { message: "Internal server error. Please try again later." },

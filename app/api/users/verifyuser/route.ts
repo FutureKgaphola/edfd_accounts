@@ -1,0 +1,48 @@
+import { NextResponse } from "next/server";
+import { connectToDatabase } from "@/app/services/dbConfig";
+import sql from "mssql";
+import { VerifyToken } from "@/lib/TokenGenerator/VerifyToken";
+
+export const GET = async (req: Request) => {
+  const pool = await connectToDatabase();
+  try {
+    const url = new URL(req.url);
+    const tmpTk: string = url.searchParams.get("tk")?.trim() || "";
+    // Validate token
+    const { valid } = VerifyToken(tmpTk);
+
+    if (valid) {
+      const rows = await pool.request()
+        .input("verify_tk", sql.VarChar, tmpTk)
+        .input("verified", sql.VarChar, "verified")
+        .query(`
+          UPDATE users
+          SET verify_tk = @verified
+          OUTPUT inserted.verify_tk
+          WHERE verify_tk = @verify_tk
+        `);
+
+      if (rows.recordset.length === 0) {
+        return NextResponse.json(
+          { message: "Failed to verify or token has already used" },
+          { status: 400 }
+        );
+      }
+
+      // Redirect to localhost:3000 if successful
+      return NextResponse.redirect("http://localhost:3000/");
+    } else {
+      return NextResponse.json(
+        { message: "Invalid token" },
+        { status: 400 }
+      );
+    }
+  } catch (error: any) {
+    console.error("Error verifying token:", error);
+
+    return NextResponse.json(
+      { message: "An error occurred while processing your request" },
+      { status: 500 }
+    );
+  }
+};

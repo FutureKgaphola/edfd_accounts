@@ -8,7 +8,6 @@ import { HiInformationCircle, HiMail } from "react-icons/hi";
 import { useState } from "react";
 import { failureMessage, successMessage } from "../notifications/successError";
 import validator from 'validator';
-import { sendPasswordResetEmail } from "../_logic/passReset";
 import { usePublic_pages } from "../hooks/usePublic_pages";
 
 export default function ForgotPassword() {
@@ -22,7 +21,8 @@ export default function ForgotPassword() {
             if (!validator.isEmail(email?.trim())) return failureMessage(String("Invalid Email format."));
             try {
                 setloading(true);
-                const resp = sendPasswordResetEmail(email.trim());
+                ///call api here
+                const resp=true; //if resp from api is true then successful
                 if (resp) {
                     successMessage('Password reset link has been sent to :' + email);
                     setloading(false);
@@ -46,7 +46,7 @@ export default function ForgotPassword() {
             backgroundRepeat: 'no-repeat',
             backgroundSize: 'cover',
             backgroundImage:
-                "url('https://cdn.pixabay.com/photo/2016/11/19/15/43/tree-1839959_1280.jpg')",
+                "url('tree.jpg')",
         }}>
 
             <div>
