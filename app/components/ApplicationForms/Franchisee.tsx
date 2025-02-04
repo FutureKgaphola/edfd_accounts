@@ -1,8 +1,16 @@
-import ComingSoon from "../ComingSoon";
+import { useDomReady } from "@/app/hooks/useDomReady";
+import SelectCompanyForm from "../Forms/SelectCompany";
 
 const Franchisee = () => {
+    const { domReady } = useDomReady();
     return (
-        <ComingSoon/>
+        <>
+            {
+                domReady ? (
+                    <SelectCompanyForm />
+                ) : null
+            }
+        </>
     );
 };
 

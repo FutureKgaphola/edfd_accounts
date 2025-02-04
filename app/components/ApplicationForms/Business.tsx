@@ -2,16 +2,11 @@ import { Alert, Button, Card, Checkbox, FileInput, Label, Select, TextInput } fr
 import { customCheckboxTheme, customInputBoxTheme, customselectTheme, customsubmitTheme } from "../../SiteTheme/Theme";
 import { HiInformationCircle } from "react-icons/hi";
 import { useState } from "react";
-import { Slider } from "@nextui-org/slider";
-import tree from "../../assets/images/tree.jpg"
+import tree from "../../assets/images/tree.jpg";
 import Image from "next/image";
 import LoanCalculator from "../LoanCalculator";
 import { Breadcrumbs } from "../BreadCrumbs";
 const Business = () => {
-    const [loanAmount, setLoanAmount] = useState<any | number[]>(20000);
-    const [repaymentMonths, setRepaymentMonths] = useState<any | number[]>(6);
-    const [repaymentamount, setrepaymentamount] = useState<number>(0.00);
-    const [Loanchoice, SetLoanchoice] = useState<string>("---");
     return ( 
         <>
             <div className="w-full overflow-clip h-full mt-18 mb-8 items-center justify-center">
