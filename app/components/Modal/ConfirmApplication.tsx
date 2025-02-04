@@ -1,12 +1,14 @@
 
 "use client";
 
+import { successMessage } from "@/app/notifications/successError";
 import { customsubmitTheme } from "@/app/SiteTheme/Theme";
 import { Button, Modal } from "flowbite-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction } from "react";
 
 export function ConfirmApplicationModal({company,setOpenModal,openModal}:{company:string,setOpenModal:Dispatch<SetStateAction<boolean>>,openModal:boolean}) {
+    const router=useRouter();
     const pathname = usePathname();
     const loans=pathname.split('/');
     const gotoTypeLoan=`https://edfd-sub-website.vercel.app/details/${loans[2].toLocaleLowerCase()}`;
@@ -26,7 +28,11 @@ export function ConfirmApplicationModal({company,setOpenModal,openModal}:{compan
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button theme={customsubmitTheme} color="success" onClick={() => setOpenModal(false)}>I accept</Button>
+          <Button theme={customsubmitTheme} color="success" onClick={() => {
+            setOpenModal(false);
+            successMessage("Application submitted succesful");
+            router.replace('/dashboard');
+          }}>I accept</Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Decline
           </Button>
