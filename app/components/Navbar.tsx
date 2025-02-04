@@ -19,11 +19,11 @@ export function Nav_bar() {
   const { handleSigOut, errorLogout } = useSignout();
   const { domReady } = useDomReady();
   const Authprop = useSelector((state: RootState) => state.AuthReducer);
-  useEffect(() => {
-    if (!Authprop?.token) {
-      router.replace('/');
-    }
-  }, [Authprop?.token]);
+  // useEffect(() => {
+  //   if (!Authprop?.token) {
+  //     router.replace('/');
+  //   }
+  // }, [Authprop?.token]);
 
   return (
     <header className="w-full bg-gray-700">

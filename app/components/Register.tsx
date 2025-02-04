@@ -11,7 +11,8 @@ import { useRouter } from "next/navigation";
 import { useSignup } from "../hooks/useSignup";
 import { useDispatch } from "react-redux";
 import { AuthActions } from "@/lib/features/Auth/AuthuserSlice";
-
+import ledalogo from '../assets/images/logoleda.png';
+import Image from "next/image";
 
 const Register = () => {
     const { handleSignup, loading } = useSignup();
@@ -62,6 +63,12 @@ const Register = () => {
         <div className="w-full h-full mt-2 pt-2 mb-1 flex items-center justify-center">
             <div>
                 <form onSubmit={(e) => handleSubmit(e)} className=" bg-slate-50 flex max-w-md flex-col gap-4 w-screen flex-grow border p-7 rounded-md shadow-md">
+                <Image
+                        width={65}
+                        height={65}
+                        src={ledalogo}
+                        alt="loda logo"
+                        />
                     <h2 className="text-lg">Let's Sign up for an Account</h2>
                     <p className="text-sm font-thin">Be truthfull with the information you are about to provide as they will be used to determine you loan's success.</p>
                     <div>

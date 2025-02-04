@@ -9,10 +9,12 @@ import { useState } from "react";
 import { failureMessage, successMessage } from "../notifications/successError";
 import validator from 'validator';
 import { usePublic_pages } from "../hooks/usePublic_pages";
+import Image from "next/image";
+import ledalogo from '../assets/images/logoleda.png';
 
 export default function ForgotPassword() {
-    const {IsNotSignedin}=usePublic_pages();
-      IsNotSignedin();
+    const { IsNotSignedin } = usePublic_pages();
+    IsNotSignedin();
 
     const [email, setEmail] = useState("");
     const [loading, setloading] = useState(false);
@@ -22,7 +24,7 @@ export default function ForgotPassword() {
             try {
                 setloading(true);
                 ///call api here
-                const resp=true; //if resp from api is true then successful
+                const resp = true; //if resp from api is true then successful
                 if (resp) {
                     successMessage('Password reset link has been sent to :' + email);
                     setloading(false);
@@ -52,6 +54,12 @@ export default function ForgotPassword() {
             <div>
                 <div>
                     <form className=" bg-white flex max-w-md flex-col gap-4 w-screen flex-grow border p-7 rounded-md shadow-md">
+                        <Image
+                            width={65}
+                            height={65}
+                            src={ledalogo}
+                            alt="loda logo"
+                        />
                         <h2 className="text-lg font-bold">Send Password Reset</h2>
                         <p className="text-gray-600 font-light">Enter your email address below. We`ll look for your account and send you a password reset email.</p>
                         <div>

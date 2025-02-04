@@ -10,6 +10,8 @@ import { customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
 import { useRouter } from "next/navigation";
 import { useLogin } from "../hooks/useLogin";
 import { failureMessage } from "../notifications/successError";
+import Image from "next/image";
+import ledalogo from '../assets/images/logoleda.png';
 
 const Login = () => {
     const [username, SetUserName] = useState("");
@@ -32,6 +34,12 @@ const Login = () => {
         <div className="w-full h-full mt-2 pt-2 mb-1 flex items-center justify-center">
             <div>
                 <form onSubmit={(e)=>handleSubmit(e)} className=" bg-slate-50 flex max-w-md flex-col gap-4 w-screen flex-grow border p-7 rounded-md shadow-md">
+                <Image
+                        width={65}
+                        height={65}
+                        src={ledalogo}
+                        alt="loda logo"
+                        />
                     <h2 className="text-lg">Log Into Your Account</h2>
                     <div>
                         <div className="mb-2 block">
