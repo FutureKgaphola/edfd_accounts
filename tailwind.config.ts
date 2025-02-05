@@ -17,16 +17,20 @@ const config: Config = {
         foreground: "var(--foreground)",
       },
       textColor:{
-        appGreen:"#92981B"
+        appGreen:"#92981B",
+        appGray:'#837676',
       },
       backgroundColor:{
-        appGreen:"#92981B"
+        appGreen:"#92981B",
+        appGray:'#837676',
       },
       ringColor:{
-        appGreen:"#92981B"
+        appGreen:"#92981B",
+        appGray:'#837676',
       },
       borderColor:{
-        appGreen:"#92981B"
+        appGreen:"#92981B",
+        appGray:'#837676',
       },fontFamily:{
         poppinsRegular:['var(--font-poppinsRegular-400)'],
         poppinsBold: ['var(--font-poppins-bold)'],

@@ -20,7 +20,8 @@ export function Breadcrumbs() {
                     {pathname == "/applyloan/Business" ? "Business loan" :
                     pathname == "/applyloan/Procurement" ? "Procurement loan" :
                     pathname == "/applyloan/Building" ? "Building loan" : 
-                    pathname == "/applyloan/Franchisee" ? "Franchisee loan" : null }
+                    pathname == "/applyloan/Franchisee" ? "Franchisee loan" :
+                    pathname=="/profile" ? "Profile" :null }
                 </Breadcrumb.Item>
             </Breadcrumb>
             <hr className="mb-4"></hr>

@@ -1,29 +1,16 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-import { Providers } from "./providers";
+import { Providers } from "./components/Providers/providers";
 import { SiteFooter } from "./components/SiteFooter";
 import { PoppinsBold, PoppinsLight, PoppinsRegular } from "./customFonts/fonts";
-import { Nav_bar } from "./components/Navbar";
-import StoreProvider from "./StoreProvider";
-
-
-
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
+import StoreProvider from "./components/Providers/StoreProvider";
+import { ReactQueryClientProvider } from "./components/Providers/ReactQueryProvider";
 
 export const metadata: Metadata = {
   title: "LEDA Loans",
   description: "Apply for a loan",
 };
+
 
 export default function RootLayout({
   children,
@@ -35,13 +22,14 @@ export default function RootLayout({
       <body
         className={`${PoppinsLight.variable} ${PoppinsBold.variable} ${PoppinsRegular.variable} antialiased`}
       >
+        <ReactQueryClientProvider>
         <StoreProvider>
           <Providers>
             {children}
             <SiteFooter />
           </Providers>
         </StoreProvider>
-
+        </ReactQueryClientProvider>
       </body>
     </html>
   );
