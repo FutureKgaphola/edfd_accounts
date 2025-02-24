@@ -28,10 +28,10 @@ export function ConfirmApplicationModal({company,setOpenModal,openModal}:{compan
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button theme={customsubmitTheme} color="success" onClick={() => {
+          <Button as={"button"} theme={customsubmitTheme} color="success" onClick={() => {
             setOpenModal(false);
             successMessage("Application submitted succesful");
-            router.replace('/dashboard');
+            router.back();
           }}>I accept</Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Decline

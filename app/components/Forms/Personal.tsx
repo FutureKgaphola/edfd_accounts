@@ -19,8 +19,8 @@ const Personal = () => {
         <Card className="h-fit m-4">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Provide Personal informaition of the person responsible for this account</h3>
 
-            <TruthfullAlert/>
-            <form className="grid grid-cols-2 bg-slate-50 max-w-md gap-4 w-screen">
+            <TruthfullAlert />
+            <form className="grid grid-cols-2 max-w-md gap-4 w-screen">
 
                 <div>
                     <div>
@@ -34,15 +34,15 @@ const Personal = () => {
                             <Label htmlFor="email1" value="Your Email" />
                         </div>
                         <TextInput sizing="sm"
-                        onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
+                            onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
                     </div>
                     <div>
-                                                            <div>
-                                                                <Label htmlFor="file-upload-helper-text" value="Certified SA-ID copy*" />
-                                                            </div>
-                                                            <FileInput className="max-w-md"
-                                                                sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 10MB)." />
-                                                        </div>
+                        <div>
+                            <Label htmlFor="file-upload-helper-text" value="Certified SA-ID copy*" />
+                        </div>
+                        <FileInput className="max-w-md"
+                            sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 10MB)." />
+                    </div>
 
                 </div>
 
