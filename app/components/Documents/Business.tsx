@@ -23,7 +23,7 @@ const Business = () => {
             <div className="flex justify-between items-center">
                 <p className="text-wrap text-sm">Resolution for delegationof authority to act on behalf of the company if there is more than one memeber/director</p>
                 <div className="flex gap-1 items-center">
-                    <HiCloudDownload width={35} height={35} />
+                    <HiCloudDownload className="hover:cursor-pointer" width={35} height={35} />
                     <FileInput
                         className="max-w-md"
                         sizing="sm" id="file-upload-helper-text" accept="application/pdf" />
@@ -75,7 +75,7 @@ const Business = () => {
             <div className="flex justify-between items-center">
                 <p className="text-wrap text-sm">Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of <br></br> widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple *</p>
                 <div className="flex gap-1 items-center">
-                    <HiCloudDownload width={35} height={35} />
+                    <HiCloudDownload className="hover:cursor-pointer" width={35} height={35} />
                     <FileInput
                         className="max-w-md"
                         sizing="sm" id="file-upload-helper-text" accept="application/pdf" />

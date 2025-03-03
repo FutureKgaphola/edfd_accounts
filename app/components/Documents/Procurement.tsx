@@ -11,7 +11,7 @@ const Procurement = () => {
                     <div className="flex justify-between items-center">
                         <p className="text-wrap text-sm">Appointment Letter/Order/JBCC contract/Service Level Agrement & Specification*</p>
                         <div className="flex gap-1 items-center">
-                            <HiCloudDownload width={35} height={35} />
+                            <HiCloudDownload className="hover:cursor-pointer" width={35} height={35} />
                             <FileInput
                                 className="max-w-md"
                                 sizing="sm" id="file-upload-helper-text" accept="application/pdf" />
@@ -41,7 +41,7 @@ const Procurement = () => {
                     <div className="flex justify-between items-center">
                         <p className="text-wrap text-sm">Affidavit declaring the company address of registration Office *</p>
                         <div className="flex gap-1 items-center">
-                        <HiCloudDownload width={35} height={35} />
+                        <HiCloudDownload className="hover:cursor-pointer" width={35} height={35} />
                             <FileInput
                                 className="max-w-md"
                                 sizing="sm" id="file-upload-helper-text" accept="application/pdf" />
@@ -52,7 +52,7 @@ const Procurement = () => {
                     <div className="flex justify-between items-center">
                         <p className="text-wrap text-sm">Three months bank statement of an active business *</p>
                         <div className="flex gap-1 items-center">
-                        <HiCloudDownload width={35} height={35} />
+                        <HiCloudDownload className="hover:cursor-pointer" width={35} height={35} />
                             <FileInput
                                 className="max-w-md"
                                 sizing="sm" id="file-upload-helper-text" accept="application/pdf" />

@@ -22,10 +22,10 @@ import { Breadcrumbs } from "../components/BreadCrumbs";
     <Breadcrumbs />
     <div className="flex flex-col gap-3 p-2">
       <Tabs theme={customTabs} aria-label="Default tabs" variant="default" ref={tabsRef} onActiveTabChange={(tab) => setActiveTab(tab)}>
-        <Tabs.Item active title="Personal" icon={HiUserCircle}>
+        <Tabs.Item  title="Personal" icon={HiUserCircle}>
           <Personal/>
         </Tabs.Item>
-        <Tabs.Item title="Add Companies(s)" icon={MdDashboard}>
+        <Tabs.Item active title="Add Companies(s)" icon={MdDashboard}>
           <Company/>
         </Tabs.Item>
         
