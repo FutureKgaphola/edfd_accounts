@@ -22,6 +22,7 @@ const Register = () => {
     const [IdNo, setIdNo] = useState("");
     const [phone, setPhone] = useState("");
     const [Name, SetName] = useState("");
+    const [LName, SetLName] = useState("");
     const [note,setNote]=useState("");
     const [tncs, setTnCs] = useState<boolean>(false);
     const dispatch=useDispatch();
@@ -33,26 +34,27 @@ const Register = () => {
     },[]);
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        handleSignup(username, phone, Name, IdNo, password).then(async(result) => {
-            await fetch("http://localhost:3000/api/users/sendVerifylink",{
+        handleSignup(username, phone, Name,LName, IdNo, password).then(async(result) => {
+            await fetch("/api/users/sendVerifylink",{
                 headers: {
                     "Content-Type": "application/json"
                 },
                 method:'POST',
                 body: JSON.stringify({
-                    email:result?.user.email,
-                    name:result?.user.name,
+                    email:result?.user.user_email,
+                    name:result?.user.first_name,
                     token:result?.token
                 })
 
             })
-            ResetForm();
+            //ResetForm();
         })
     }
 
     const ResetForm = () => {
         SetUserName("");
         SetName("");
+        SetLName("");
         setPassword("");
         setIdNo("");
         setPhone("");
@@ -76,6 +78,12 @@ const Register = () => {
                             <Label htmlFor="name" value="Your Name" />
                         </div>
                         <TextInput onChange={(e: any) => SetName(e.target.value)} value={Name} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
+                    </div>
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="name" value="Your Surname" />
+                        </div>
+                        <TextInput onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
                     </div>
                     <div>
                         <div className="mb-2 block">

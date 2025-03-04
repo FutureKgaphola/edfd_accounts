@@ -6,7 +6,7 @@ import { RootState } from '@/lib/store';
 import { useQuery } from '@tanstack/react-query';
 
 const fetchuser=async(userid:string)=>{
-   const resp= await axios.get(`http://localhost:3000/api/users/profile?id=${userid}`)
+   const resp= await axios.get(`/api/users/profile?id=${userid}`)
     return resp.data?.user;
 }
 const useProfile = () => {

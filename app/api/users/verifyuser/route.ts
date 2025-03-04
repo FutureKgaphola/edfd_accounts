@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/app/services/dbConfig";
 import sql from "mssql";
 import { VerifyToken } from "@/lib/TokenGenerator/VerifyToken";
+import moment from 'moment';
 
 export const GET = async (req: Request) => {
   const pool = await connectToDatabase();
@@ -12,12 +13,14 @@ export const GET = async (req: Request) => {
     const { valid } = VerifyToken(tmpTk);
 
     if (valid) {
+      let v_update =moment().format("YYYY-MM-DD HH:mm:ss");
       const rows = await pool.request()
         .input("verify_tk", sql.VarChar, tmpTk)
         .input("verified", sql.VarChar, "verified")
+        .input("verified_date",sql.VarChar,v_update?.trim())
         .query(`
-          UPDATE users
-          SET verify_tk = @verified
+          UPDATE AccountHolders
+          SET verify_tk = @verified , verified_date=@verified_date
           OUTPUT inserted.verify_tk
           WHERE verify_tk = @verify_tk
         `);
