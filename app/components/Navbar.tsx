@@ -19,12 +19,12 @@ export function Nav_bar() {
   const { handleSigOut, errorLogout } = useSignout();
   const { domReady } = useDomReady();
   const Authprop = useSelector((state: RootState) => state.AuthReducer);
-  // useEffect(() => {
-  //   if (!Authprop?.token) {
-  //     router.replace('/');
-  //   }
-  // }, [Authprop?.token]);
-
+  useEffect(() => {
+    if (!Authprop?.token) {
+      router.replace('/');
+    }
+  }, [Authprop?.token]);
+  console.log(Authprop.user);
   return (
     <header className="w-full bg-gray-700">
 
@@ -45,8 +45,8 @@ export function Nav_bar() {
                 }
               >
                 <Dropdown.Header>
-                  <span className="block text-sm">{Authprop?.user?.name ?? ""}</span>
-                  <span className="block truncate text-sm font-medium">{Authprop?.user?.email ?? ""}</span>
+                  <Link href={'/profile'}><span className="block text-sm">{Authprop?.user?.name ?? ""}</span></Link>
+                  <Link href={'/profile'}><span className="block truncate text-sm font-medium">{Authprop?.user?.email ?? ""}</span></Link>
                 </Dropdown.Header>
 
                 <Dropdown.Item onClick={() => handleSigOut()} >Sign out</Dropdown.Item>

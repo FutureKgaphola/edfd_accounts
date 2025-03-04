@@ -70,14 +70,21 @@ const Company = () => {
                                                 theme={customInputBoxTheme} color={"focuscolor"}
                                                 type="text" required />
                                         </div>
+                                        
                                         <div>
-                                            <div>
-                                                <Label htmlFor="file-upload-helper-text" value="Proof of Business Address *" />
+                                            <div className="mb-2 block">
+                                                <Label htmlFor="empstatus" value="District *" />
                                             </div>
-                                            <FileInput className="max-w-md"
-                                                sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 10MB)." />
-                                        </div>
+                                            <Select sizing="sm" value={EmpStatus} onChange={(e) => setEmpStatus(e.target.value)} className="min-w-[250px] max-w-md" id="empstatus" theme={customselectTheme} color={"success"} required>
+                                                <option >---</option>
+                                                <option >Capricorn</option>
+                                                <option >Mopani</option>
+                                                <option >Sekhukhune</option>
+                                                <option >Vhembe</option>
+                                                <option >Waterberg</option>
 
+                                            </Select>
+                                        </div>
                                     </div>
 
                                     <div>
@@ -105,24 +112,11 @@ const Company = () => {
                                                 sizing="sm"
                                                 id="regNo" placeholder="YYYY/NNNNNN/XX" theme={customInputBoxTheme} color={"focuscolor"} type="text" required />
                                         </div>
-                                        <div>
-                                            <div className="mb-2 block">
-                                                <Label htmlFor="empstatus" value="District *" />
-                                            </div>
-                                            <Select sizing="sm" value={EmpStatus} onChange={(e) => setEmpStatus(e.target.value)} className="min-w-[250px] max-w-md" id="empstatus" theme={customselectTheme} color={"success"} required>
-                                                <option >---</option>
-                                                <option >Capricorn</option>
-                                                <option >Mopani</option>
-                                                <option >Sekhukhune</option>
-                                                <option >Vhembe</option>
-                                                <option >Waterberg</option>
-
-                                            </Select>
-                                        </div>
+                                        
                                     </div>
 
                                 </div>
-                                <Button isProcessing={isProcessingBasicInfo} disabled={isProcessingBasicInfo} type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>
+                                <Button className="mt-2" isProcessing={isProcessingBasicInfo} disabled={isProcessingBasicInfo} type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>
                             </form>
 
                             <hr />

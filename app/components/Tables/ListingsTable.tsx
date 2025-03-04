@@ -35,8 +35,8 @@ export function ListingsTable() {
                     </Table.Head>
                     <Table.Body className="divide-y">
                         {
-                            !error && !isLoading ? data?.data.map((company: any) => (
-                                <Table.Row key={company.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            !error && !isLoading ? data?.data.map((company: any,index:number) => (
+                                <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
 
                                     <Table.Cell className="text-black text-wrap">{company.title}</Table.Cell>
                                     <Table.Cell>{["Business", "Procurement", "Building", "Franchaisee"]?.map((loan) => (

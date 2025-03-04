@@ -2,17 +2,17 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/app/services/dbConfig";
 import sql from "mssql";
 
-export const POST=async(req:Request)=>{
+export const GET=async(req:Request)=>{
     const pool = await connectToDatabase();
     try {
-        const {id}=await req.json();
-       // const url= new URL(req.url);
-      //const uid=url.searchParams.get('id');
-      //console.log(uid);
+        //const {id}=await req.json();
+      const url= new URL(req.url);
+      const id=url.searchParams.get('id');
+      //console.log(id);
       // Query the database for the user by email
       const rows = await pool.request()
         .input("id", sql.VarChar, id?.trim())
-        .query('SELECT TOP 1 * FROM users WHERE id = @id');
+        .query('SELECT TOP 1 * FROM users WHERE user_id = @id');
       
       // Check if the user was found
       if (rows.recordset.length === 0) {

@@ -8,7 +8,7 @@ export const useLogin = () => {
     const [loading, setloading] = useState(false);
     const handleLogin = async (username:string, password: string) => {
         setloading(true);
-        const response = await fetch("http://localhost:3000/api/users/login", {
+        const response = await fetch("/api/users/login", {
             headers: {
                 "Content-Type": "application/json"
             },

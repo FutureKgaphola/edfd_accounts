@@ -12,7 +12,7 @@ const CompanyList = () => {
                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Your companies as recorded.</h3>
                             <div className="space-y-6">
                                 <TruthfullAlert />
-                                <ListingsTable/>
+                                {/* <ListingsTable/> */}
                             </div>
                         </form>
                     </Card>

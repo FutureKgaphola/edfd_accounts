@@ -1,25 +1,45 @@
-import { Alert, Button, Card, Checkbox, FileInput, Label, TextInput } from "flowbite-react";
-import Link from "next/link";
+
+
+import { Alert, Button, Card, FileInput, Label, TextInput } from "flowbite-react";
 import { Offline, Online } from "react-detect-offline";
 import { HiMail, HiInformationCircle, HiUserAdd } from "react-icons/hi";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NetworkMessage, NetworkTitle } from "../../TempData/StaticData";
-import { customCheckboxTheme, customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
+import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
 import TruthfullAlert from "../Alets/TruthfullAlert";
+import useProfile from "@/app/hooks/useProfile";
+import LoadingAlert from "../Alets/LoadingAlert";
+import ErrorAlert from "../Alets/ErrorAlert";
 
 const Personal = () => {
+
+    const [tncs, setTnCs] = useState<boolean>(false);
+    const { data, isLoading, error } = useProfile();
+
     const [username, SetUserName] = useState("");
     const [IdNo, setIdNo] = useState("");
-    const [phone, setPhone] = useState("");
+    const [userphone, setuserphone] = useState("");
     const [Name, SetName] = useState("");
     const [note, setNote] = useState("");
-    const [tncs, setTnCs] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (data) {
+            const { name, phone, saId, email } = data;
+            SetUserName(email ?? "");
+            setIdNo(saId ?? "");
+            setuserphone(phone ?? "");
+            SetName(name ?? "");
+        }
+
+    }, [data])
     return (
 
         <Card className="h-fit m-4">
             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Provide Personal informaition of the person responsible for this account</h3>
 
             <TruthfullAlert />
+            {isLoading && <LoadingAlert />}
+            {error && <ErrorAlert errorMsg={error.message} />}
             <form className="grid grid-cols-2 max-w-md gap-4 w-screen">
 
                 <div>
@@ -51,7 +71,7 @@ const Personal = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="phone" value="Your phone *" />
                         </div>
-                        <TextInput sizing="sm" onChange={(e: any) => setPhone(e.target.value)} value={phone} theme={customInputBoxTheme} color={"focuscolor"} id="phone" type="text" required />
+                        <TextInput sizing="sm" onChange={(e: any) => setuserphone(e.target.value)} value={userphone} theme={customInputBoxTheme} color={"focuscolor"} id="phone" type="text" required />
                     </div>
                     <div>
                         <div className="mb-2 block">

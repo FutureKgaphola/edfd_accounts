@@ -1,9 +1,9 @@
 
 "use client";
 
-import { Button, Tabs, TabsRef } from "flowbite-react";
+import { Tabs, TabsRef } from "flowbite-react";
 import { useRef, useState } from "react";
-import { HiAdjustments, HiClipboardList, HiUserCircle } from "react-icons/hi";
+import { HiClipboardList, HiUserCircle } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import { Nav_bar } from "../components/Navbar";
 import Personal from "../components/Forms/Personal";
@@ -22,10 +22,10 @@ import { Breadcrumbs } from "../components/BreadCrumbs";
     <Breadcrumbs />
     <div className="flex flex-col gap-3 p-2">
       <Tabs theme={customTabs} aria-label="Default tabs" variant="default" ref={tabsRef} onActiveTabChange={(tab) => setActiveTab(tab)}>
-        <Tabs.Item  title="Personal" icon={HiUserCircle}>
+        <Tabs.Item active title="Personal" icon={HiUserCircle}>
           <Personal/>
         </Tabs.Item>
-        <Tabs.Item active title="Add Companies(s)" icon={MdDashboard}>
+        <Tabs.Item title="Add Companies(s)" icon={MdDashboard}>
           <Company/>
         </Tabs.Item>
         

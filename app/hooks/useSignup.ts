@@ -9,7 +9,7 @@ export const useSignup = () => {
     const[result,setResults]=<any>useState();
     const handleSignup = async (username: string, phone: string, Name: string, IdNo: string, password: string) => {
         setloading(true);
-        const response = await fetch("http://localhost:3000/api/users/register", {
+        const response = await fetch("/api/users/register", {
             headers: {
                 "Content-Type": "application/json"
             },
