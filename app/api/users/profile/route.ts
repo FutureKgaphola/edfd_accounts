@@ -12,7 +12,7 @@ export const GET=async(req:Request)=>{
       // Query the database for the user by email
       const rows = await pool.request()
         .input("id", sql.VarChar, id?.trim())
-        .query('SELECT TOP 1 * FROM users WHERE user_id = @id');
+        .query('SELECT TOP 1 * FROM AccountHolders WHERE id = @id');
       
       // Check if the user was found
       if (rows.recordset.length === 0) {

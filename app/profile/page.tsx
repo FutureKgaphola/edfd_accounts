@@ -11,8 +11,11 @@ import Company from "../components/Forms/Company";
 import CompanyList from "../components/Forms/CompanyList";
 import { customTabs } from "../SiteTheme/Theme";
 import { Breadcrumbs } from "../components/BreadCrumbs";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
   const Profile=()=> {
+    const Authprop = useSelector((state: RootState) => state.AuthReducer);
   const tabsRef = useRef<TabsRef>(null);
   const [activeTab, setActiveTab] = useState(0);
 

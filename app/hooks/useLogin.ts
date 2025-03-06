@@ -1,9 +1,11 @@
 import { AuthActions } from "@/lib/features/Auth/AuthuserSlice";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { failureMessage, successMessage } from "../notifications/successError";
+import { RootState } from "@/lib/store";
 
 export const useLogin = () => {
+    const Authprop = useSelector((state: RootState) => state.AuthReducer);
     const dispatch = useDispatch();
     const [loading, setloading] = useState(false);
     const handleLogin = async (username:string, password: string) => {
@@ -34,6 +36,8 @@ export const useLogin = () => {
         sessionStorage.setItem("utoken", result.token);
         sessionStorage.setItem("user", JSON.stringify(result.user));
         dispatch(AuthActions.setAuthToken({ token: result.token,user:result.user }));
+        
+    console.log(Authprop)
         setloading(false);
     }
 

@@ -18,7 +18,7 @@ export const POST=async(req:Request)=>{
       // Query the database for the user by email
       const rows = await pool.request()
         .input("email", sql.VarChar, email.trim())
-        .query('SELECT TOP 1 * FROM users WHERE email = @email');
+        .query('SELECT TOP 1 * FROM AccountHolders WHERE user_email = @email');
       
       // Check if the user was found
       if (rows.recordset.length === 0) {
@@ -45,13 +45,14 @@ export const POST=async(req:Request)=>{
           { status: 400 }
         );
       }
-      const token = CreateToken(user.id);
+      const token = CreateToken(user.user_email);
       return NextResponse.json(
         { message: 'Login successful', user: userWithoutPassword,token },
         { status: 200 }
       );
 
     } catch (error:any) {
+      console.log(error?.message);
       return NextResponse.json(
         { message:error?.message },
         { status: 500 }

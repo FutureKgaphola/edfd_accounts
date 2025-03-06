@@ -11,7 +11,7 @@ const fetchuser=async(userid:string)=>{
 }
 const useProfile = () => {
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
-    const userid= Authprop.user?.user_id;
+    const userid= Authprop.user?.id;
     const {data,isLoading,error} =useQuery({
         queryFn : ()=>fetchuser(userid),
         queryKey: ['userProfile',{userid}]

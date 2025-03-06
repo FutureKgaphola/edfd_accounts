@@ -34,21 +34,25 @@ const Register = () => {
     },[]);
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        handleSignup(username, phone, Name,LName, IdNo, password).then(async(result) => {
-            await fetch("/api/users/sendVerifylink",{
+        try {
+            const result = await handleSignup({username, phone, Name, LName, IdNo, password});
+            await fetch("/api/users/sendVerifylink", {
                 headers: {
                     "Content-Type": "application/json"
                 },
-                method:'POST',
+                method: 'POST',
                 body: JSON.stringify({
-                    email:result?.user.user_email,
-                    name:result?.user.first_name,
-                    token:result?.token
+                    email: result?.user.user_email,
+                    name: result?.user.first_name,
+                    token: result?.token
                 })
-
-            })
-            //ResetForm();
-        })
+            });
+            if(result){
+                ResetForm();
+            }
+        } catch (error) {
+            console.error("Error during signup:", error);
+        }
     }
 
     const ResetForm = () => {
@@ -81,9 +85,9 @@ const Register = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="name" value="Your Surname" />
+                            <Label htmlFor="Lname" value="Your Surname" />
                         </div>
-                        <TextInput onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
+                        <TextInput onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="Lname" type="text" placeholder="someone's name" required />
                     </div>
                     <div>
                         <div className="mb-2 block">

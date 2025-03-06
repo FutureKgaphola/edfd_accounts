@@ -1,12 +1,11 @@
 
 "use client";
 
-import { Avatar, Button, Dropdown, Navbar, Spinner } from "flowbite-react";
+import { Avatar, Dropdown, Navbar, Spinner } from "flowbite-react";
 import ledalogo from '../assets/images/logoleda.png';
 import Image from "next/image";
 import Link from "next/link";
-import prof from "../assets/images/profile_user.png";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useSignout } from "../hooks/useSignout";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
@@ -14,7 +13,6 @@ import { useEffect } from "react";
 import { useDomReady } from "../hooks/useDomReady";
 
 export function Nav_bar() {
-  const pathname = usePathname();
   const router = useRouter();
   const { handleSigOut, errorLogout } = useSignout();
   const { domReady } = useDomReady();
@@ -45,8 +43,8 @@ export function Nav_bar() {
                 }
               >
                 <Dropdown.Header>
-                  <Link href={'/profile'}><span className="block text-sm">{Authprop?.user?.name ?? ""}</span></Link>
-                  <Link href={'/profile'}><span className="block truncate text-sm font-medium">{Authprop?.user?.email ?? ""}</span></Link>
+                  <Link href={'/profile'}><span className="block text-sm">{Authprop?.user?.first_name ?? ""}</span></Link>
+                  <Link href={'/profile'}><span className="block truncate text-sm font-medium">{Authprop?.user?.user_email ?? ""}</span></Link>
                 </Dropdown.Header>
 
                 <Dropdown.Item onClick={() => handleSigOut()} >Sign out</Dropdown.Item>
