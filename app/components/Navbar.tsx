@@ -22,7 +22,7 @@ export function Nav_bar() {
       router.replace('/');
     }
   }, [Authprop?.token]);
-  console.log(Authprop.user);
+
   return (
     <header className="w-full bg-gray-700">
 

@@ -7,13 +7,17 @@ import axios from "axios";
 import { Badge, Button, Table, Tooltip } from "flowbite-react";
 import LoadingSpinner from "../Spinner/LoadingSpinner";
 import { HiDocumentRemove } from "react-icons/hi";
+import { useEffect, useState } from "react";
 
-export function ListingsTable() {
-    const { data, error, isLoading } = useQuery({
-        queryFn: () => axios.get('/api/users/companies'),
-        queryKey: ['companies'],
+export function ListingsTable({user_email}:{user_email:string}) {
+    const { data , error, isLoading } = useQuery({
+        queryFn: () => axios.get(`/api/companies/retrive/?user_email=${user_email}`),
+        queryKey: ['Registeredcompanies'],
     });
-
+    const [companies,setcompanies]=useState([]);
+    useEffect(()=>{
+        setcompanies(data?.data.companies);
+    },[data]);
 
     if (isLoading) return <LoadingSpinner color="warning" size="sm" />
     return (
@@ -35,17 +39,17 @@ export function ListingsTable() {
                     </Table.Head>
                     <Table.Body className="divide-y">
                         {
-                            !error && !isLoading ? data?.data.map((company: any,index:number) => (
-                                <Table.Row key={index} className="bg-white dark:border-gray-700 dark:bg-gray-800">
+                            !error && !isLoading ? companies?.map((company: any) => (
+                                <Table.Row key={company?.regNo} className="bg-white dark:border-gray-700 dark:bg-gray-800">
 
-                                    <Table.Cell className="text-black text-wrap">{company.title}</Table.Cell>
+                                    <Table.Cell className="text-black text-wrap">{company.compName}</Table.Cell>
                                     <Table.Cell>{["Business", "Procurement", "Building", "Franchaisee"]?.map((loan) => (
-                                        <Tooltip content={"Remove "+loan+" ?"}>
+                                        <Tooltip key={loan} content={"Remove "+loan+" ?"}>
                                             <Badge icon={HiDocumentRemove} size="xs" className="mt-1 hover:cursor-pointer" color="success">{loan}</Badge>
                                         </Tooltip>
                                     ))}</Table.Cell>
-                                    <Table.Cell>{company.userId}</Table.Cell>
-                                    <Table.Cell>{company.id}</Table.Cell>
+                                    <Table.Cell>{company.regNo}</Table.Cell>
+                                    <Table.Cell>{company.compEmail}</Table.Cell>
 
                                     <Table.Cell>
                                         <div className="flex gap-1">

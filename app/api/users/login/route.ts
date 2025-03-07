@@ -38,7 +38,7 @@ export const POST=async(req:Request)=>{
         );
       }
 
-      const { password: _, ...userWithoutPassword } = user;
+      const { password: _, FileData: __, ...userWithoutPassword } = user;
       if(userWithoutPassword.verify_tk!=="verified"){
         return NextResponse.json(
           { message: 'Please verify your email address. check you mail box for verification link' },

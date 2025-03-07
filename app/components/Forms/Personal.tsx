@@ -2,7 +2,7 @@
 
 import { Alert, Button, Card, FileInput, Label, TextInput } from "flowbite-react";
 import { Offline, Online } from "react-detect-offline";
-import { HiMail, HiInformationCircle, HiUserAdd } from "react-icons/hi";
+import { HiMail, HiInformationCircle, HiUserAdd, HiCloudDownload } from "react-icons/hi";
 import { useEffect, useState } from "react";
 import { NetworkMessage, NetworkTitle } from "../../TempData/StaticData";
 import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
@@ -12,6 +12,8 @@ import LoadingAlert from "../Alets/LoadingAlert";
 import ErrorAlert from "../Alets/ErrorAlert";
 import useSubmitPersonal from "@/app/hooks/useSubmitPersonal";
 import { useSignout } from "@/app/hooks/useSignout";
+import axios from "axios";
+import { failureMessage } from "@/app/notifications/successError";
 
 const Personal = () => {
 
@@ -19,6 +21,7 @@ const Personal = () => {
     const { data, isLoading, error } = useProfile();
     const [username, SetUserName] = useState("");
     const [IdNo, setIdNo] = useState("");
+    const [id, setId] = useState("");
     const [userphone, setuserphone] = useState("");
     const [Name, SetName] = useState("");
     const [LName, SetLName] = useState("");
@@ -42,15 +45,34 @@ const Personal = () => {
     };
     useEffect(() => {
         if (data) {
-            const { first_name, last_name, phone, saId, user_email } = data;
+            const { first_name, last_name, phone, saId, user_email, filename: fln, id } = data;
             SetUserName(user_email ?? "");
             setIdNo(saId ?? "");
             setuserphone(phone ?? "");
             SetName(first_name ?? "");
             SetLName(last_name ?? "");
+            setFilename(fln ?? "");
+            setId(id ?? "");
         }
 
-    }, [data,success])
+    }, [data, success]);
+
+    const handleDownload=async()=>{
+        const resp= await axios.get(`/api/download?id=${id}&m=${username}`,{ responseType: 'blob' });
+        if(resp.status!==200 || !resp.data.size){
+            failureMessage(resp.statusText);
+            return;
+        }
+        const blob = new Blob([resp.data]);
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute('download', `${filename}`);
+        document.body.appendChild(link);
+        link.click();
+        link.parentNode?.removeChild(link);
+        window.URL.revokeObjectURL(url);    
+    }
     return (
 
         <Card className="h-fit m-4">
@@ -64,21 +86,21 @@ const Personal = () => {
                 <div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="name" value="Your Name" />
+                            <Label htmlFor="name" value="Name" />
                         </div>
                         <TextInput sizing="sm" onChange={(e: any) => SetName(e.target.value)} value={Name} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="Lname" value="Your Surname" />
+                            <Label htmlFor="Lname" value="Surname" />
                         </div>
                         <TextInput sizing="sm" onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="Lname" type="text" placeholder="someone's name" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="email1" value="Your Email" />
+                            <Label htmlFor="email1" value="Email" />
                         </div>
-                        <TextInput sizing="sm" readOnly
+                        <TextInput className="hover:cursor-not-allowed" sizing="sm" readOnly
                             onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
                     </div>
                     <p>{errorp}</p>
@@ -88,7 +110,7 @@ const Personal = () => {
                 <div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="phone" value="Your phone *" />
+                            <Label htmlFor="phone" value="Phone *" />
                         </div>
                         <TextInput sizing="sm"
                             min={10}
@@ -97,7 +119,7 @@ const Personal = () => {
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="idno" value="Your SA-ID *" />
+                            <Label htmlFor="idno" value="SA-ID *" />
                         </div>
                         <TextInput sizing="sm"
                             min={13}
@@ -108,9 +130,14 @@ const Personal = () => {
                         <div>
                             <Label htmlFor="file-upload-helper-text" value="Certified SA-ID copy*" />
                         </div>
+                        <div className="flex gap-1">
+                        <HiCloudDownload onClick={()=>handleDownload()} className="hover:cursor-pointer" width={35} height={35} />
+                        <p className="text-xs">{filename}</p>
+                        </div>
+                        
                         <FileInput className="max-w-md"
                             onChange={handleFileChange}
-                            sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 10MB)." />
+                            sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
                     </div>
 
                 </div>

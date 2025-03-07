@@ -72,6 +72,3 @@ const isValidData = (user_email:string, first_name:string,last_name:string, pass
   );
 };
 
-
-
-

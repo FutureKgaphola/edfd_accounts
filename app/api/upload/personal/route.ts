@@ -35,7 +35,7 @@ export const PATCH = async (req: Request) => {
             .input('last_update', sql.VarChar, l_update)
             .input("id", sql.Int, id)
             .query(file ? `UPDATE AccountHolders
-                 SET fileData = @file ,
+                 SET FileData = @file ,
                 last_update=@last_update,
                 first_name=@first_name,
                 last_name=@last_name,
