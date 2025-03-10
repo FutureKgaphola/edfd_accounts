@@ -63,7 +63,7 @@ const Register = () => {
         setIdNo("");
         setPhone("");
         setTnCs(false);
-        setNote("kindly check your email for a verification link");
+        setNote("kindly check email for a verification link");
     }
     return (
         <div className="w-full h-full mt-2 pt-2 mb-1 flex items-center justify-center">
@@ -79,25 +79,25 @@ const Register = () => {
                     <p className="text-sm font-thin">Be truthfull with the information you are about to provide as they will be used to determine you loan's success.</p>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="name" value="Your Name" />
+                            <Label htmlFor="name" value="Name" />
                         </div>
                         <TextInput onChange={(e: any) => SetName(e.target.value)} value={Name} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="Lname" value="Your Surname" />
+                            <Label htmlFor="Lname" value="Surname" />
                         </div>
                         <TextInput onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="Lname" type="text" placeholder="someone's name" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="email1" value="Your Email" />
+                            <Label htmlFor="email1" value="Email" />
                         </div>
                         <TextInput onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="password1" value="Your password" />
+                            <Label htmlFor="password1" value="Password" />
                             <p className="text-sm font-thin">{password}</p>
                         </div>
                         <TextInput onChange={(e: any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" required />
@@ -105,13 +105,13 @@ const Register = () => {
 
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="phone" value="Your phone *" />
+                            <Label htmlFor="phone" value="Phone *" />
                         </div>
                         <TextInput onChange={(e: any) => setPhone(e.target.value)} value={phone} theme={customInputBoxTheme} color={"focuscolor"} id="phone" type="text" required />
                     </div>
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="idno" value="Your SA-ID *" />
+                            <Label htmlFor="idno" value="SA-ID *" />
                         </div>
                         <TextInput
                             required maxLength={13}

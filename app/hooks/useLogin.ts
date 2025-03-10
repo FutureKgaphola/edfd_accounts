@@ -36,8 +36,7 @@ export const useLogin = () => {
         sessionStorage.setItem("utoken", result.token);
         sessionStorage.setItem("user", JSON.stringify(result.user));
         dispatch(AuthActions.setAuthToken({ token: result.token,user:result.user }));
-        
-    console.log(Authprop)
+    
         setloading(false);
     }
 

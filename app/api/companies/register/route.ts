@@ -23,7 +23,6 @@ export const POST = async (req: Request) => {
             if(district){
                 if (district?.recordset[0]?.id) {
                     const { id: districtId } = district?.recordset[0];
-                    console.log("dist id :"+districtId)
                     // Insert the user data
                     const result = await pool.request()
                         .input("user_email", sql.VarChar, user_email.trim())

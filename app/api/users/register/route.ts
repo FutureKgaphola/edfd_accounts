@@ -4,6 +4,7 @@ import sql from "mssql";
 import bcrypt from "bcrypt";
 import validator from "validator";
 import { CreateToken } from "@/lib/TokenGenerator/getToken";
+import { validateSAID } from "@/app/constants/sharedconstants";
 
 export const POST = async (req: Request) => {
   try {
@@ -68,7 +69,7 @@ const isValidData = (user_email:string, first_name:string,last_name:string, pass
     first_name.trim().length > 0 && last_name.trim().length > 0 &&
     password.length >= 6 &&
     phoneRegex.test(phone.trim()) &&
-    saIdRegex.test(saId.trim())
+    saIdRegex.test(saId.trim()) && validateSAID(saId.trim())
   );
 };
 

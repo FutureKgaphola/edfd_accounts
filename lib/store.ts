@@ -5,6 +5,7 @@ import { BuildingReducer } from './features/Building/BuildingSlice'
 import { BusinessReducer } from './features/Business/BusinessSlice'
 import { PathReducer } from './features/Path/PathSlice'
 import {AuthReducer} from './features/Auth/AuthuserSlice'
+import {CompanyReducer} from './features/Companies/CompanySlice'
 import {createLogger} from 'redux-logger'
 
 export const makeStore = () => {
@@ -15,7 +16,8 @@ export const makeStore = () => {
         BuildingReducer,
         BusinessReducer,
         PathReducer,
-        AuthReducer
+        AuthReducer,
+        CompanyReducer,
     },
     middleware:(GetDefaultMiddleware)=>GetDefaultMiddleware().concat(createLogger())
   })

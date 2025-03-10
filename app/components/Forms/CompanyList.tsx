@@ -1,5 +1,5 @@
 import { Card } from "flowbite-react";
-import TruthfullAlert from "../Alets/TruthfullAlert";
+import TruthfullAlert from "../Alerts/TruthfullAlert";
 import { ListingsTable } from "../Tables/ListingsTable";
 
 const CompanyList = () => {

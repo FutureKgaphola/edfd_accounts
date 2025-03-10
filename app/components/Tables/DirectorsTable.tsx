@@ -9,7 +9,7 @@ import LoadingSpinner from "../Spinner/LoadingSpinner";
 
 export function DirectorTable() {
     const { data, error, isLoading } = useQuery({
-        queryFn: () => axios.get('/api/users/companies'),
+        queryFn: () => axios.get('/api/users/companiellllll'),
         queryKey: ['companies'],
     });
 

@@ -6,10 +6,10 @@ import { HiMail, HiInformationCircle, HiUserAdd, HiCloudDownload } from "react-i
 import { useEffect, useState } from "react";
 import { NetworkMessage, NetworkTitle } from "../../TempData/StaticData";
 import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
-import TruthfullAlert from "../Alets/TruthfullAlert";
+import TruthfullAlert from "../Alerts/TruthfullAlert";
 import useProfile from "@/app/hooks/useProfile";
-import LoadingAlert from "../Alets/LoadingAlert";
-import ErrorAlert from "../Alets/ErrorAlert";
+import LoadingAlert from "../Alerts/LoadingAlert";
+import ErrorAlert from "../Alerts/ErrorAlert";
 import useSubmitPersonal from "@/app/hooks/useSubmitPersonal";
 import { useSignout } from "@/app/hooks/useSignout";
 import axios from "axios";
@@ -26,13 +26,17 @@ const Personal = () => {
     const [Name, SetName] = useState("");
     const [LName, SetLName] = useState("");
     const [filename, setFilename] = useState('');
+    const [ServerFileName,setServerFileName]= useState('');
     const [pdfFile, setPdfFile] = useState<File | null>(null);
     const [Filerror, setError] = useState('');
     const { loading, error: errorp, success, submitForm } = useSubmitPersonal();
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const file = event.target.files[0];
+            if(event.target.files === undefined || event.target.files === null) {setFilename(""); setPdfFile(null);  return;} 
+            if(event.target.files[0] === undefined || event.target.files[0] === null) {setFilename(""); setPdfFile(null);  return;} 
             setFilename(event.target.files[0].name);
+            
             // Validate the file size (should not exceed 40MB)
             if (file.size > 40 * 1024 * 1024) {  // 40MB in bytes
                 setError('File size exceeds the 40MB limit.');
@@ -51,7 +55,8 @@ const Personal = () => {
             setuserphone(phone ?? "");
             SetName(first_name ?? "");
             SetLName(last_name ?? "");
-            setFilename(fln ?? "");
+            //setFilename(fln ?? "");
+            setServerFileName(fln ?? "");
             setId(id ?? "");
         }
 
@@ -67,11 +72,11 @@ const Personal = () => {
         const url = window.URL.createObjectURL(blob);
         const link = document.createElement('a');
         link.href = url;
-        link.setAttribute('download', `${filename}`);
+        link.setAttribute('download', `${ServerFileName}`);
         document.body.appendChild(link);
         link.click();
         link.parentNode?.removeChild(link);
-        window.URL.revokeObjectURL(url);    
+        window.URL?.revokeObjectURL(url);    
     }
     return (
 
@@ -131,8 +136,8 @@ const Personal = () => {
                             <Label htmlFor="file-upload-helper-text" value="Certified SA-ID copy*" />
                         </div>
                         <div className="flex gap-1">
-                        <HiCloudDownload onClick={()=>handleDownload()} className="hover:cursor-pointer" width={35} height={35} />
-                        <p className="text-xs">{filename}</p>
+                            {ServerFileName ? (<HiCloudDownload onClick={()=>handleDownload()} className="hover:cursor-pointer" width={35} height={35} />) : null}
+                        <p className="text-xs">{ServerFileName}</p>
                         </div>
                         
                         <FileInput className="max-w-md"
