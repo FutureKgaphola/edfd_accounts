@@ -8,11 +8,13 @@ import Procurement from "../Documents/Procurement";
 import Building from "../Documents/Building";
 import Franchisee from "../Documents/Franchisee";
 import ProfileList from "../Alerts/ProfileList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import SelectDistrict from "../Select/SelectDistrict";
 import { useAddCompanies } from "@/app/hooks/useAddCompany";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import PDFUploader from "../../components/PDFUploader";
+import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
 
 const Company = () => {
     const queryClient = useQueryClient();
@@ -28,8 +30,11 @@ const Company = () => {
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
     const Companyprop = useSelector((state: RootState) => state.CompanyReducer);
     const authEmail = Authprop?.user?.user_email ?? "";
+
+    const dispatch=useDispatch();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedLoanType(event.target.value);
+        dispatch(SelectedCompanyAction.SetGlobalselectedcompLoanType({loanCat_id : event.target.value=="Business" ?'0' : event.target.value=="Procurement" ? '1' : event.target.value=="Building" ? '2' :  event.target.value=="Franchisee" ? '3' :''  }));
     };
     const [SelectedDistrict, setSelectedDistrict] = useState("");
 
@@ -54,6 +59,10 @@ const Company = () => {
             resetCompanyInfoForm();
         }
     });
+
+    const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
+        const regNo= selectedprop.regNo;
+        const loanCat_id= selectedprop.loanCat_id;
     return (
         <div className="w-full overflow-clip h-full mt-18 mb-8 items-center justify-center">
             <div className=" items-center">
@@ -136,7 +145,7 @@ const Company = () => {
 
                             <hr />
                             {
-                                Companyprop?.companies?.length > 0 ?
+                                Companyprop?.companies?.length  > 0 && regNo && regNo!=="" && regNo!=="---" ?
                                     (
                                         <div>
                                             <span className="bg-appGreen p-1 text-white">Company Documents</span>
@@ -197,7 +206,7 @@ const Company = () => {
                                                 return loanType === "business" ? <Business /> :
                                                     loanType === "procurement" ? <Procurement /> :
                                                         loanType === "building" ? <Building /> :
-                                                            loanType === "franchisee" ? <Franchisee /> : null;
+                                                            loanType === "franchisee" ? <PDFUploader /> : null;
                                             })()}
                                             <hr  className="mt-4"/>
                                             <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>

@@ -54,7 +54,6 @@ export function ListingsTable({user_email}:{user_email:string}) {
                                     <Table.Cell>
                                         <div className="flex gap-1">
                                             <Button className="z-0" theme={customsubmitTheme} color='failure' size="xs">Delete</Button>
-                                            <Button className="z-0" theme={customsubmitTheme} color='success' size="xs">View</Button>
                                         </div>
                                     </Table.Cell>
                                 </Table.Row>

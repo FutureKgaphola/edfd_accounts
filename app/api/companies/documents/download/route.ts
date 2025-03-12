@@ -4,31 +4,28 @@ import { NextResponse } from "next/server";
 
 export const GET = async (req: Request) => {
     const pool = await connectToDatabase();
-
+    const tables = ["BusinessDocs", "ProcurementDocs", "BuildingDocs", "franchiseeDocs"];
     try {
         const url = new URL(req.url);
-        const id: string = url.searchParams.get("id")?.trim() || "";
-        const user_email: string = url.searchParams.get("m")?.trim() || "";
+        const regNo = url.searchParams.get('regNo');
+        const loanCat_id = url.searchParams.get('loanCat_id');
 
-        // Validate the input parameters
-        if (!id || !user_email) {
+        if (!regNo || !loanCat_id) {
             return NextResponse.json({ message: "Missing required parameters." }, { status: 400 });
         }
-
         // Ensure the id is a valid integer
-        const parsedId = parseInt(id);
+        const parsedId = parseInt(loanCat_id);
         if (isNaN(parsedId)) {
-            return NextResponse.json({ message: "Invalid ID parameter." }, { status: 400 });
+            return NextResponse.json({ message: "Invalid loan ID parameter." }, { status: 400 });
         }
 
         const result = await pool.request()
-            .input("user_email", sql.VarChar, user_email)
-            .input('id', sql.Int, parsedId)
-            .query("SELECT FileData FROM AccountHolders WHERE id = @id AND user_email = @user_email");
+            .input("regNo", sql.VarChar, regNo?.trim())
+            .query(`SELECT filesData FROM ${tables[parseInt(loanCat_id) - 1]} WHERE regNo = @regNo`);
 
         if (result.recordset.length > 0) {
-            const fileData = result.recordset[0].FileData;
-            const fileName = result.recordset[0].filename || "downloadedFile";
+            const fileData = result.recordset[0].filesData;
+            const fileName = result.recordset[0].filenames || "downloadedFile";
             const buffer = Buffer.from(fileData, 'base64');
 
             return new NextResponse(buffer, {

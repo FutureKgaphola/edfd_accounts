@@ -28,7 +28,7 @@ import { RootState } from "@/lib/store";
         <Tabs.Item active title="Personal" icon={HiUserCircle}>
           <Personal/>
         </Tabs.Item>
-        <Tabs.Item title="Add Companies(s)" icon={MdDashboard}>
+        <Tabs.Item title="Companies(s)" icon={MdDashboard}>
           <Company/>
         </Tabs.Item>
         

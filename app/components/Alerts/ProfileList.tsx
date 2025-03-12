@@ -7,9 +7,13 @@ import { HiInformationCircle } from "react-icons/hi";
 import LoadingSpinner from "../Spinner/LoadingSpinner";
 import { CompanyAction } from "@/lib/features/Companies/CompanySlice";
 import { useDispatch } from "react-redux";
+import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
 
 const ProfileList = ({user_email}:{user_email:string}) => {
-    const [SelectedCompany,setSelectedCompany]=useState("");
+    const setSelectedCompany=(selected:string)=>{
+        console.log(selected)
+        dispatch(SelectedCompanyAction.SetGlobalselectedcompReg({regNo:selected}));
+    }
     const dispatch = useDispatch();
     const { data , error, isLoading } = useQuery({
         queryFn: () => axios.get(`/api/companies/retrive/?user_email=${user_email}`),
@@ -39,7 +43,7 @@ const ProfileList = ({user_email}:{user_email:string}) => {
                 <option>---</option>
                 {
                     !error && !isLoading && companies?.map((company: any) => (
-                        <option key={company.id} value={company.compName}>{company.compName}</option>
+                        <option key={company.id} value={company.regNo}>{company.compName}</option>
                     ))
                 }
             

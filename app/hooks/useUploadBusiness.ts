@@ -1,66 +1,55 @@
 import axios from "axios";
 import { FormEvent, useState } from "react";
+import { failureMessage, successMessage } from "../notifications/successError";
 
-export const useUploadBusiness=()=>{
-    const [Filenames,setFilenames]=useState<string[]>([]);
-    const [Ui_field_desc,setfield_desc]=useState<string[]>([]);
+export const useUploadBusiness = () => {
+    const [Filenames, setFilenames] = useState<string[]>([]);
+    const [FileIndexes, setFileIndexes] = useState<(number | null)[]>([]);
     const [Filerror, setError] = useState('');
-    const [pdfFile, setPdfFile] = useState<File[]>([]);
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>,field_desc:string) => {
-        if (event.target.files) {
-            const file = event.target.files[0];
-            if(event.target.files === undefined || event.target.files === null) { return;} 
-            if(event.target.files[0] === undefined || event.target.files[0] === null) { return;} 
-            let temp:File[]=[];
-            // Validate the file size (should not exceed 40MB)
-            if (file.size > 40 * 1024 * 1024) {  // 40MB in bytes
-                setError('File size exceeds the 40MB limit.');
-                //setPdfFile([]);  // Clear the file
-            } else {
-                setError('');
+    const [Isuploaading, setisuploaading] = useState<boolean>(false);
 
-                if (!pdfFile.some(f => f.name === file.name)) {
-
-                    const existingIndex = temp.findIndex(f => f.name === file.name);
-                    if (existingIndex !== -1) {
-                        temp[existingIndex] = file; // Update the existing file
-                        console.log("updated at index");
-                    } else {
-                        temp.push(file); // Add the new file
-                        console.log("pushed to the end",file.name);
-                    }
-                    setPdfFile(temp);
-                }
-                // if (!Filenames.includes(event.target.files[0].name)) {
-                //     setFilenames([...Filenames, event.target.files[0].name]);
-                // }
-                // if (!Ui_field_desc.includes(field_desc)) {
-                //     setfield_desc([...Ui_field_desc, field_desc]);
-                // }
-                // console.log([...Ui_field_desc,field_desc])
+    const [files, setFiles] = useState<(File | null)[]>([null, null, null, null, null, null, null, null]);
+    const handleFileChange = (index: number, file: File | null) => {
+        if (file) {
+            if (file.type !== 'application/pdf') {
+                failureMessage('Please upload a valid PDF file.');
+                return;
+            }
+            if (file.size > 40 * 1024 * 1024) {
+                failureMessage('File size must be less than 40 MB.');
+                return;
             }
         }
+
+        const updatedFiles = [...files];
+        updatedFiles[index] = file;
+        setFiles(updatedFiles);
+        setFileIndexes([...FileIndexes, index]);
+        const fileNames = updatedFiles.map(file => file ? file.name : '');
+        setFilenames(fileNames);
+        console.log(updatedFiles);
+        console.log(FileIndexes);
     };
-    const HandleMultiplePdfUpload=async(file: File[],filename: string[],regNo:string,e: FormEvent<HTMLFormElement>,loanId:string)=>{
+    const HandleMultiplePdfUpload = async (e: FormEvent<HTMLFormElement>, regNo: string, loanId: string) => {
         e.preventDefault();
-        // Combined size of files must be less than 900 MB
-        const totalSize = file.reduce((acc, curr) => acc + curr.size, 0);
+        //Combined size of files must be less than 900 MB
+        const totalSize = files.reduce((acc, curr) => acc + (curr?.size || 0), 0);
         if (totalSize > 900 * 1024 * 1024) {  // 900MB in bytes
             setError('Total file size should not exceed 900MB');
+            failureMessage("Total file size should not exceed 900MB");
             return;
         }
-
         const formData = new FormData();
-        if (file) {
-            formData.append("loanId",loanId);
-            formData.append("regNo",regNo);
-            filename.forEach((f,index) => formData.append('filename'+index, f));
-            Ui_field_desc.forEach((desc,index)=>formData.append('Ui_field_desc'+index, desc));
-            file.forEach((f,index) => formData.append('file'+index, f));
-            formData.append("docsCount", file.length.toString());
+        if (files) {
+            formData.append("loanId", loanId);
+            formData.append("regNo", regNo);
+            FileIndexes.forEach((fi, index) => formData.append('FileIndexes' + index, fi !== null ? fi.toString() : ''));
+            Filenames.forEach((f, index) => formData.append('filename' + index, f));
+            files.filter(f => f !== null).forEach((f, index) => formData.append('file' + index, f as File));
+            formData.append("docsCount", files.length.toString());
         }
         try {
-
+            setisuploaading(true);
             const response = await axios.post('/api/upload/business', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
@@ -69,18 +58,20 @@ export const useUploadBusiness=()=>{
 
             if (response.status === 200) {
                 //setSuccess(true);
-                console.log("success");
+                successMessage(response.data?.message);
+                setisuploaading(false);
             } else {
-                console.log(response);
+                failureMessage(response.data?.message);
+                setisuploaading(false);
             }
-        } catch (err:any) {
+        } catch (err: any) {
             //failureMessage(err.message);
-            console.log(err.message);
+            console.log(err?.message);
+            setisuploaading(false);
+            setError(err?.message);
             //setError('An error occurred while submitting the form');
-        } finally {
-            //setLoading(false);
         }
 
     }
-    return { handleFileChange,HandleMultiplePdfUpload, Filerror,pdfFile,Filenames }
+    return { handleFileChange, HandleMultiplePdfUpload, Filerror, files, Filenames, Isuploaading }
 }

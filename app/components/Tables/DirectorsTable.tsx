@@ -46,12 +46,12 @@ export function DirectorTable() {
                                         </div>
                                     </Table.Cell>
                                 </Table.Row>
-                            )) : <p>{error?.message}</p>
+                            )) : null
                             
                         }
                     </Table.Body>
                 </Table>
-                
+                <p>{error?.message}</p>
             </div>
             
         </div>
