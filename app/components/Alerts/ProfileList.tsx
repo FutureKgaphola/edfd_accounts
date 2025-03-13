@@ -1,5 +1,5 @@
 import { customselectTheme } from "@/app/SiteTheme/Theme";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Alert, Select } from "flowbite-react";
 import { useEffect, useState } from "react";
@@ -10,8 +10,8 @@ import { useDispatch } from "react-redux";
 import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
 
 const ProfileList = ({user_email}:{user_email:string}) => {
+    const queryClient = useQueryClient();
     const setSelectedCompany=(selected:string)=>{
-        console.log(selected)
         dispatch(SelectedCompanyAction.SetGlobalselectedcompReg({regNo:selected}));
     }
     const dispatch = useDispatch();
@@ -26,6 +26,13 @@ const ProfileList = ({user_email}:{user_email:string}) => {
         
     },[data]);
 
+    const { mutateAsync: RefetchCompanyDocs } = useMutation({
+        mutationFn: async (tg: string) =>setSelectedCompany(tg),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["BDocs"] });
+        }
+    });
+
     if (isLoading) return <LoadingSpinner color="warning" size="sm" />
 
     return (
@@ -33,7 +40,7 @@ const ProfileList = ({user_email}:{user_email:string}) => {
             <div className="flex gap-2 justify-center items-center">
              <p>My Companies </p>
             <Select sizing="sm"
-                onChange={(e: any) => setSelectedCompany(e?.target.value)}
+                onChange={(e: any) => RefetchCompanyDocs(e?.target.value)}
                 className="max-w-2xl ml-2"
                 id="Service"
                 theme={customselectTheme}

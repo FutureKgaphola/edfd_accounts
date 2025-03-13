@@ -11,7 +11,6 @@ import useProfile from "@/app/hooks/useProfile";
 import LoadingAlert from "../Alerts/LoadingAlert";
 import ErrorAlert from "../Alerts/ErrorAlert";
 import useSubmitPersonal from "@/app/hooks/useSubmitPersonal";
-import { useSignout } from "@/app/hooks/useSignout";
 import axios from "axios";
 import { failureMessage } from "@/app/notifications/successError";
 
@@ -55,7 +54,6 @@ const Personal = () => {
             setuserphone(phone ?? "");
             SetName(first_name ?? "");
             SetLName(last_name ?? "");
-            //setFilename(fln ?? "");
             setServerFileName(fln ?? "");
             setId(id ?? "");
         }

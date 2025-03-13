@@ -5,7 +5,9 @@ import { RootState } from '@/lib/store';
 import { useQuery } from '@tanstack/react-query';
 
 const fetchDocs=async(loanCat_id:string,regNo:string)=>{
-   const resp= await axios.get(`/api/companies/documents/retrive?regNo=${regNo}&loanCat_id=${loanCat_id}`)
+   const resp = await axios.get(
+       `/api/companies/documents/retrive?regNo=${regNo}&loanCat_id=${loanCat_id}`
+   );
     return resp.data?.documents;
 }
 const useBusinessDocs = () => {
@@ -14,13 +16,10 @@ const useBusinessDocs = () => {
         const loanCat_id= selectedprop.loanCat_id;
         const {data,isLoading,error} =useQuery({
             queryFn : ()=>fetchDocs(loanCat_id,regNo),
-            queryKey: ['BDocs',{loanCat_id,regNo}]
+            queryKey: ['BDocs',{loanCat_id,regNo}],
         });
-    const getBusinessDocument=()=>{
-        return {data,isLoading,error};
-    }
 
-    return {getBusinessDocument};
+    return {data,isLoading,error};
 };
 
 export default useBusinessDocs;

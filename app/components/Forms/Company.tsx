@@ -1,12 +1,11 @@
 import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
 import { Alert, Button, Card, FileInput, Label, Radio, TextInput } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { DirectorTable } from "../Tables/DirectorsTable";
 import Business from "../Documents/Business";
 import Procurement from "../Documents/Procurement";
 import Building from "../Documents/Building";
-import Franchisee from "../Documents/Franchisee";
 import ProfileList from "../Alerts/ProfileList";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
@@ -34,8 +33,13 @@ const Company = () => {
     const dispatch=useDispatch();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedLoanType(event.target.value);
-        dispatch(SelectedCompanyAction.SetGlobalselectedcompLoanType({loanCat_id : event.target.value=="Business" ?'0' : event.target.value=="Procurement" ? '1' : event.target.value=="Building" ? '2' :  event.target.value=="Franchisee" ? '3' :''  }));
+       dispatch(SelectedCompanyAction.SetGlobalselectedcompLoanType({loanCat_id : (event.target.value=="Business" || selectedLoanType=='Business' ?'0' : event.target.value=="Procurement" ? '1' : event.target.value=="Building" ? '2' :  event.target.value=="Franchisee" ? '3' :'')  }));
     };
+
+    useEffect(()=>{
+        SelectedCompanyAction.SetGlobalselectedcompLoanType({loanCat_id:'0' })
+    },[])
+    
     const [SelectedDistrict, setSelectedDistrict] = useState("");
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -62,7 +66,6 @@ const Company = () => {
 
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
         const regNo= selectedprop.regNo;
-        const loanCat_id= selectedprop.loanCat_id;
     return (
         <div className="w-full overflow-clip h-full mt-18 mb-8 items-center justify-center">
             <div className=" items-center">

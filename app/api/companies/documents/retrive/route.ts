@@ -13,10 +13,10 @@ export const GET = async (req: Request) => {
       return NextResponse.json({ message: "Missing required parameters." }, { status: 400 });
     }
     // Query the database for the user by email
-    if (regNo == "" && loanCat_id !== "") {
+    if (regNo !== "" && loanCat_id !== "") {
       const rows = await pool.request()
         .input("regNo", sql.VarChar, regNo?.trim())
-        .query(`SELECT * FROM ${tables[parseInt(loanCat_id) - 1]} WHERE regNo = @regNo`);
+        .query(`SELECT * FROM ${tables[parseInt(loanCat_id)]} WHERE regNo = @regNo`);
 
       // Check if the user was found
       if (rows.recordset.length === 0) {

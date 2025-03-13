@@ -3,7 +3,6 @@ import { FormEvent, useState } from "react";
 import { failureMessage, successMessage } from "../notifications/successError";
 
 export const useUploadBusiness = () => {
-    const [Filenames, setFilenames] = useState<string[]>([]);
     const [FileIndexes, setFileIndexes] = useState<(number | null)[]>([]);
     const [Filerror, setError] = useState('');
     const [Isuploaading, setisuploaading] = useState<boolean>(false);
@@ -25,10 +24,6 @@ export const useUploadBusiness = () => {
         updatedFiles[index] = file;
         setFiles(updatedFiles);
         setFileIndexes([...FileIndexes, index]);
-        const fileNames = updatedFiles.map(file => file ? file.name : '');
-        setFilenames(fileNames);
-        console.log(updatedFiles);
-        console.log(FileIndexes);
     };
     const HandleMultiplePdfUpload = async (e: FormEvent<HTMLFormElement>, regNo: string, loanId: string) => {
         e.preventDefault();
@@ -44,7 +39,6 @@ export const useUploadBusiness = () => {
             formData.append("loanId", loanId);
             formData.append("regNo", regNo);
             FileIndexes.forEach((fi, index) => formData.append('FileIndexes' + index, fi !== null ? fi.toString() : ''));
-            Filenames.forEach((f, index) => formData.append('filename' + index, f));
             files.filter(f => f !== null).forEach((f, index) => formData.append('file' + index, f as File));
             formData.append("docsCount", files.length.toString());
         }
@@ -73,5 +67,5 @@ export const useUploadBusiness = () => {
         }
 
     }
-    return { handleFileChange, HandleMultiplePdfUpload, Filerror, files, Filenames, Isuploaading }
+    return { handleFileChange, HandleMultiplePdfUpload, Filerror, files, Isuploaading }
 }

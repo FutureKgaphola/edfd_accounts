@@ -9,8 +9,9 @@ export const GET = async (req: Request) => {
         const url = new URL(req.url);
         const regNo = url.searchParams.get('regNo');
         const loanCat_id = url.searchParams.get('loanCat_id');
+        const id=url.searchParams.get('id');
 
-        if (!regNo || !loanCat_id) {
+        if (!regNo || !loanCat_id || !id) {
             return NextResponse.json({ message: "Missing required parameters." }, { status: 400 });
         }
         // Ensure the id is a valid integer
@@ -21,7 +22,8 @@ export const GET = async (req: Request) => {
 
         const result = await pool.request()
             .input("regNo", sql.VarChar, regNo?.trim())
-            .query(`SELECT filesData FROM ${tables[parseInt(loanCat_id) - 1]} WHERE regNo = @regNo`);
+            .input("id", sql.Int, parseInt(id?.trim()))
+            .query(`SELECT filesData FROM ${tables[parseInt(loanCat_id)]} WHERE regNo = @regNo AND id=@id`);
 
         if (result.recordset.length > 0) {
             const fileData = result.recordset[0].filesData;

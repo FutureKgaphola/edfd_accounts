@@ -28,11 +28,11 @@ export const POST = async (req: Request) => {
             )
         `);
         for (let i = 0; i < docsCount; i++) {
-            const filename = formData.get(`filename${i}`) as string;
             const FileIndexes = formData.get(`FileIndexes${i}`) as string;
             const fileData = formData.get(`file${i}`) as File | null;
             if (fileData && fileData instanceof File) {
                 const fileBuffer = Buffer.from(await fileData.arrayBuffer());
+                const filename=await fileData.name;
 
                 const result = await pool.request()
                     .input("filenames", sql.VarChar, filename?.trim())

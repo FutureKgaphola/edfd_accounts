@@ -2,7 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState={
     regNo:"",
-    loanCat_id:""
+    loanCat_id:"0"
 }
 const SelectedCompanySlice=createSlice({
     name:"selectedcompNloanType",
