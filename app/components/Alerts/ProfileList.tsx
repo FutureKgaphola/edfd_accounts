@@ -20,11 +20,12 @@ const ProfileList = ({user_email}:{user_email:string}) => {
         queryKey: ['Registeredcompanies'],
     });
     const [companies,setcompanies]=useState([]);
-    useEffect(()=>{
-        setcompanies(data?.data.companies);
-        dispatch(CompanyAction.SetGlobalCompanies({companies:data?.data.companies}) || []);
-        
-    },[data]);
+    useEffect(() => {
+        if (data?.data?.companies) {
+            setcompanies(data.data.companies);
+            dispatch(CompanyAction.SetGlobalCompanies({ companies: data.data.companies }));
+        }
+    }, [data, dispatch]);
 
     const { mutateAsync: RefetchCompanyDocs } = useMutation({
         mutationFn: async (tg: string) =>setSelectedCompany(tg),

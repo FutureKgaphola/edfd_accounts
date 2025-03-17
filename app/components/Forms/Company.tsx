@@ -103,8 +103,8 @@ const Company = () => {
                                             </div>
                                             <TextInput
                                                 className="min-w-[250px]"
-                                                onChange={(e) => setDirectorFullName(e.target.value)}
-                                                value={directorFullName}
+                                                onChange={(e) => setphone(e.target.value)}
+                                                value={phone}
                                                 sizing="sm"
                                                 id="phone" minLength={10} maxLength={10}
                                                 theme={customInputBoxTheme} color={"focuscolor"}
@@ -224,8 +224,8 @@ const Company = () => {
                                                             <TextInput
                                                                 sizing="sm"
                                                                 className="min-w-[250px] max-w-md"
-                                                                onChange={(e) => setphone(e.target.value)}
-                                                                value={phone}
+                                                                onChange={(e) => setDirectorFullName(e.target.value)}
+                                                                value={directorFullName}
                                                                 id="full-names" minLength={1}
                                                                 theme={customInputBoxTheme} color={"focuscolor"}
                                                                 type="text" required />

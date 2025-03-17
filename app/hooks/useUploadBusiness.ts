@@ -1,8 +1,10 @@
 import axios from "axios";
 import { FormEvent, useState } from "react";
 import { failureMessage, successMessage } from "../notifications/successError";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export const useUploadBusiness = () => {
+    const queryClient = useQueryClient();
     const [FileIndexes, setFileIndexes] = useState<(number | null)[]>([]);
     const [Filerror, setError] = useState('');
     const [Isuploaading, setisuploaading] = useState<boolean>(false);
@@ -25,8 +27,18 @@ export const useUploadBusiness = () => {
         setFiles(updatedFiles);
         setFileIndexes([...FileIndexes, index]);
     };
-    const HandleMultiplePdfUpload = async (e: FormEvent<HTMLFormElement>, regNo: string, loanId: string) => {
-        e.preventDefault();
+
+    const {mutateAsync:AddCompanyDocs}=useMutation({
+        mutationFn:async({ regNo, loanId }: { regNo: string, loanId: string }) => HandleMultiplePdfUpload(regNo, loanId),
+        onSuccess: () => {
+            queryClient.invalidateQueries({ queryKey: ["BDocs"] });
+        }
+    });
+    const HandleMultiplePdfUpload = async (regNo: string, loanId: string) => {
+        if (!files.some(file => file !== null)) {
+            failureMessage("Please upload at least one file.");
+            return;
+        }
         //Combined size of files must be less than 900 MB
         const totalSize = files.reduce((acc, curr) => acc + (curr?.size || 0), 0);
         if (totalSize > 900 * 1024 * 1024) {  // 900MB in bytes
@@ -51,7 +63,6 @@ export const useUploadBusiness = () => {
             });
 
             if (response.status === 200) {
-                //setSuccess(true);
                 successMessage(response.data?.message);
                 setisuploaading(false);
             } else {
@@ -59,13 +70,12 @@ export const useUploadBusiness = () => {
                 setisuploaading(false);
             }
         } catch (err: any) {
-            //failureMessage(err.message);
+            failureMessage(err.message);
             console.log(err?.message);
             setisuploaading(false);
             setError(err?.message);
-            //setError('An error occurred while submitting the form');
         }
 
     }
-    return { handleFileChange, HandleMultiplePdfUpload, Filerror, files, Isuploaading }
+    return { handleFileChange, AddCompanyDocs, Filerror, files, Isuploaading }
 }

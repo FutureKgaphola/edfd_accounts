@@ -22,11 +22,10 @@ export const GET = async (req: Request) => {
       if (rows.recordset.length === 0) {
         return NextResponse.json(
           { message: 'Documents not found/ Does not exist, contact administrator' },
-          { status: 400 }
+          { status: 200 } //leace this like this. if you return a 400 status it will case the use not to re-render when u switch companies
         );
       }
       const docs = rows.recordset;
-
       return NextResponse.json(
         { documents: docs },
         { status: 200 }
