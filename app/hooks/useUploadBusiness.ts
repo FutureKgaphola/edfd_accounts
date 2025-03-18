@@ -1,5 +1,5 @@
 import axios from "axios";
-import { FormEvent, useState } from "react";
+import { useState } from "react";
 import { failureMessage, successMessage } from "../notifications/successError";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
@@ -30,8 +30,9 @@ export const useUploadBusiness = () => {
 
     const {mutateAsync:AddCompanyDocs}=useMutation({
         mutationFn:async({ regNo, loanId }: { regNo: string, loanId: string }) => HandleMultiplePdfUpload(regNo, loanId),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["BDocs"] });
+        onSuccess: (_, { loanId }) => {
+            let qkey=loanId === "0" ? "BDocs" : loanId === "1" ? "ProcDocs" : loanId === "2" ? "BuildDocs" : loanId === "3" ? "FraDocs": "";
+            queryClient.invalidateQueries({ queryKey: [qkey] });
         }
     });
     const HandleMultiplePdfUpload = async (regNo: string, loanId: string) => {
@@ -65,6 +66,8 @@ export const useUploadBusiness = () => {
             if (response.status === 200) {
                 successMessage(response.data?.message);
                 setisuploaading(false);
+                setFiles([null, null, null, null, null, null, null, null]);
+                setFileIndexes([]);
             } else {
                 failureMessage(response.data?.message);
                 setisuploaading(false);

@@ -9,9 +9,9 @@ import LoadingSpinnerOnly from '../Spinner/LoadingSpinneronly';
 import { HiCloudDownload } from "react-icons/hi";
 import { DownloadCompanyDocs } from '@/app/services/handleDownloadCompanyDocs';
 import ProccesingAlert from '../Alerts/ProcessingRequest';
-import { BusinesDocs } from '@/app/constants/sharedconstants';
+import { ProcurementDocs } from '@/app/constants/sharedconstants';
 
-export default function BusinessPDFUploader() {
+export default function ProcurementPDFUploader() {
     const { handleFileChange, AddCompanyDocs, Isuploaading } = useUploadBusiness();
     const { data, isLoading, UpdateCompanyDocs, IsuploadingUpdates, RemoveCompanyDocs, handleFileChange_update } = useBusinessDocs();
 
@@ -36,7 +36,7 @@ export default function BusinessPDFUploader() {
             e.preventDefault();
             AddCompanyDocs({ regNo: regNo, loanId: loanCat_id })
         }} >
-            {BusinesDocs?.map((item, index) => (
+            {ProcurementDocs?.map((item, index) => (
                 <div key={item?.id}>
                     <div className="flex justify-between items-center">
                         <p className="text-wrap w-7/12 break-words text-sm mr-2">{item?.desc}</p>

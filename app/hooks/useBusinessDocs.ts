@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { failureMessage, successMessage } from '../notifications/successError';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const fetchDocs = async (loanCat_id: string, regNo: string) => {
     const resp = await axios.get(
@@ -14,27 +14,30 @@ const fetchDocs = async (loanCat_id: string, regNo: string) => {
     return resp.data.documents;
 }
 const useBusinessDocs = () => {
+    
     const queryClient = useQueryClient();
-     const [file, setPdfFile] = useState<File | null>(null);
-     const [IsuploadingUpdates, setIsuploadingUpdates] = useState<boolean>(false);
+    const [file, setPdfFile] = useState<File | null>(null);
+    const [IsuploadingUpdates, setIsuploadingUpdates] = useState<boolean>(false);
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
     const regNo = selectedprop?.regNo;
     const loanCat_id = selectedprop?.loanCat_id;
+
     const { data, isLoading, error } = useQuery({
         queryFn: () => fetchDocs(loanCat_id, regNo),
-        queryKey: ['BDocs', { loanCat_id, regNo }],
+        queryKey: [loanCat_id === "0" ? "BDocs" : loanCat_id === "1" ? "ProcDocs" : loanCat_id === "2" ? "BuildDocs" : loanCat_id === "3" ? "FraDocs": "", { loanCat_id, regNo }],
        // staleTime: Infinity
+       enabled: !!loanCat_id && !!regNo
     });
     const {mutateAsync:UpdateCompanyDocs}=useMutation({
         mutationFn:async({ regNo, loanCat_id, fileIndexes, id }: { regNo: string; loanCat_id: string; fileIndexes: string; id: string }) => UpdateDocs(regNo, loanCat_id, fileIndexes, id),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["BDocs"] });
+            queryClient.invalidateQueries({ queryKey: [loanCat_id === "0" ? "BDocs" : loanCat_id === "1" ? "ProcDocs" : loanCat_id === "2" ? "BuildDocs" : loanCat_id === "3" ? "FraDocs": ""] });
         }
     });
     const {mutateAsync:RemoveCompanyDocs}=useMutation({
         mutationFn:async({ id, regNo, loanCat_id,fileIndexes  }: { id:string, regNo:string, loanCat_id:string,fileIndexes:string }) => DeleteDoc(id, regNo, loanCat_id,fileIndexes ),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["BDocs"] });
+            queryClient.invalidateQueries({ queryKey: [loanCat_id === "0" ? "BDocs" : loanCat_id === "1" ? "ProcDocs" : loanCat_id === "2" ? "BuildDocs" : loanCat_id === "3" ? "FraDocs": ""] });
         }
     });
     const UpdateDocs = async (regNo: string, loanCat_id: string, fileIndexes: string, id: string) => {
@@ -58,8 +61,10 @@ const useBusinessDocs = () => {
             });
     
             if (response.status === 200) {
-                queryClient.invalidateQueries({ queryKey: ["BDocs"] });
+                queryClient.invalidateQueries({ queryKey: [loanCat_id === "0" ? "BDocs" : loanCat_id === "1" ? "ProcDocs" : loanCat_id === "2" ? "BuildDocs" : loanCat_id === "3" ? "FraDocs": ""] });
                 successMessage(response.data?.message);
+                setPdfFile(null);
+
             } else {
                 failureMessage(response.data?.message);
             }
@@ -92,7 +97,7 @@ const useBusinessDocs = () => {
             const response = await axios.delete(`api/companies/documents/deletedocs?id=${id}&regNo=${regNo}&loanCat_id=${loanCat_id}&fileIndexes=${fileIndexes}`);
     
             if (response.status === 200) {
-                queryClient.invalidateQueries({ queryKey: ["BDocs"] });
+                queryClient.invalidateQueries({ queryKey: [loanCat_id === "0" ? "BDocs" : loanCat_id === "1" ? "ProcDocs" : loanCat_id === "2" ? "BuildDocs" : loanCat_id === "3" ? "FraDocs": ""] });
                 successMessage(response.data?.message);
             } else {
                 failureMessage(response.data?.message);

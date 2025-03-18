@@ -34,10 +34,12 @@ const Company = () => {
     const dispatch = useDispatch();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedLoanType(event.target.value);
-        dispatch(SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: (event.target.value == "Business" || selectedLoanType == 'Business' ? '0' : event.target.value == "Procurement" ? '1' : event.target.value == "Building" ? '2' : event.target.value == "Franchisee" ? '3' : '') }));
+        console.log(event.target.value);
+        dispatch(SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: (event.target.value == "Business" ? '0' : event.target.value == "Procurement" ? '1' : event.target.value == "Building" ? '2' : event.target.value == "Franchisee" ? '3' : '') }));
     };
 
     useEffect(() => {
+        setSelectedLoanType('Business');
         SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: '0' })
     }, [])
 

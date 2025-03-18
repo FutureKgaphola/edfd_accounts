@@ -34,7 +34,6 @@ export function CompanyInfoAlert({ regNo }: { regNo: string }) {
   const [District, setDistrict] = useState<District[]>([]);
 
   useEffect(() => {
-    console.log(distdata?.data.Districts);
     setcompany(data?.data.company);
     setDistrict(distdata?.data.Districts);
   }, [data, selectedprop.regNo]);
