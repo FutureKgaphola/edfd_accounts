@@ -9,37 +9,12 @@ import LoadingSpinnerOnly from '../Spinner/LoadingSpinneronly';
 import { HiCloudDownload } from "react-icons/hi";
 import { DownloadCompanyDocs } from '@/app/services/handleDownloadCompanyDocs';
 import ProccesingAlert from '../Alerts/ProcessingRequest';
+import { BusinesDocs } from '@/app/constants/sharedconstants';
 
 export default function BusinessPDFUploader() {
     const { handleFileChange, AddCompanyDocs, Isuploaading } = useUploadBusiness();
     const { data, isLoading, UpdateCompanyDocs, IsuploadingUpdates, RemoveCompanyDocs, handleFileChange_update } = useBusinessDocs();
 
-    const BusinesDocs = [
-        {
-            id: 0, desc: 'Cession Agreement'
-        },
-        {
-            id: 1, desc: 'Resolution for delegationof authority to act on behalf of the company if there is more than one memeber/director'
-        },
-        {
-            id: 2, desc: 'Lease Agreement/Letter of Intent to Lease/Proof of Business Address'
-        },
-        {
-            id: 3, desc: 'Affidavit declaring the company address of registered Office',
-        },
-        {
-            id: 4, desc: 'Three/Six months bank statement of an active business'
-        },
-        {
-            id: 5, desc: 'Quotation with bankng details for the respective supplier and delivery cost (Delivery cost can be free, included OR charged for Delivery/Transport)'
-        },
-        {
-            id: 6, desc: 'Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple'
-        },
-        {
-            id: 7, desc: 'Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link below to download the form)'
-        }
-    ];
     const [docs, setDocs] = useState<(null | any)[]>([null, null, null, null, null, null, null, null]);
     const [error, seterror] = useState<Error | null>();
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
@@ -90,7 +65,7 @@ export default function BusinessPDFUploader() {
             {IsuploadingUpdates && <ProccesingAlert action_message={"Processing your request ..."}/>}
             
             <a className='text-sm break-words text-appGreen underline' target='_blank' href='#'>Download Statement of personal Assets and Liabilities form</a>
-            {data?.length == 0 && <Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>}
+            {data?.length == 0 && <Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save All</Button>}
 
         </form>
     );

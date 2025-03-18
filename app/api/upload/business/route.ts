@@ -17,7 +17,7 @@ export const POST = async (req: Request) => {
     try {
         await pool.request().query(`
             IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='${tables[parseInt(loanId)]}' AND xtype='U')
-            CREATE TABLE BusinessDocs (
+            CREATE TABLE ${tables[parseInt(loanId)]} (
             id INT IDENTITY(1,1) PRIMARY KEY,
             filenames VARCHAR(255),
             fileIndexes VARCHAR(255),

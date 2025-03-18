@@ -14,6 +14,7 @@ import { useAddCompanies } from "@/app/hooks/useAddCompany";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PDFUploader from "../../components/PDFUploader";
 import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
+import { CompanyInfoAlert } from "../Alerts/CompanyInfoAlert";
 
 const Company = () => {
     const queryClient = useQueryClient();
@@ -30,16 +31,16 @@ const Company = () => {
     const Companyprop = useSelector((state: RootState) => state.CompanyReducer);
     const authEmail = Authprop?.user?.user_email ?? "";
 
-    const dispatch=useDispatch();
+    const dispatch = useDispatch();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedLoanType(event.target.value);
-       dispatch(SelectedCompanyAction.SetGlobalselectedcompLoanType({loanCat_id : (event.target.value=="Business" || selectedLoanType=='Business' ?'0' : event.target.value=="Procurement" ? '1' : event.target.value=="Building" ? '2' :  event.target.value=="Franchisee" ? '3' :'')  }));
+        dispatch(SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: (event.target.value == "Business" || selectedLoanType == 'Business' ? '0' : event.target.value == "Procurement" ? '1' : event.target.value == "Building" ? '2' : event.target.value == "Franchisee" ? '3' : '') }));
     };
 
-    useEffect(()=>{
-        SelectedCompanyAction.SetGlobalselectedcompLoanType({loanCat_id:'0' })
-    },[])
-    
+    useEffect(() => {
+        SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: '0' })
+    }, [])
+
     const [SelectedDistrict, setSelectedDistrict] = useState("");
 
     const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
@@ -65,7 +66,7 @@ const Company = () => {
     });
 
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
-        const regNo= selectedprop.regNo;
+    const regNo = selectedprop.regNo;
     return (
         <div className="w-full overflow-clip h-full mt-18 mb-8 items-center justify-center">
             <div className=" items-center">
@@ -77,78 +78,85 @@ const Company = () => {
                         <div className="space-y-6">
                             <ProfileList user_email={authEmail} />
                             <form onSubmit={(e) => handleSubmit(e)}>
-                                <div className="xl:flex gap-2">
-
-                                    <div>
+                                <div className="xl:flex lg:flex gap-2">
+                                    <div className="xl:flex gap-2 border p-2 rounded border-gray-200">
 
                                         <div>
-                                            <div className="mb-2 block">
-                                                <Label htmlFor="email" value="Email *" />
+
+                                            <div>
+                                                <div className="mb-2 block">
+                                                    <Label htmlFor="email" value="Email *" />
+                                                </div>
+                                                <TextInput
+                                                    className="min-w-[250px] max-w-md"
+                                                    onChange={(e) => setemail(e.target.value)}
+                                                    value={email}
+                                                    id="email"
+                                                    type="email"
+                                                    sizing="sm"
+                                                    placeholder="info@mailprovider.co.za"
+                                                    theme={customInputBoxTheme} color={"focuscolor"}
+                                                    required
+                                                />
                                             </div>
-                                            <TextInput
-                                                className="min-w-[250px] max-w-md"
-                                                onChange={(e) => setemail(e.target.value)}
-                                                value={email}
-                                                id="email"
-                                                type="email"
-                                                sizing="sm"
-                                                placeholder="info@mailprovider.co.za"
-                                                theme={customInputBoxTheme} color={"focuscolor"}
-                                                required
-                                            />
-                                        </div>
-                                        <div>
-                                            <div className="mb-2 block">
-                                                <Label htmlFor="phone" value="Phone *" />
+                                            <div>
+                                                <div className="mb-2 block">
+                                                    <Label htmlFor="phone" value="Phone *" />
+                                                </div>
+                                                <TextInput
+                                                    className="min-w-[250px] max-w-md"
+                                                    onChange={(e) => setphone(e.target.value)}
+                                                    value={phone}
+                                                    sizing="sm"
+                                                    id="phone" minLength={10} maxLength={10}
+                                                    theme={customInputBoxTheme} color={"focuscolor"}
+                                                    type="text" required />
                                             </div>
-                                            <TextInput
-                                                className="min-w-[250px]"
-                                                onChange={(e) => setphone(e.target.value)}
-                                                value={phone}
-                                                sizing="sm"
-                                                id="phone" minLength={10} maxLength={10}
-                                                theme={customInputBoxTheme} color={"focuscolor"}
-                                                type="text" required />
+
+                                            <SelectDistrict SelectedDistrict={SelectedDistrict} setSelectedDistrict={setSelectedDistrict} />
                                         </div>
 
-                                        <SelectDistrict SelectedDistrict={SelectedDistrict} setSelectedDistrict={setSelectedDistrict} />
+                                        <div>
+                                            <div>
+                                                <div className="mb-2 block">
+                                                    <Label htmlFor="cmpName" value="Company name *" />
+
+                                                </div>
+                                                <TextInput
+                                                    className="min-w-[250px] max-w-md"
+                                                    onChange={(e) => setCompanyName(e.target.value)}
+                                                    value={CompanyName}
+                                                    sizing="sm"
+                                                    id="cmpName" theme={customInputBoxTheme} color={"focuscolor"} type="text" required />
+                                            </div>
+                                            <div>
+                                                <div className="mb-2 block">
+                                                    <Label htmlFor="regNo" value="Registration No. *" />
+
+                                                </div>
+                                                <TextInput
+                                                    className="min-w-[250px] max-w-md"
+                                                    onChange={(e) => setCompReg(e.target.value)}
+                                                    value={CompReg}
+                                                    sizing="sm"
+                                                    id="regNo" placeholder="YYYY/NNNNNN/XX" theme={customInputBoxTheme} color={"focuscolor"} type="text" required />
+                                            </div>
+                                            <Button className="mt-2" isProcessing={loading} disabled={loading} type="submit" theme={customsubmitTheme} color="appsuccess">{loading ? "Adding..." : "Add"}</Button>
+                                        </div>
+                                        
+
                                     </div>
 
-                                    <div>
-                                        <div>
-                                            <div className="mb-2 block">
-                                                <Label htmlFor="cmpName" value="Company name *" />
-
-                                            </div>
-                                            <TextInput
-                                                className="min-w-[250px]"
-                                                onChange={(e) => setCompanyName(e.target.value)}
-                                                value={CompanyName}
-                                                sizing="sm"
-                                                id="cmpName" theme={customInputBoxTheme} color={"focuscolor"} type="text" required />
-                                        </div>
-                                        <div>
-                                            <div className="mb-2 block">
-                                                <Label htmlFor="regNo" value="Registration No. *" />
-
-                                            </div>
-                                            <TextInput
-                                                className="min-w-[250px]"
-                                                onChange={(e) => setCompReg(e.target.value)}
-                                                value={CompReg}
-                                                sizing="sm"
-                                                id="regNo" placeholder="YYYY/NNNNNN/XX" theme={customInputBoxTheme} color={"focuscolor"} type="text" required />
-                                        </div>
-
-                                    </div>
+                                    {regNo && regNo?.trim()!=="" && regNo?.trim()!=="---" && <CompanyInfoAlert regNo={regNo} />}
 
                                 </div>
-                                <Button className="mt-2" isProcessing={loading} disabled={loading} type="submit" theme={customsubmitTheme} color="appsuccess">{loading ? "Saving..." : "Save"}</Button>
+
+                                
                             </form>
 
                             <hr />
                             {
-                                Companyprop?.companies?.length  > 0 && regNo && regNo!=="" && regNo!=="---" ?
+                                Companyprop?.companies?.length > 0 && regNo && regNo !== "" && regNo !== "---" ?
                                     (
                                         <div>
                                             <span className="bg-appGreen p-1 text-white">Company Documents</span>
@@ -211,7 +219,7 @@ const Company = () => {
                                                         loanType === "building" ? <Building /> :
                                                             loanType === "franchisee" ? <PDFUploader /> : null;
                                             })()}
-                                            <hr  className="mt-4"/>
+                                            <hr className="mt-4" />
                                             <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>
 
                                             <div className="flex gap-2 justify-between">
