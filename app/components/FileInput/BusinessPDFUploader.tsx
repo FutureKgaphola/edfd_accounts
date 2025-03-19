@@ -53,7 +53,7 @@ export default function BusinessPDFUploader() {
                             }
 
                             <FileInput
-                                onChange={(e) => { docs[index]?.filenames ? handleFileChange_update(e || null) : handleFileChange(index, e.target.files?.[0] || null) }}
+                                onChange={(e) => { docs[index]?.filenames && docs[index]?.filenames!=="" && docs[index]?.filenames!==null ? handleFileChange_update(e || null) : handleFileChange(index, e.target.files?.[0] || null) }}
                                 className="w-fit max-w-md min-w-max sm:max-w-sm"
                                 sizing="sm" id="file-upload-helper-text" accept="application/pdf" />
                         </div>

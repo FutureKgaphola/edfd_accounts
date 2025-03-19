@@ -46,31 +46,35 @@ const BusinesDocs = [
 
 const ProcurementDocs = [
   {
-    id: 0, desc: 'Appointment Letter/Order/JBCC contract/Service Level Agrement & Specification*'
+    id: 0, p: 'Appointment Letter/Order/JBCC contract/Service Level Agrement & Specification*', li: []
   },
   {
-    id: 1, desc: 'Resolution for delegationof authority to act on behalf of the company if there is more than one memeber/director*'
+    id: 1, p: "Resolution for delegationof authority to act on behalf of the company if there is more than one memeber/director*", li: []
   },
-  { id: 2, desc: 'Lease Agreement/Letter of Intent to Lease/Proof of Business Address *' },
+  { id: 2, p: 'Lease Agreement/Letter of Intent to Lease/Proof of Business Address *', li: [] },
   {
-    id: 3, desc: 'Affidavit declaring the company address of registration Office *'
+    id: 3, p: 'Affidavit declaring the company address of registration Office *', li: []
   },
-  { id: 4, desc: 'Three months bank statement of an active business *' },
+  { id: 4, p: 'Three months bank statement of an active business *', li: [] },
   {
-    id: 5, desc: `Quotation with bankng details for the respective supplier and delivery cost
-(Delivery cost can be free, included OR charged for Delivery/Transport) *`
+    id: 5, p: `Quotation with bankng details for the respective supplier and delivery cost
+(Delivery cost can be free, included OR charged for Delivery/Transport) *`, li: []
   },
   {
-    id: 6, desc: `If you are aware of that you are listed, then attach one of the following
+    id: 6, p: 'If you are aware of that you are listed, then attach one of the following',
+    li: [
+      { li: 'Proof of payment if debt is settled in full' },
+      { li: 'A latter from the creditor indicating the nature of thepayment arrangements if the dept is still having an outstanding.' },
+      {
+        li: 'Proof of payment'
 
-Proof of payment if debt is settled in full
-A latter from the creditor indicating the nature of thepayment arrangements if the dept is still having an outstanding.
-Proof of payment` },
-  {
-    id: 7, desc: `Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of
-widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple *`
+      }]
   },
-  { id: 8, desc: `Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link to download the form) *` },
+  {
+    id: 7, p: `Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of
+widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple *`, li: []
+  },
+  { id: 8, p: `Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link to download the form) *`, li: [] },
 ];
 
 

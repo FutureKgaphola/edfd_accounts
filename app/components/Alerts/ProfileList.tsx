@@ -54,8 +54,7 @@ const ProfileList = ({user_email}:{user_email:string}) => {
                         <option key={company.id} value={company.regNo}>{company.compName}</option>
                     ))
                 }
-            
-                
+ 
             </Select>
             </div>
            

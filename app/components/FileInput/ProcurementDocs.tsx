@@ -39,7 +39,10 @@ export default function ProcurementPDFUploader() {
             {ProcurementDocs?.map((item, index) => (
                 <div key={item?.id}>
                     <div className="flex justify-between items-center">
-                        <p className="text-wrap w-7/12 break-words text-sm mr-2">{item?.desc}</p>
+                        <div>
+                        <p className="text-wrap w-7/12 break-words text-sm mr-2">{item?.p}</p>
+                        {item?.li?.map((li, index) => ( <ul key={index} className="text-sm list-disc ml-5"><li>{li.li}</li></ul>))} 
+                            </div> 
                         <div className="flex gap-1 items-center">
                             {
                                 isLoading ? <LoadingSpinnerOnly color='success' size='sm' /> :

@@ -15,6 +15,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PDFUploader from "../../components/PDFUploader";
 import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
 import { CompanyInfoAlert } from "../Alerts/CompanyInfoAlert";
+import DirectorsForm from "./Directors";
 
 const Company = () => {
     const queryClient = useQueryClient();
@@ -22,8 +23,6 @@ const Company = () => {
 
     const [email, setemail] = useState("");
     const [phone, setphone] = useState("");
-    const [isProcessingDirectors, setDirectors] = useState<boolean>(false);
-    const [directorFullName, setDirectorFullName] = useState("");
     const [CompanyName, setCompanyName] = useState("");
     const [CompReg, setCompReg] = useState("");
     const [selectedLoanType, setSelectedLoanType] = useState<string>('Business');
@@ -34,7 +33,6 @@ const Company = () => {
     const dispatch = useDispatch();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedLoanType(event.target.value);
-        console.log(event.target.value);
         dispatch(SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: (event.target.value == "Business" ? '0' : event.target.value == "Procurement" ? '1' : event.target.value == "Building" ? '2' : event.target.value == "Franchisee" ? '3' : '') }));
     };
 
@@ -145,15 +143,15 @@ const Company = () => {
                                             </div>
                                             <Button className="mt-2" isProcessing={loading} disabled={loading} type="submit" theme={customsubmitTheme} color="appsuccess">{loading ? "Adding..." : "Add"}</Button>
                                         </div>
-                                        
+
 
                                     </div>
 
-                                    {regNo && regNo?.trim()!=="" && regNo?.trim()!=="---" && <CompanyInfoAlert regNo={regNo} />}
+                                    {regNo && regNo?.trim() !== "" && regNo?.trim() !== "---" && <CompanyInfoAlert regNo={regNo} />}
 
                                 </div>
 
-                                
+
                             </form>
 
                             <hr />
@@ -221,79 +219,19 @@ const Company = () => {
                                                         loanType === "building" ? <Building /> :
                                                             loanType === "franchisee" ? <PDFUploader /> : null;
                                             })()}
-                                            <hr className="mt-4" />
-                                            <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>
 
-                                            <div className="flex gap-2 justify-between">
-                                                <form>
-                                                    <div className="w-full">
-                                                        <div className="gap-2 max-w-md">
-                                                            <div>
-                                                                <Label htmlFor="full-names" value="Full Names as recorded on SA-ID card/booklet*" />
-                                                            </div>
-                                                            <TextInput
-                                                                sizing="sm"
-                                                                className="min-w-[250px] max-w-md"
-                                                                onChange={(e) => setDirectorFullName(e.target.value)}
-                                                                value={directorFullName}
-                                                                id="full-names" minLength={1}
-                                                                theme={customInputBoxTheme} color={"focuscolor"}
-                                                                type="text" required />
-                                                        </div>
-                                                        <div>
-                                                            <div className="mb-2 block">
-                                                                <Label htmlFor="director-email" value="Email" />
-                                                            </div>
-                                                            <TextInput
-                                                                sizing="sm"
-                                                                className="min-w-[250px] max-w-md"
-                                                                id="director-email" minLength={1}
-                                                                theme={customInputBoxTheme} color={"focuscolor"}
-                                                                type="email" required />
-                                                        </div>
-                                                        <div>
-                                                            <div className="mb-2 block">
-                                                                <Label htmlFor="director-phone" value="Phone" />
-                                                            </div>
-                                                            <TextInput
-                                                                sizing="sm"
-                                                                className="min-w-[250px] max-w-md"
-                                                                onChange={(e) => setphone(e.target.value)}
-                                                                value={phone}
-                                                                id="director-phone" minLength={1}
-                                                                theme={customInputBoxTheme} color={"focuscolor"}
-                                                                type="text" required />
-
-                                                        </div>
-                                                        <div>
-                                                            <div>
-                                                                <Label htmlFor="file-upload-helper-text" value="Proof of Residence (Not older than 3 months)*" />
-                                                            </div>
-                                                            <FileInput className="max-w-md"
-                                                                sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 10MB)." />
-                                                        </div>
-                                                        <div>
-                                                            <div>
-                                                                <Label htmlFor="file-upload-helper-text" value="Certified SA-ID (card/booklet) (Not older than 3 months)*" />
-                                                            </div>
-                                                            <FileInput className="max-w-md"
-                                                                sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 10MB)." />
-                                                        </div>
-
-                                                    </div>
-
-
-
-                                                    <Button isProcessing={isProcessingDirectors} disabled={isProcessingDirectors} type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>
-
-                                                </form>
-
-                                                <DirectorTable />
+                                            <div>
+                                                <hr className="mt-4" />
+                                                <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>
+                                                <div className="flex gap-2 justify-between">
+                                                    <DirectorsForm />
+                                                    <DirectorTable />
+                                                </div>
                                             </div>
+
                                         </div>
                                     ) : null
                             }
-
 
                         </div>
 

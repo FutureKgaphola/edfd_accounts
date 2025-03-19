@@ -5,7 +5,6 @@ import moment from "moment";
 
 export const PATCH = async (req: Request) => {
     const tables = ["BusinessDocs", "ProcurementDocs", "BuildingDocs", "franchiseeDocs"];
-    
     const formData = await req.formData();
     const regNo = formData.get('regNo') as string;
     const loanCat_id = formData.get('loanCat_id') as string;
@@ -13,8 +12,6 @@ export const PATCH = async (req: Request) => {
     const fileindex = formData.get('fileIndexes') as string;
     const id=formData.get('id') as string;
     const fileEntry = formData.get('file');
-
-    console.log(formData)
 
     let file;
     if (fileEntry && (fileEntry instanceof File)) {

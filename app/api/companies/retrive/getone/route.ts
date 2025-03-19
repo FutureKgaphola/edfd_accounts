@@ -7,7 +7,6 @@ export const GET=async(req:Request)=>{
     try {
       const url = new URL(req.url);
     const reg: string = url.searchParams.get("reg")?.trim() || "";    
-    console.log(reg);
       // Query the database for the user by email
       const rows = await pool.request()
         .input("reg", sql.VarChar, reg?.trim())
