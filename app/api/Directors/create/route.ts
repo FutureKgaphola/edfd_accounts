@@ -15,8 +15,8 @@ export const POST = async (req: Request) => {
     const copy_idFileIndexes = formData.get(`FileIndexes${1}`) as string;
     const fileDataRess = formData.get(`file${0}`) as File | null;
     const fileDataCopyId = formData.get(`file${1}`) as File | null;
-    console.log({ fullnames, phone, regNo, email, docsCount, ressFileIndexes, copy_idFileIndexes, fileDataRess, fileDataCopyId });
-
+    //console.log({ fullnames, phone, regNo, email, docsCount, ressFileIndexes, copy_idFileIndexes, fileDataRess, fileDataCopyId });
+    const tableref=regNo.replace(/[^a-zA-Z0-9]/g, '');
     // Validate the input data
         if (!isValidData(fullnames,regNo,email, phone)) {
           return NextResponse.json(
@@ -25,7 +25,7 @@ export const POST = async (req: Request) => {
           );
         }
 
-    if (!regNo || !docsCount) {
+    if (!regNo || !docsCount|| !fullnames || !email || !phone || !ressFileIndexes || !copy_idFileIndexes) {
         return NextResponse.json({ message: "Invalid data provided" }, { status: 400 });
     }
 
@@ -33,12 +33,12 @@ export const POST = async (req: Request) => {
 
     try {
         await pool.request().query(`
-            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Directors' AND xtype='U')
-            CREATE TABLE Directors (
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='Directors${tableref}' AND xtype='U')
+            CREATE TABLE Directors${tableref} (
             id INT IDENTITY(1,1) PRIMARY KEY,
             fullnames VARCHAR(255) NOT NULL,
             regNo VARCHAR(255) FOREIGN KEY REFERENCES Companies(regNo),
-            email VARCHAR(255) NOT NULL,
+            email VARCHAR(255) NOT NULL UNIQUE,
             phone VARCHAR(255) NOT NULL,
             proof_Resfilename VARCHAR(255) NOT NULL,
             copy_safilename VARCHAR(255) NOT NULL,
@@ -66,7 +66,7 @@ export const POST = async (req: Request) => {
                 .input("email", sql.VarChar, email?.trim())
                 .input("phone", sql.VarChar, phone?.trim())
                 .query(`
-                    INSERT INTO Directors (fullnames,regNo,proof_Resfilename,copy_safilename, email,phone,proof_Res_Indexes,copy_sa_Indexes,proofRes,copy_sa_id)
+                    INSERT INTO Directors${tableref} (fullnames,regNo,proof_Resfilename,copy_safilename, email,phone,proof_Res_Indexes,copy_sa_Indexes,proofRes,copy_sa_id)
                     OUTPUT inserted.regNo
                     VALUES (@fullnames,@regNo,@proof_Resfilename,@copy_safilename, @email, @phone, @proof_Res_Indexes, @copy_sa_Indexes, @proofRes, @copy_sa_id)
                 `);
