@@ -1,11 +1,19 @@
 import axios from "axios";
 import { useState } from "react";
 import { failureMessage, successMessage } from "../notifications/successError";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { RootState } from "@/lib/store";
+import { useSelector } from "react-redux";
 
 export const useDirector = () => {
     const queryClient = useQueryClient();
-
+    const prop = useSelector((state: RootState) => state.SelectedCompanyReducer);
+//http://localhost:3000/api/Directors/retrive?regno=2008/324567/06
+ const { data , error, isLoading } = useQuery({
+        queryFn: () => axios.get(`/api/Directors/retrive?regno=${prop?.regNo}`),
+        queryKey: ['dir'+prop?.regNo],
+        enabled: !!prop?.regNo,
+    });
     const [state, setState] = useState<{
         files: (File | null)[];
         fileIndexes: (number | null)[];
@@ -45,7 +53,7 @@ export const useDirector = () => {
             { regNo: string; fullnames: string; email: string; phone: string }) => 
             handleMultiplePdfUpload(regNo, fullnames, email, phone),
         onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["directors"] });
+            queryClient.invalidateQueries({ queryKey: ["dir"+prop?.regNo] });
         },
     });
 
@@ -82,7 +90,7 @@ export const useDirector = () => {
 
             if (response.status === 200) {
                 successMessage(response.data?.message);
-                setState({ files: [null, null], fileIndexes: [], fileError: '', isUploading: false });
+                setState({ files: [null, null], fileIndexes: [], fileError: '', isUploading: false });        
                 return response;
             } else {
                 failureMessage(response.data?.message);
@@ -96,5 +104,5 @@ export const useDirector = () => {
         }
     };
 
-    return { handleFileChange, addDirectorWithDocs, ...state };
+    return { handleFileChange, addDirectorWithDocs, ...state, data , error, isLoading };
 };

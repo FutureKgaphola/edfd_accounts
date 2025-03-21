@@ -15,7 +15,8 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import PDFUploader from "../../components/PDFUploader";
 import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
 import { CompanyInfoAlert } from "../Alerts/CompanyInfoAlert";
-import DirectorsForm from "./Directors";
+import DirectorsForm from "../Modal/Directors";
+
 
 const Company = () => {
     const queryClient = useQueryClient();
@@ -25,6 +26,7 @@ const Company = () => {
     const [phone, setphone] = useState("");
     const [CompanyName, setCompanyName] = useState("");
     const [CompReg, setCompReg] = useState("");
+    const [openModal, setOpenModal] = useState(false);
     const [selectedLoanType, setSelectedLoanType] = useState<string>('Business');
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
     const Companyprop = useSelector((state: RootState) => state.CompanyReducer);
@@ -223,8 +225,9 @@ const Company = () => {
                                             <div>
                                                 <hr className="mt-4" />
                                                 <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>
-                                                <div className="flex gap-2 justify-between">
-                                                    <DirectorsForm />
+                                                <div className="flex-col gap-2">
+                                                     <Button size="sm" theme={customsubmitTheme} onClick={()=>setOpenModal(true)} color="appsuccess">Add a Director</Button>
+                                                    <DirectorsForm openModal={openModal}  setOpenModal={setOpenModal} />
                                                     <DirectorTable />
                                                 </div>
                                             </div>

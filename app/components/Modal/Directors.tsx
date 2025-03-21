@@ -1,11 +1,11 @@
 import { useDirector } from "@/app/hooks/useDirector";
 import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
 import { RootState } from "@/lib/store";
-import { Button, FileInput, Label, TextInput } from "flowbite-react";
-import { useState } from "react";
+import { Button, FileInput, Label, Modal, TextInput } from "flowbite-react";
+import { Dispatch, SetStateAction, useState } from "react";
 import { useSelector } from "react-redux";
 
-const DirectorsForm = () => {
+const DirectorsForm = ({openModal,setOpenModal}:{openModal:boolean,setOpenModal:Dispatch<SetStateAction<boolean>>}) => {
     const [directorFullName, setDirectorFullName] = useState("");
     const [email, setemail] = useState("");
     const [phone, setphone] = useState("");
@@ -18,6 +18,10 @@ const DirectorsForm = () => {
         setphone("");
     }
     return (
+        <>
+        <Modal show={openModal} onClose={() => setOpenModal(false)}>
+        <Modal.Header>Add Director</Modal.Header>
+            <Modal.Body>
         <form onSubmit={async(e) => {
             e.preventDefault();
             if (isUploading) {
@@ -28,6 +32,7 @@ const DirectorsForm = () => {
                 cleanup();
             }
         }}>
+            
             <div className="w-full">
                 <div className="gap-2 max-w-md">
                     <div>
@@ -89,9 +94,11 @@ const DirectorsForm = () => {
             </div>
 
             <Button isProcessing={isUploading} disabled={isUploading} type="submit" theme={customsubmitTheme} color="appsuccess">{isUploading ? "Saving...":'Save'}</Button>
-
+ 
         </form>
-
+        </Modal.Body>
+        </Modal>
+        </>
     );
 }
 

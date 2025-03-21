@@ -44,7 +44,7 @@ export function ListingsTable({user_email}:{user_email:string}) {
 
                                     <Table.Cell className="text-black text-wrap">{company.compName}</Table.Cell>
                                     <Table.Cell>{["Business", "Procurement", "Building", "Franchaisee"]?.map((loan) => (
-                                        <Tooltip key={loan} content={"Remove "+loan+" ?"}>
+                                        <Tooltip key={loan} content={"Remove "+loan+" Documets ?"}>
                                             <Badge icon={HiDocumentRemove} size="xs" className="mt-1 hover:cursor-pointer" color="success">{loan}</Badge>
                                         </Tooltip>
                                     ))}</Table.Cell>
