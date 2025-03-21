@@ -225,7 +225,7 @@ const Company = () => {
                                             <div>
                                                 <hr className="mt-4" />
                                                 <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>
-                                                <div className="flex-col gap-2">
+                                                <div className="flex-col gap-2 pt-2">
                                                      <Button size="sm" theme={customsubmitTheme} onClick={()=>setOpenModal(true)} color="appsuccess">Add a Director</Button>
                                                     <DirectorsForm openModal={openModal}  setOpenModal={setOpenModal} />
                                                     <DirectorTable />
