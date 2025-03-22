@@ -17,7 +17,7 @@ console.log(data);
             <p className="font-poppinsLight text-sm text-wrap">Directors will apear here as you add them</p>
             <div className="relative overflow-x-auto max-h-[400px] h-72">
             
-                <Table hoverable className="w-full max-w-md">
+                <Table hoverable className="w-full">
                     <Table.Head className="sticky top-0 z-10">
                         <Table.HeadCell className='tblHeader'>Names</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>Email</Table.HeadCell>
