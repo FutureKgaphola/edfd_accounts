@@ -27,9 +27,10 @@ const DirectorsForm = ({openModal,setOpenModal}:{openModal:boolean,setOpenModal:
             if (isUploading) {
                 return;
             }
-            const resp= await addDirectorWithDocs({ regNo: regNo, fullnames: directorFullName, email: email, phone: phone });
+            const resp= await addDirectorWithDocs({ regNo: regNo, fullnames: directorFullName, email: email, phone: phone,called:"add" });
             if(resp?.status===201 || resp?.status===200){
                 cleanup();
+                setOpenModal(false);
             }
         }}>
             
@@ -79,7 +80,7 @@ const DirectorsForm = ({openModal,setOpenModal}:{openModal:boolean,setOpenModal:
                         <Label htmlFor="file-upload-helper-text" value="Proof of Residence (Not older than 3 months)*" />
                     </div>
                     <FileInput className="max-w-md"
-                        onChange={(e) => handleFileChange(0, e.target.files?.[0] || null)}
+                        onChange={(e) => handleFileChange(0, e.target.files?.[0] || null,"add")}
                         sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 10MB)." />
                 </div>
                 <div>
@@ -87,7 +88,7 @@ const DirectorsForm = ({openModal,setOpenModal}:{openModal:boolean,setOpenModal:
                         <Label htmlFor="file-upload-helper-text" value="Certified SA-ID (card/booklet) (Not older than 3 months)*" />
                     </div>
                     <FileInput className="max-w-md"
-                    onChange={(e) => handleFileChange(1, e.target.files?.[0] || null)}
+                    onChange={(e) => handleFileChange(1, e.target.files?.[0] || null,"add")}
                         sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 10MB)." />
                 </div>
 

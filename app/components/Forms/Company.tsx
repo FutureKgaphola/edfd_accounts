@@ -16,12 +16,14 @@ import PDFUploader from "../../components/PDFUploader";
 import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
 import { CompanyInfoAlert } from "../Alerts/CompanyInfoAlert";
 import DirectorsForm from "../Modal/Directors";
+import EditDirectors from "../Modal/EditDirectors";
+import Franchisee from "../Documents/Franchisee";
 
 
 const Company = () => {
     const queryClient = useQueryClient();
     const { handleAddCompanies, loading } = useAddCompanies();
-
+    const [openEditModal, setOpenEditModal] = useState(false);
     const [email, setemail] = useState("");
     const [phone, setphone] = useState("");
     const [CompanyName, setCompanyName] = useState("");
@@ -219,15 +221,16 @@ const Company = () => {
                                                 return loanType === "business" ? <Business /> :
                                                     loanType === "procurement" ? <Procurement /> :
                                                         loanType === "building" ? <Building /> :
-                                                            loanType === "franchisee" ? <PDFUploader /> : null;
+                                                            loanType === "franchisee" ? <Franchisee /> : null;
                                             })()}
 
-                                            <div>
+                                            <div> 
                                                 <hr className="mt-4" />
                                                 <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>
                                                 <div className="flex-col gap-2 pt-2">
                                                      <Button size="sm" theme={customsubmitTheme} onClick={()=>setOpenModal(true)} color="appsuccess">Add a Director</Button>
                                                     <DirectorsForm openModal={openModal}  setOpenModal={setOpenModal} />
+                                                    <EditDirectors/>
                                                     <DirectorTable />
                                                 </div>
                                             </div>

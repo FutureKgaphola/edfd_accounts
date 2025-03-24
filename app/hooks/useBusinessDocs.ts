@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { failureMessage, successMessage } from '../notifications/successError';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const fetchDocs = async (loanCat_id: string, regNo: string) => {
     const resp = await axios.get(

@@ -15,7 +15,7 @@ export const POST = async (req: Request) => {
     const copy_idFileIndexes = formData.get(`FileIndexes${1}`) as string;
     const fileDataRess = formData.get(`file${0}`) as File | null;
     const fileDataCopyId = formData.get(`file${1}`) as File | null;
-    console.log({ fullnames, phone, regNo, email, docsCount, ressFileIndexes, copy_idFileIndexes, fileDataRess, fileDataCopyId });
+    //console.log({ fullnames, phone, regNo, email, docsCount, ressFileIndexes, copy_idFileIndexes, fileDataRess, fileDataCopyId });
     const tableref=regNo.replace(/[^a-zA-Z0-9]/g, '');
     // Validate the input data
         if (!isValidData(fullnames,regNo,email, phone)) {
@@ -26,6 +26,7 @@ export const POST = async (req: Request) => {
         }
 
     if (!regNo || !docsCount|| !fullnames || !email || !phone || !ressFileIndexes || !copy_idFileIndexes) {
+        console.log({ fullnames, phone, regNo, email, docsCount, ressFileIndexes, copy_idFileIndexes, fileDataRess, fileDataCopyId });
         return NextResponse.json({ message: "Invalid data provided" }, { status: 400 });
     }
 

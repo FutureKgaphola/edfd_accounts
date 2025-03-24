@@ -2,15 +2,15 @@
 "use client";
 
 import { customsubmitTheme } from "@/app/SiteTheme/Theme";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
 import { Button, Table } from "flowbite-react";
 import LoadingSpinner from "../Spinner/LoadingSpinner";
 import { useDirector } from "@/app/hooks/useDirector";
+import { useDispatch } from "react-redux";
+import { DirectorAction } from "@/lib/features/Director/DirectorSlice";
 
 export function DirectorTable() {
 const { data , error, isLoading } = useDirector();
-console.log(data);
+const dispatch = useDispatch();
     if (isLoading) return <LoadingSpinner color="warning" size="sm" />
     return (
         <div className="p-2">
@@ -42,13 +42,13 @@ console.log(data);
                                             <Table.Cell>
                                                 <div className="flex gap-1">
                                                     <Button className="z-0" theme={customsubmitTheme} color='failure' size="xs">Delete</Button>
-                                                    <Button className="z-0" theme={customsubmitTheme} color='success' size="xs">View</Button>
+                                                    <Button onClick={()=>dispatch(DirectorAction.SetGlobalDirector({director,openModal:true}))} className="z-0" theme={customsubmitTheme} color='success' size="xs">Edit</Button>
                                                 </div>
                                             </Table.Cell>
                                         </Table.Row>
                                     )) : null
                             }
-                            {(!error && !isLoading && data?.data?.directors?.length === 0) && <p>no directors found</p>}
+                            {(!error && !isLoading && data?.data?.directors?.length === 0) && <Table.Row><Table.Cell>no directors found</Table.Cell></Table.Row>}
                         </>
                     </Table.Body>
                     

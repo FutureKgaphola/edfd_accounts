@@ -31,8 +31,8 @@ export function ListingsTable({user_email}:{user_email:string}) {
 
                         <Table.HeadCell className='tblHeader'>Name</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>Loan Types Available</Table.HeadCell>
-                        <Table.HeadCell className='tblHeader'>Status</Table.HeadCell>
-                        <Table.HeadCell className='tblHeader'>Date added</Table.HeadCell>
+                        <Table.HeadCell className='tblHeader'>REG N0.</Table.HeadCell>
+                        <Table.HeadCell className='tblHeader'>Email</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>
                             <span className="sr-only">delete</span>
                         </Table.HeadCell>
