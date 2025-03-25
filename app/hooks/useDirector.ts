@@ -49,9 +49,9 @@ export const useDirector = () => {
 
     const handleMultiplePdfUpload = async (regNo: string, fullnames: string, email: string, phone: string, called: string) => {
         
-        console.log( "hello "+called);
+        //console.log( "hello "+called);
         if (called == "add") {
-            if (!files.some(file => file !== null)) {
+            if (!files.every(file => file !== null)) {
                 failureMessage("Please upload both required files.");
                 return;
             }   
