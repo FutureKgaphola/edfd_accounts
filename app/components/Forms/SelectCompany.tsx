@@ -1,21 +1,25 @@
 import Image from "next/image";
-import { Alert, Button, Card, Checkbox, Label, Select, Spinner } from "flowbite-react";
-import { customCheckboxTheme, customselectTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
+import { Button, Card, Label, Select, Spinner } from "flowbite-react";
+import { customselectTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
 import ledalogo from '../../assets/images/logoleda.png';
-import { HiInformationCircle } from "react-icons/hi";
-import { FormEvent, useState } from "react";
+
+import { useState } from "react";
 import tree from "../../assets/images/tree.jpg";
 import { useDomReady } from "@/app/hooks/useDomReady";
 import { Breadcrumbs } from "../BreadCrumbs";
 import { ConfirmApplicationModal } from "../Modal/ConfirmApplication";
+import { useRouter } from "next/navigation";
+import ActiveBusiness_loan from "../ActiveBusiness_loan";
+import NoHistory from "../NoHistory";
 const SelectCompanyForm = () => {
     const [company, setCompany] = useState<string>('---');
+    const router = useRouter();
+    const [tab,setTab]=useState<string>('---');
     const { domReady } = useDomReady();
     const [openModal, setOpenModal] = useState(false);
-    const [tncs, setTnCs] = useState<boolean>(false);
-    const SubmitApplication=(e:FormEvent<HTMLFormElement>)=>{
-        e.preventDefault();
-        if(company=="" || company=="---" || !tncs) return;
+    
+    const SubmitApplication = () => {
+        if (company == "" || company == "---") return;
         setOpenModal(true);
     }
     return (
@@ -29,8 +33,8 @@ const SelectCompanyForm = () => {
                 <div className="flex justify-center items-center">
 
                     <div className="z-10 -mt-36 scroll-m-8">
-                        <Card className="max-w-screen-xl h-fit m-4 p-2 self-center">
-                            <form onSubmit={(e)=>SubmitApplication(e)}>
+                        <Card className="max-w-screen-xl w-full h-fit m-4 p-2 self-center">
+                            <form>
                                 <Breadcrumbs />
 
                                 <div className="space-y-2">
@@ -63,48 +67,35 @@ const SelectCompanyForm = () => {
                                                 </div>
                                             }
 
+                                            <div className=" flex gap-2 justify-center mt-2">
+                                                <Button onClick={()=>SubmitApplication()} as={"button"} theme={customsubmitTheme} size="xs" color="success">
+                                                    Apply
+                                                </Button>
+                                                <Button onClick={()=>setTab("progress")} as={"button"} theme={customsubmitTheme} size="xs" color="success">
+                                                    Track Application
+                                                </Button>
+                                                <Button  onClick={()=>setTab("history")} as={"button"} theme={customsubmitTheme} size="xs" color="success">
+                                                    History
+                                                </Button>
+                                            </div>
 
                                             <p className="font-poppinsLight text-sm text-center mt-2">Copyright © 2024 Limpopo Connexion. All rights reserved.</p>
                                         </div>
 
-
-
                                     </div>
 
-
-                                    <div>
-                                        <Alert color="warning" icon={HiInformationCircle} rounded>
-                                            <span className="font-medium">Please note!</span> Personal data may be collected in order to process your loan. take note of our tnc&apos;s and POPI ACT for your assurance.
-                                        </Alert>
-                                        <h4>Please confirm and give your consent for the following:</h4>
-                                        <ul className="list-disc ml-8">
-                                            <li>
-                                                I am not currently insolvent, receiving debt counselling or have a pending debt review or insolvency application.
-                                            </li>
-                                            <li>
-                                                LEDA will use my personal data only to provide me with the service or product that I am applying for. I have read the <a className="text-appGreen underline" href="#" target="_blank">Privacy Statement</a>.
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div className="flex justify-between">
-                                        <div className="flex items-center gap-2">
-                                            <Checkbox checked={tncs} onChange={() => setTnCs(tncs ? false : true)} id="agree" theme={customCheckboxTheme} color="success" />
-                                            <Label htmlFor="agree">I have read and agree to the above</Label>
-                                        </div>
-
-                                    </div>
-                                    <div className="w-full">
-                                        <Button type="submit" theme={customsubmitTheme} color="appsuccess">Apply</Button>
-                                    </div>
+                                    
 
                                 </div>
                             </form>
+                            {tab=="progress" ? <ActiveBusiness_loan/> : null}
+                            {tab=="history" ? <NoHistory/> : null}
 
                         </Card>
                     </div>
                 </div>
             </div>
-            <ConfirmApplicationModal company={company} openModal={openModal} setOpenModal={setOpenModal}/>
+            <ConfirmApplicationModal company={company} openModal={openModal} setOpenModal={setOpenModal} />
         </div>
         // <ComingSoon/>
     );

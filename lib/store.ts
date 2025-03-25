@@ -8,6 +8,7 @@ import {AuthReducer} from './features/Auth/AuthuserSlice'
 import {CompanyReducer} from './features/Companies/CompanySlice'
 import {SelectedCompanyReducer} from './features/Companies/SelectedCompanySlice'
 import {DirectorReducer} from './features/Director/DirectorSlice'
+import {TabSliceReducer} from './features/Tabprofile/TabprofileSlice'
 import {createLogger} from 'redux-logger'
 
 export const makeStore = () => {
@@ -22,6 +23,7 @@ export const makeStore = () => {
         CompanyReducer,
         SelectedCompanyReducer,
         DirectorReducer,
+        TabSliceReducer,
     },
     middleware:(GetDefaultMiddleware)=>GetDefaultMiddleware().concat(createLogger())
   })

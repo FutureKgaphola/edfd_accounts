@@ -2,74 +2,28 @@
 "use client";
 
 import { customTimeLine } from "@/app/SiteTheme/Theme";
-import { Button, Timeline } from "flowbite-react";
-import { HiArrowNarrowRight, HiCalendar } from "react-icons/hi";
+import { Badge, Timeline } from "flowbite-react";
+import { HiCheck, HiCalendar,HiClock } from "react-icons/hi";
 
 export function TimelineUpdates() {
   return (
-    <Timeline theme={customTimeLine}>
+    <Timeline className="rounded border shadow" theme={customTimeLine}>
         <Timeline.Item>
         <Timeline.Point icon={()=><HiCalendar color="white"/>} />
         <Timeline.Content>
-          <Timeline.Time>February 2022</Timeline.Time>
-          <Timeline.Title>Application UI code in Tailwind CSS</Timeline.Title>
+          <Timeline.Time>April 2025</Timeline.Time>
+          <Timeline.Title>Address validation</Timeline.Title>
           <Timeline.Body className=" tracking-tight text-wrap">
-            Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order
-            E-commerce & Marketing pages.
+            Leada is reviwing your address details to ensure that they are correct and up to date.
           </Timeline.Body>
-          <Button color="gray">
-            Learn More
-            <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-          </Button>
+          
         </Timeline.Content>
       </Timeline.Item>
-      <Timeline.Item>
-        <Timeline.Point icon={()=><HiCalendar color="white"/>} />
-        <Timeline.Content>
-          <Timeline.Time>February 2022</Timeline.Time>
-          <Timeline.Title>Application UI code in Tailwind CSS</Timeline.Title>
-          <Timeline.Body className=" tracking-tight text-wrap">
-            Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order
-            E-commerce & Marketing pages.
-          </Timeline.Body>
-          <Button color="gray">
-            Learn More
-            <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-          </Button>
-        </Timeline.Content>
-      </Timeline.Item>
-      <Timeline.Item>
-        <Timeline.Point icon={()=><HiCalendar color="white"/>} />
-        <Timeline.Content>
-          <Timeline.Time>February 2022</Timeline.Time>
-          <Timeline.Title>Application UI code in Tailwind CSS</Timeline.Title>
-          <Timeline.Body className=" tracking-tight text-wrap">
-            Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order
-            E-commerce & Marketing pages.
-          </Timeline.Body>
-          <Button color="gray">
-            Learn More
-            <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-          </Button>
-        </Timeline.Content>
-      </Timeline.Item>
-      <Timeline.Item>
-        <Timeline.Point icon={()=><HiCalendar color="white"/>} />
-        <Timeline.Content>
-          <Timeline.Time>February 2022</Timeline.Time>
-          <Timeline.Title>Application UI code in Tailwind CSS</Timeline.Title>
-          <Timeline.Body className=" tracking-tight text-wrap">
-            Get access to over 20+ pages including a dashboard layout, charts, kanban board, calendar, and pre-order
-            E-commerce & Marketing pages.
-          </Timeline.Body>
-          <Button color="gray">
-            Learn More
-            <HiArrowNarrowRight className="ml-2 h-3 w-3" />
-          </Button>
-        </Timeline.Content>
-      </Timeline.Item>
-      
-      
+      <div className="flex flex-row m-2 gap-2">
+      <Badge className="w-fit bg-appGreen text-white" icon={HiCheck}>contact verified</Badge>
+      <Badge className="w-fit bg-appGreen text-white" icon={HiCheck}>Marital Status verified</Badge>
+      <Badge color="warning" className="w-fit bg-warning-700 text-white" icon={HiClock}>Address</Badge>
+      </div>
     </Timeline>
   );
 }

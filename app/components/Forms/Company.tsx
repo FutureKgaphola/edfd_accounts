@@ -33,7 +33,7 @@ const Company = () => {
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
     const Companyprop = useSelector((state: RootState) => state.CompanyReducer);
     const authEmail = Authprop?.user?.user_email ?? "";
-
+    
     const dispatch = useDispatch();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedLoanType(event.target.value);
@@ -42,8 +42,8 @@ const Company = () => {
 
     useEffect(() => {
         setSelectedLoanType('Business');
-        SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: '0' })
-    }, [])
+        SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: '0' });
+    }, []);
 
     const [SelectedDistrict, setSelectedDistrict] = useState("");
 

@@ -13,11 +13,13 @@ import { customTabs } from "../SiteTheme/Theme";
 import { Breadcrumbs } from "../components/BreadCrumbs";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
+import ApplyLoan from "../components/Forms/ApplyLoan";
 
   const Profile=()=> {
-    const Authprop = useSelector((state: RootState) => state.AuthReducer);
+  const Authprop = useSelector((state: RootState) => state.AuthReducer);
   const tabsRef = useRef<TabsRef>(null);
   const [activeTab, setActiveTab] = useState(0);
+  const prop = useSelector((state: RootState) => state.TabSliceReducer);
 
   return (
     <>
@@ -25,15 +27,18 @@ import { RootState } from "@/lib/store";
     <Breadcrumbs />
     <div className="flex flex-col gap-3 p-2">
       <Tabs theme={customTabs} aria-label="Default tabs" variant="default" ref={tabsRef} onActiveTabChange={(tab) => setActiveTab(tab)}>
-        <Tabs.Item active title="Personal" icon={HiUserCircle}>
+        <Tabs.Item active={prop.tab=="profile" ? true : false  } title="Personal" icon={HiUserCircle}>
           <Personal/>
         </Tabs.Item>
-        <Tabs.Item title="Companies(s)" icon={MdDashboard}>
+        <Tabs.Item active={prop.tab=="company" ? true : false  } title="Companies(s)" icon={MdDashboard}>
           <Company/>
         </Tabs.Item>
-        
-        <Tabs.Item title="Company Listing(s)" icon={HiClipboardList}>
+        <Tabs.Item active={prop.tab=="listings" ? true : false  } title="Company Listing(s)" icon={HiClipboardList}>
           <CompanyList/>
+        </Tabs.Item>
+
+        <Tabs.Item active={prop.tab=="apply" ? true : false  } title="Apply" icon={HiClipboardList}>
+          <ApplyLoan/>
         </Tabs.Item>
         
       </Tabs>
