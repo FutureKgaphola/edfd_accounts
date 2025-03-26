@@ -18,9 +18,6 @@ import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
 
 const dashboard = () => {
-    const [loanType, setLoanType] = useState<string>('Business');
-    const [tab, setTab] = useState<string>('in progress');
-    const { domReady } = useDomReady();
     const dispatch = useDispatch();
     const router = useRouter();
     const HandleProfileTab = (value: string) => {
@@ -95,10 +92,6 @@ const dashboard = () => {
                     </div>
                 </div>
 
-                {loanType == "Business" ? <Business loanType={loanType} /> :
-                    loanType == "Procurement" ? <Procurement loanType={loanType} /> :
-                        loanType == "Building" ? <Building loanType={loanType} /> :
-                            loanType == "Franchisee" ? <Franchisee loanType={loanType} /> : null}
             </div>
         </div>
 

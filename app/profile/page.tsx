@@ -14,6 +14,7 @@ import { Breadcrumbs } from "../components/BreadCrumbs";
 import { useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import ApplyLoan from "../components/Forms/ApplyLoan";
+import TrackApplication from "../components/Timeline/TrackApplication";
 
   const Profile=()=> {
   const Authprop = useSelector((state: RootState) => state.AuthReducer);
@@ -39,6 +40,9 @@ import ApplyLoan from "../components/Forms/ApplyLoan";
 
         <Tabs.Item active={prop.tab=="apply" ? true : false  } title="Apply" icon={HiClipboardList}>
           <ApplyLoan/>
+        </Tabs.Item>
+        <Tabs.Item active={prop.tab=="track" ? true : false  } title="Track Application" icon={HiClipboardList}>
+          <TrackApplication/>
         </Tabs.Item>
         
       </Tabs>

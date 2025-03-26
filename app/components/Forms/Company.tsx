@@ -81,7 +81,8 @@ const Company = () => {
 
                         <div className="space-y-6">
                             <ProfileList user_email={authEmail} />
-                            <form onSubmit={(e) => handleSubmit(e)}>
+                            
+                            {/* <form onSubmit={(e) => handleSubmit(e)}>
                                 <div className="xl:flex lg:flex gap-2">
                                     <div className="xl:flex gap-2 border p-2 rounded border-gray-200">
 
@@ -123,7 +124,7 @@ const Company = () => {
                                         <div>
                                             <div>
                                                 <div className="mb-2 block">
-                                                    <Label htmlFor="cmpName" value="Company name *" />
+                                                    <Label htmlFor="cmpName" value="Trade Name *" />
 
                                                 </div>
                                                 <TextInput
@@ -156,7 +157,7 @@ const Company = () => {
                                 </div>
 
 
-                            </form>
+                            </form> */}
 
                             <hr />
                             {

@@ -24,12 +24,8 @@ const ActiveBusiness_loan = () => {
                                 <Alert color="warning" icon={HiInformationCircle} rounded>
                                     <span className="font-medium">Please note!</span> Personal data may be collected in order to process your loan. take note of our TnC and POPI ACT for your assurance.
                                 </Alert>
-                                <div className="flex gap-2">
-                                    <Badge theme={customBadgeTheme} className="w-fit text-sm" color="success">Status : in progress</Badge>
-                                    <Badge theme={customBadgeTheme} className="w-fit text-sm" color="success">category : Bussiness</Badge>
-                                </div>
-                                <Progress progress={15} theme={customProgTheme} size="sm" color="red" />
-                                <div className="pl-4 h-80 scroll-smooth scroll-m-9 overflow-y-scroll">
+                                
+                                <div className="pl-4 h-80">
                                 <TimelineUpdates/>
                                 </div>
                               

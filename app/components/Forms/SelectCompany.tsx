@@ -1,27 +1,42 @@
 import Image from "next/image";
-import { Button, Card, Label, Select, Spinner } from "flowbite-react";
+import { Alert, Button, Card, Label, Select, Spinner } from "flowbite-react";
 import { customselectTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
 import ledalogo from '../../assets/images/logoleda.png';
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import tree from "../../assets/images/tree.jpg";
 import { useDomReady } from "@/app/hooks/useDomReady";
 import { Breadcrumbs } from "../BreadCrumbs";
 import { ConfirmApplicationModal } from "../Modal/ConfirmApplication";
 import { useRouter } from "next/navigation";
-import ActiveBusiness_loan from "../ActiveBusiness_loan";
-import NoHistory from "../NoHistory";
+import { HiInformationCircle } from "react-icons/hi";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 const SelectCompanyForm = () => {
     const [company, setCompany] = useState<string>('---');
     const router = useRouter();
-    const [tab,setTab]=useState<string>('---');
     const { domReady } = useDomReady();
     const [openModal, setOpenModal] = useState(false);
-    
+    const Authprop = useSelector((state: RootState) => state.AuthReducer);
+    //const Companyprop = useSelector((state: RootState) => state.CompanyReducer);
+    const authEmail = Authprop?.user?.user_email ?? "";
+    const dispatch = useDispatch();
     const SubmitApplication = () => {
         if (company == "" || company == "---") return;
         setOpenModal(true);
     }
+    const [companies, setcompanies] = useState([]);
+    const { data, error, isLoading } = useQuery({
+        queryFn: () => axios.get(`/api/companies/retrive/?user_email=${authEmail}`),
+        queryKey: ['Registeredcompanies'],
+    });
+    useEffect(() => {
+        if (data?.data?.companies) {
+            setcompanies(data.data.companies);
+            //dispatch(CompanyAction.SetGlobalCompanies({ companies: data.data.companies }));
+        }
+    }, [data, dispatch]);
     return (
         <div>
             <div className="w-full overflow-clip h-full mt-18 mb-8 items-center justify-center">
@@ -38,7 +53,9 @@ const SelectCompanyForm = () => {
                                 <Breadcrumbs />
 
                                 <div className="space-y-2">
-
+                                    <Alert color="warning" icon={HiInformationCircle} rounded>
+                                        <span className="font-medium">Please note!</span> Personal data may be collected in order to process your loan. take note of our TnC and POPI ACT for your assurance.
+                                    </Alert>
                                     <div className="flex p-3 items-center justify-center">
 
                                         <div className="bg-slate-50 p-4 rounded-md place-self-center border mb-4">
@@ -55,10 +72,11 @@ const SelectCompanyForm = () => {
                                                         required
                                                     >
                                                         <option>---</option>
-                                                        <option>Marumo Holdings</option>
-                                                        <option>Setlago Tents</option>
-                                                        <option>Robert & Robberts</option>
-                                                        <option>Mahlako Meals</option>
+                                                        {
+                                                            !error && !isLoading && companies?.map((company: any) => (
+                                                                <option key={company.id} value={company.regNo}>{company.compName}</option>
+                                                            ))
+                                                        }
 
                                                     </Select>
                                                 ) : < div className="flex items-center justify-center">
@@ -68,14 +86,8 @@ const SelectCompanyForm = () => {
                                             }
 
                                             <div className=" flex gap-2 justify-center mt-2">
-                                                <Button onClick={()=>SubmitApplication()} as={"button"} theme={customsubmitTheme} size="xs" color="success">
+                                                <Button onClick={() => SubmitApplication()} as={"button"} theme={customsubmitTheme} size="xs" color="success">
                                                     Apply
-                                                </Button>
-                                                <Button onClick={()=>setTab("progress")} as={"button"} theme={customsubmitTheme} size="xs" color="success">
-                                                    Track Application
-                                                </Button>
-                                                <Button  onClick={()=>setTab("history")} as={"button"} theme={customsubmitTheme} size="xs" color="success">
-                                                    History
                                                 </Button>
                                             </div>
 
@@ -83,14 +95,8 @@ const SelectCompanyForm = () => {
                                         </div>
 
                                     </div>
-
-                                    
-
                                 </div>
                             </form>
-                            {tab=="progress" ? <ActiveBusiness_loan/> : null}
-                            {tab=="history" ? <NoHistory/> : null}
-
                         </Card>
                     </div>
                 </div>

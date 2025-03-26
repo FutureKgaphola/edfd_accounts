@@ -2,27 +2,93 @@
 "use client";
 
 import { successMessage } from "@/app/notifications/successError";
-import { customCheckboxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
-import { Alert, Button, Checkbox, Label, Modal } from "flowbite-react";
+import { customCheckboxTheme, customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
+import { Alert, Button, Checkbox, Label, Modal, Radio, TextInput } from "flowbite-react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
+import { GiTakeMyMoney } from "react-icons/gi";
 
 export function ConfirmApplicationModal({ company, setOpenModal, openModal }: { company: string, setOpenModal: Dispatch<SetStateAction<boolean>>, openModal: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [selectedLoanType, setSelectedLoanType] = useState<string>('Business');
   const loans = "Business";
   const [tncs, setTnCs] = useState<boolean>(false);
   const gotoTypeLoan = `https://edfd-sub-website.vercel.app/details/${loans.toLocaleLowerCase()}`;
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedLoanType(event.target.value);
+  };
   return (
     <>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
         <Modal.Header>Confirmation of your details</Modal.Header>
         <Modal.Body>
           <div className="space-y-6">
-            <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              You have indicate to us that your are applying for a <a className="text-appGreen underline" target="_blank" href={gotoTypeLoan}>{loans}</a> loan, using the company details of &apos;&apos;{company}&apos;&apos;
-            </p>
+            <fieldset className="flex max-w-md flex-wrap gap-4">
+              <legend className="mb-4 text-nowrap">Choose for which loan type you will be using this Document for?</legend>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="business-loan"
+                  name="loanType"
+                  value="Business"
+                  checked={selectedLoanType === 'Business'}
+                  onChange={handleChange}
+                />
+                <Label htmlFor="business-loan">Business</Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="procurement-loan"
+                  name="loanType"
+                  value="Procurement"
+                  checked={selectedLoanType === 'Procurement'}
+                  onChange={handleChange}
+                />
+                <Label htmlFor="procurement-loan">Procurement</Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="building-loan"
+                  name="loanType"
+                  value="Building"
+                  checked={selectedLoanType === 'Building'}
+                  onChange={handleChange}
+                />
+                <Label htmlFor="building-loan">Building</Label>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <Radio
+                  id="franchisee-loan"
+                  name="loanType"
+                  value="Franchisee"
+                  checked={selectedLoanType === 'Franchisee'}
+                  onChange={handleChange}
+                />
+                <Label htmlFor="franchisee-loan">Franchisee</Label>
+              </div>
+
+              <p className="mt-1">Selected Loan Type: {selectedLoanType}</p>
+            </fieldset>
+            <div>
+              <div className="mb-2 block">
+                <Label htmlFor="money" value="Requested Amount" />
+              </div>
+              <TextInput
+                min={10000}
+                max={50000000}
+                maxLength={8}
+                minLength={5}
+                theme={customInputBoxTheme}
+                color={"focuscolor"}
+                icon={GiTakeMyMoney}
+                id="money" type="text" placeholder="10 000" required />
+            </div>
+
             <p className="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               Your company profile will be reviwed by LEDA through various stages and will keep you updated as your application progresses.
               The outcome of this processes may be succesful in your favour or rejected in accordance with our application creteria.
@@ -53,7 +119,7 @@ export function ConfirmApplicationModal({ company, setOpenModal, openModal }: { 
         </Modal.Body>
         <Modal.Footer>
           <Button as={"button"} theme={customsubmitTheme} color="success" onClick={() => {
-            if(tncs === false) return;
+            if (tncs === false) return;
             setOpenModal(false);
             successMessage("Application submitted succesful");
             router.back();

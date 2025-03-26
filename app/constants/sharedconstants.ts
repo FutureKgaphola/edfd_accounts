@@ -77,6 +77,23 @@ widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage cer
   { id: 8, p: `Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link to download the form) *`, li: [] },
 ];
 
+export interface History {
+  id: string;
+  date: string;
+  status: string;
+  category: string;
+  title: string;
+  body: string;
+  stage?: string[];
+  outcome?: string;
+}
+
+const LoanHistory:History[] = [
+  { id: "W328Y",outcome:'failed Address verification', date: 'January 08 2025', status: 'closed', category: 'Bussiness', title: 'Address validation', body: 'Leada is reviwing your address details to ensure that they are correct and up to date.',stage:['Contact verified','Marital Status verified','Address'] },  
+  { id: "RTW28Y",outcome:'passed', date: 'March 27 2025', status: 'closed', category: 'Procurement', title: 'Address validation', body: 'Leada is reviwing your address details to ensure that they are correct and up to date.',stage:['Contact verified','Marital Status verified','Address'] },
+  { id: "PTW38Y",outcome:'', date: 'Appril 01 2025', status: 'in progress', category: 'Procurement', title: 'Address validation', body: 'Leada is reviwing your address details to ensure that they are correct and up to date.',stage:['Contact verified','Marital Status verified','Address'] },
+  { id: "74W328Y",outcome:'', date: 'April 01 2025', status: 'in progress', category: 'Bussiness', title: 'Address validation', body: 'Leada is reviwing your address details to ensure that they are correct and up to date.',stage:['Contact verified','Marital Status verified','Address'] }
+];
 
 const isValidateCompanyRegNumber = (regNum: string): boolean => {
   const sectors = ['07', '06', '08', '23', '21', '30', '10'];
@@ -137,4 +154,4 @@ function validateSAID(idNumber: string): boolean {
   return sum % 10 === 0; // Valid if Luhn checksum passes
 }
 
-export { Lorems, procurementDef, franchiseDef, BuildingDef, BusinessDef, isValidateCompanyRegNumber, validateSAID, BusinesDocs, ProcurementDocs }
+export { Lorems, procurementDef, franchiseDef, BuildingDef, BusinessDef, isValidateCompanyRegNumber, validateSAID, BusinesDocs, ProcurementDocs,LoanHistory }
