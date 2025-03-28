@@ -89,10 +89,8 @@ export interface History {
 }
 
 const LoanHistory:History[] = [
-  { id: "W328Y",outcome:'failed Address verification', date: 'January 08 2025', status: 'closed', category: 'Bussiness', title: 'Address validation', body: 'Leada is reviwing your address details to ensure that they are correct and up to date.',stage:['Contact verified','Marital Status verified','Address'] },  
-  { id: "RTW28Y",outcome:'passed', date: 'March 27 2025', status: 'closed', category: 'Procurement', title: 'Address validation', body: 'Leada is reviwing your address details to ensure that they are correct and up to date.',stage:['Contact verified','Marital Status verified','Address'] },
-  { id: "PTW38Y",outcome:'', date: 'Appril 01 2025', status: 'in progress', category: 'Procurement', title: 'Address validation', body: 'Leada is reviwing your address details to ensure that they are correct and up to date.',stage:['Contact verified','Marital Status verified','Address'] },
-  { id: "74W328Y",outcome:'', date: 'April 01 2025', status: 'in progress', category: 'Bussiness', title: 'Address validation', body: 'Leada is reviwing your address details to ensure that they are correct and up to date.',stage:['Contact verified','Marital Status verified','Address'] }
+  { id: "EDFD-01789| 28-02-2025",outcome:'failed', date: 'January 08 2025', status: 'closed', category: 'Bussiness', title: 'Address validation', body: 'LEDA is reviewing basic information such as phone, email and name to ensure that they are correct and up to date.',stage:['Basic Assessment and Due Deligence'] },  
+  { id: "EDFD-01911| 01-03-2025",outcome:'in progress', date: 'March 27 2025', status: 'open', category: 'Procurement', title: 'Address validation', body: 'Assesment of your submitted document is underway.',stage:['Basic Assessment and Due Deligence','Assessment and Review'] },
 ];
 
 const isValidateCompanyRegNumber = (regNum: string): boolean => {

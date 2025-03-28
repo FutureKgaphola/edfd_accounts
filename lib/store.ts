@@ -9,6 +9,8 @@ import {CompanyReducer} from './features/Companies/CompanySlice'
 import {SelectedCompanyReducer} from './features/Companies/SelectedCompanySlice'
 import {DirectorReducer} from './features/Director/DirectorSlice'
 import {TabSliceReducer} from './features/Tabprofile/TabprofileSlice'
+import {AddCompSliceReducer} from './features/AddCompany/AddCompanySlice'
+import {TackApplicationReducer} from './features/TrackApplicationWithKey/TrackWithKey'
 import {createLogger} from 'redux-logger'
 
 export const makeStore = () => {
@@ -24,6 +26,8 @@ export const makeStore = () => {
         SelectedCompanyReducer,
         DirectorReducer,
         TabSliceReducer,
+        AddCompSliceReducer,
+        TackApplicationReducer,
     },
     middleware:(GetDefaultMiddleware)=>GetDefaultMiddleware().concat(createLogger())
   })

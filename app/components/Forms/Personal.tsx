@@ -1,18 +1,7 @@
 
 
-import { Alert, Button, Card, FileInput, Label, TextInput } from "flowbite-react";
-import { Offline, Online } from "react-detect-offline";
-import { HiMail, HiInformationCircle, HiUserAdd, HiCloudDownload } from "react-icons/hi";
-import { useEffect, useState } from "react";
-import { NetworkMessage, NetworkTitle } from "../../TempData/StaticData";
-import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
+import {Card } from "flowbite-react";
 import TruthfullAlert from "../Alerts/TruthfullAlert";
-import useProfile from "@/app/hooks/useProfile";
-import LoadingAlert from "../Alerts/LoadingAlert";
-import ErrorAlert from "../Alerts/ErrorAlert";
-import useSubmitPersonal from "@/app/hooks/useSubmitPersonal";
-import axios from "axios";
-import { failureMessage } from "@/app/notifications/successError";
 import Contacts from "./LeadPerson/Contacts";
 import Address from "./LeadPerson/Address";
 import Banking from "./LeadPerson/Banking";

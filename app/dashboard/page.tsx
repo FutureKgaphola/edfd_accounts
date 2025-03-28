@@ -1,14 +1,11 @@
 "use client"
-import { Alert, Button, Card, Label, Select, Spinner } from "flowbite-react";
+import { Alert, Button, Card } from "flowbite-react";
 import { customselectTheme, customsubmitTheme } from "../SiteTheme/Theme";
-import Business from "../components/Business";
-import { useEffect, useState } from "react";
-import Procurement from "../components/Procurement";
-import Building from "../components/Building";
-import Franchisee from "../components/Franchisee";
 import Image from "next/image";
 import ledalogo from '../assets/images/logoleda.png';
 import accept from '../assets/images/accept.png';
+import loading from '../assets/images/loadingbar.png';
+
 import company from '../assets/images/asset.png';
 import user from '../assets/images/user.png';
 import { Nav_bar } from "../components/Navbar";
@@ -60,6 +57,11 @@ const dashboard = () => {
                                     <Image src={accept} className="h-12 w-12 self-center" alt="..." />
                                     <Button onClick={() => HandleProfileTab("apply")} className="bg-slate-400 hover:bg-slate-400 hover:cursor-not-allowed" size="xs" theme={customsubmitTheme} color="">Apply</Button>
                                     <p className="font-thin text-xs self-center">Profile not ready</p>
+                                </Card>
+                                <Card href="#" className="max-w-sm flex items-center justify-center">
+                                    <Image src={loading} className="h-12 w-12 self-center" alt="..." />
+                                    <Button onClick={() => router.push('/applicationstatus')}  size="xs" theme={customsubmitTheme} color="success">Applications Status</Button>
+                                    <p className="font-thin text-xs self-center">Progress Bar</p>
                                 </Card>
                             </div>
                             {/* <Label className="text-lg font-poppinsBold" htmlFor="Service" value="Choose a loan you want to manage or apply for *" /> */}

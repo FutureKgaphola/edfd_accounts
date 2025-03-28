@@ -1,5 +1,5 @@
 import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
-import { Alert, Button, Card, FileInput, Label, Radio, TextInput } from "flowbite-react";
+import { Alert, Button, Card, Label, Radio, TextInput } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { FormEvent, useEffect, useState } from "react";
 import { DirectorTable } from "../Tables/DirectorsTable";
@@ -12,7 +12,6 @@ import { RootState } from "@/lib/store";
 import SelectDistrict from "../Select/SelectDistrict";
 import { useAddCompanies } from "@/app/hooks/useAddCompany";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import PDFUploader from "../../components/PDFUploader";
 import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
 import { CompanyInfoAlert } from "../Alerts/CompanyInfoAlert";
 import DirectorsForm from "../Modal/Directors";
@@ -82,7 +81,7 @@ const Company = () => {
                         <div className="space-y-6">
                             <ProfileList user_email={authEmail} />
                             
-                            {/* <form onSubmit={(e) => handleSubmit(e)}>
+                            <form onSubmit={(e) => handleSubmit(e)}>
                                 <div className="xl:flex lg:flex gap-2">
                                     <div className="xl:flex gap-2 border p-2 rounded border-gray-200">
 
@@ -157,7 +156,7 @@ const Company = () => {
                                 </div>
 
 
-                            </form> */}
+                            </form>
 
                             <hr />
                             {

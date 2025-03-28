@@ -34,7 +34,7 @@ export function Nav_bar() {
         <div className="flex md:order-2">
           {
             domReady ? (
-              <Dropdown
+              <Dropdown className="z-20"
                 arrowIcon={false}
                 inline
                 label={

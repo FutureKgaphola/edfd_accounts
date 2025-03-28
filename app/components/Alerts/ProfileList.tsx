@@ -1,13 +1,14 @@
-import { customselectTheme } from "@/app/SiteTheme/Theme";
+import { customselectTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { Alert, Select } from "flowbite-react";
+import { Alert, Button, Select } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import LoadingSpinner from "../Spinner/LoadingSpinner";
 import { CompanyAction } from "@/lib/features/Companies/CompanySlice";
 import { useDispatch } from "react-redux";
 import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
+import { AddCompSliceAction } from "@/lib/features/AddCompany/AddCompanySlice";
 
 const ProfileList = ({user_email}:{user_email:string}) => {
     const queryClient = useQueryClient();
@@ -56,6 +57,9 @@ const ProfileList = ({user_email}:{user_email:string}) => {
                 }
  
             </Select>
+            <Button onClick={()=>dispatch(AddCompSliceAction.AddCompany({isShowForms:true }))} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="light">View</Button>
+            <Button onClick={()=>dispatch(AddCompSliceAction.AddCompany({isShowForms:true }))} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Create</Button>
+            <Button onClick={()=>dispatch(AddCompSliceAction.AddCompany({isShowForms:true }))} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="failure">Delete</Button>
             </div>
            
         </Alert>
