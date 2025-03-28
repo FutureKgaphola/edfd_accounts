@@ -46,7 +46,7 @@ const Address = () => {
             <p className="text-sm absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Address</p>
             <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3">
                 <div className=" mt-4">
-                    <ToggleSwitch color="green" theme={customSwitch} checked={switch1} label="Is your Physical address the same as Postal address" onChange={setSwitch1} />
+                    <ToggleSwitch color="green" theme={customSwitch} checked={switch1} label="Is your Physical address the same as Postal address?" onChange={setSwitch1} />
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="Physical Address" />

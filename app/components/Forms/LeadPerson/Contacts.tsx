@@ -125,46 +125,36 @@ const Contacts = () => {
                     </Alert></Offline>
 
                 <fieldset className="flex max-w-md flex-wrap gap-4">
-                    <legend className="mb-4 break-words text-wrap">Choose for which loan type you will be using this Document for?</legend>
+                    <legend className="mb-4 break-words text-wrap">What is your marital Status?</legend>
 
                     <div className="flex items-center gap-2">
                         <Radio
-                            id="business-loan"
-                            name="loanType"
-                            value="Business"
+                            id="Single"
+                            name="MaritalStatus"
+                            value="Single"
 
                         />
-                        <Label htmlFor="business-loan">Business</Label>
+                        <Label htmlFor="business-loan">Single</Label>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <Radio
-                            id="procurement-loan"
-                            name="loanType"
-                            value="Procurement"
+                            id="Married"
+                            name="MaritalStatus"
+                            value="Married"
 
                         />
-                        <Label htmlFor="procurement-loan">Procurement</Label>
+                        <Label htmlFor="procurement-loan">Married</Label>
                     </div>
 
                     <div className="flex items-center gap-2">
                         <Radio
-                            id="building-loan"
-                            name="loanType"
-                            value="Building"
+                            id="Divorced"
+                            name="MaritalStatus"
+                            value="Divorced"
 
                         />
-                        <Label htmlFor="building-loan">Building</Label>
-                    </div>
-
-                    <div className="flex items-center gap-2">
-                        <Radio
-                            id="franchisee-loan"
-                            name="loanType"
-                            value="Franchisee"
-
-                        />
-                        <Label htmlFor="franchisee-loan">Franchisee</Label>
+                        <Label htmlFor="Divorced">Divorced</Label>
                     </div>
 
                     <p className="mt-1">Marital Status: { }</p>

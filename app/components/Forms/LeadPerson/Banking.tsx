@@ -1,8 +1,8 @@
 
 import useSubmitPersonal from "@/app/hooks/useSubmitPersonal";
-import { customInputBoxTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
+import { customInputBoxTheme, customselectTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
 import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Button, FileInput, Label, TextInput } from "flowbite-react";
+import { Alert, Button, FileInput, Label, Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiInformationCircle, HiUserAdd } from "react-icons/hi";
 import { Offline, Online } from "react-detect-offline";
@@ -49,18 +49,51 @@ const Banking = () => {
         //     setId(id || "");
         // }
     }, []);
+
+    const Banks=[
+        {id:'0',BankName:"Absa"},
+        {id:'1',BankName:"Capitec"},
+        {id:'2',BankName:"Ned Bank"},
+        {id:'3',BankName:"Standard Bank"},
+        {id:'4',BankName:"FNB"},
+        {id:'5',BankName:"Other/Not Listed"}
+    ]
     return (
         <div className="relative">
             <p className="text-sm absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Banking</p>
             <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3">
-                <div className="flex flex-wrap mt-4">
+                <div className="mt-4">
 
-                    <div className="min-w-lg max-w-lg">
+                    <div>
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="Bank" />
                         </div>
-                        <TextInput sizing="sm" onChange={(e: any) => Setbank(e.target.value)} value={bank} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="Bank" required />
+                        <Select sizing="sm"
+                            onChange={(e: any) => Setbank(e?.target.value)}
+                            className="max-w-2xl ml-2"
+                            id="Service"
+                            theme={customselectTheme}
+                            color="success"
+                            required
+                        >
+                            <option>---</option>
+                            {
+                                Banks?.map((b: any) => (
+                                    <option key={b.id} value={b.BankName}>{b.BankName}</option>
+                                ))
+                            }
+
+                        </Select>
                     </div>
+
+                    {
+                        bank=="Other/Not Listed" ? ( <div>
+                            <div className="mb-2 block">
+                                <Label htmlFor="Bank" value="State your Bank" />
+                            </div>
+                            <TextInput sizing="sm" onChange={(e: any) => Setbank(e.target.value)} value={branch} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="Lname" type="text" placeholder="Branch" required />
+                        </div>) : null
+                    }
 
                     <div>
                         <div className="mb-2 block">
