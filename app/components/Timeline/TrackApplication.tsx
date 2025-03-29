@@ -21,8 +21,6 @@ const TrackApplication = () => {
         setHistory(LoanHistory);
        
         setSerachResult(Trackprop.applicationId ? Trackprop.applicationId : '');
-        
-        console.log(Trackprop.applicationId)
     }, []);
     return (
         <div>

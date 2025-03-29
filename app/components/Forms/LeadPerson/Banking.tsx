@@ -51,26 +51,30 @@ const Banking = () => {
         // }
     }, []);
 
-    const Banks=[
-        {id:'0',BankName:"Absa"},
-        {id:'1',BankName:"Capitec"},
-        {id:'2',BankName:"Ned Bank"},
-        {id:'3',BankName:"Standard Bank"},
-        {id:'4',BankName:"FNB"},
-        {id:'5',BankName:"Other/Not Listed"}
+    const Banks = [
+        { id: '0', BankName: "Absa", branchCode: '632005' },
+        { id: '1', BankName: "Capitec", branchCode: '470010' },
+        { id: '2', BankName: "Ned Bank", branchCode: '198765' },
+        { id: '3', BankName: "Standard Bank", branchCode: '051001' },
+        { id: '4', BankName: "FNB", branchCode: '250655' },
+        { id: '5', BankName: "Investec Bank", branchCode: '580105' },
+        { id: '6', BankName: "Other/Not Listed", branchCode: '' }
     ]
     return (
-        <div className="relative">
+        <div className="relative mt-2 sm:mt-4 md:mt-4">
             <p className="text-sm absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Banking</p>
             <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3">
-                <div className="mt-4">
-
+                <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="name" value="Bank" />
+                            <Label htmlFor="name" value="Bank *" />
                         </div>
                         <Select sizing="sm"
-                            onChange={(e: any) => Setbank(e?.target.value)}
+                            onChange={(e: any) => {
+                                const selectedBank = Banks.find(b => b.BankName === e.target.value);
+                                Setbank(e.target.value);
+                                setBranchCode(selectedBank?.branchCode || "");
+                            }}
                             className="max-w-2xl ml-2"
                             id="Service"
                             theme={customselectTheme}
@@ -80,65 +84,66 @@ const Banking = () => {
                             <option>---</option>
                             {
                                 Banks?.map((b: any) => (
-                                    <option key={b.id} value={b.BankName}>{b.BankName}</option>
+                                    <option onSelect={()=>setBranchCode(b?.branchCode)} key={b.id} value={b?.BankName}>{b?.BankName}</option>
                                 ))
                             }
-
                         </Select>
                     </div>
 
                     {
-                        bank=="Other/Not Listed" ? ( <div>
-                            <div className="mb-2 block">
-                                <Label htmlFor="Bank" value="State your Bank" />
+                        bank == "Other/Not Listed" ? (
+                            <div>
+                                <div className="mb-2 block">
+                                    <Label htmlFor="Bank" value="State your Bank *" />
+                                </div>
+                                <TextInput sizing="sm" onChange={(e: any) => Setbank(e.target.value)} value={branch} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Bank" required />
                             </div>
-                            <TextInput sizing="sm" onChange={(e: any) => Setbank(e.target.value)} value={branch} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Bank" required />
-                        </div>) : null
+                        ) : null
                     }
 
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="Lname" value="Branch" />
+                            <Label htmlFor="Lname" value="Branch *" />
                         </div>
                         <TextInput sizing="sm" onChange={(e: any) => SetBranck(e.target.value)} value={branch} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Branch" required />
                     </div>
 
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="Lname" value="Branch Code" />
+                            <Label htmlFor="Lname" value="Branch Code *" />
                         </div>
                         <TextInput sizing="sm" onChange={(e: any) => setBranchCode(e.target.value)} value={branchCode} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Branch Code" required />
                     </div>
+
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="Lname" value="Account Number" />
+                            <Label htmlFor="Lname" value="Account Number *" />
                         </div>
                         <TextInput sizing="sm" onChange={(e: any) => SetAccountNumber(e.target.value)} value={accountNumber} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Account Number" required />
                     </div>
 
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="Lname" value="Account Name" />
+                            <Label htmlFor="Lname" value="Account Holder Name *" />
                         </div>
-                        <TextInput sizing="sm" onChange={(e: any) => SetAccountName(e.target.value)} value={accountname} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Account Name" required />
+                        <TextInput sizing="sm" onChange={(e: any) => SetAccountName(e.target.value)} value={accountname} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Account Holder Name" required />
                     </div>
 
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="Lname" value="Account Type" />
+                            <Label htmlFor="Lname" value="Account Type *" />
                         </div>
                         <TextInput sizing="sm" onChange={(e: any) => SetaccountType(e.target.value)} value={accountType} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Account Type" required />
                     </div>
 
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="postal" value="Proof of Account" />
+                            <Label htmlFor="postal" value="Proof of Account *" />
                         </div>
                         <FileInput className="max-w-md mt-2"
                             onChange={handleFileChange}
                             sizing="sm" id="postal" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
                     </div>
-
                 </div>
 
                 <Offline>

@@ -44,28 +44,28 @@ const Address = () => {
         // }
     }, []);
     return (
-        <div className="relative">
+        <div className="relative mt-2 sm:mt-4 md:mt-4">
             <p className="text-sm absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Address</p>
             <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3">
                 <div className=" mt-4">
                     <ToggleSwitch color="green" theme={customSwitch} checked={switch1} label="Is your Physical address the same as Postal address?" onChange={setSwitch1} />
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="name" value="Physical Address" />
+                            <Label htmlFor="name" value="Physical Address *" />
                         </div>
                         <TextInput sizing="sm" onChange={(e: any) => setPhysical(e.target.value)} value={physical} theme={customInputBoxTheme} color={"focuscolor"} icon={CiHome} id="name" type="text" placeholder="Physical Address" required />
                     </div>
                     {
                         switch1 ? null : (<div>
                             <div className="mb-2 block">
-                                <Label htmlFor="Lname" value="Postal Address" />
+                                <Label htmlFor="Lname" value="Postal Address *" />
                             </div>
                             <TextInput sizing="sm" onChange={(e: any) => SetPostal(e.target.value)} value={postal} theme={customInputBoxTheme} color={"focuscolor"} icon={GiPostOffice} id="Lname" type="text" placeholder="Postal Address" required />
                         </div>)
                     }
                     <div>
                         <div className="mb-2 block">
-                            <Label htmlFor="postal" value="Proof of Address" />
+                            <Label htmlFor="postal" value="Proof of Address *" />
                         </div>
                         <FileInput className="max-w-md mt-2"
                             onChange={handleFileChange}

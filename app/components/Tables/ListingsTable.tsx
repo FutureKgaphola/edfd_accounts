@@ -30,7 +30,7 @@ export function ListingsTable({user_email}:{user_email:string}) {
                     <Table.Head className="sticky top-0 z-10">
 
                         <Table.HeadCell className='tblHeader'>Name</Table.HeadCell>
-                        <Table.HeadCell className='tblHeader'>Loan Types Available</Table.HeadCell>
+                        <Table.HeadCell className='tblHeader'>Loan(s) Applied For</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>REG N0.</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>Email</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>

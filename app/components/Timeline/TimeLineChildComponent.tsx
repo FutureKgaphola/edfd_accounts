@@ -24,8 +24,8 @@ const TimeLineChildComponent = ({ id,date, status, category, title, body,stage,o
                     </Timeline.Content>
                 </Timeline.Item>
                 <div className="flex flex-row ml-4 mb-2 gap-2 overflow-x-auto">
-                    {stage?.map((item) => (
-                        <Badge className={`w-fit ${outcome == "failed" ? 'bg-red-700':'bg-appGreen'} text-white` } icon={HiCheck}>{item}</Badge>
+                    {stage?.map((item,index) => (
+                        <Badge key={index} className={`w-fit ${outcome == "failed" ? 'bg-red-700':'bg-appGreen'} text-white` } icon={HiCheck}>{item}</Badge>
                     ))}
                 </div>
                 {/* <Progress progress={15} theme={customProgTheme} size="sm" color="red" /> */}

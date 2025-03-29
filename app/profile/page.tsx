@@ -3,7 +3,7 @@
 
 import { Tabs, TabsRef } from "flowbite-react";
 import { useRef, useState } from "react";
-import { HiClipboardList, HiUserCircle } from "react-icons/hi";
+import { HiClipboardList, HiUserCircle,HiClock } from "react-icons/hi";
 import { MdDashboard } from "react-icons/md";
 import { Nav_bar } from "../components/Navbar";
 import Personal from "../components/Forms/Personal";
@@ -41,7 +41,7 @@ import TrackApplication from "../components/Timeline/TrackApplication";
         <Tabs.Item active={prop.tab=="apply" ? true : false  } title="Apply" icon={HiClipboardList}>
           <ApplyLoan/>
         </Tabs.Item>
-        <Tabs.Item active={prop.tab=="track" ? true : false  } title="Track Application" icon={HiClipboardList}>
+        <Tabs.Item active={prop.tab=="track" ? true : false  } title="Track Application" icon={HiClock}>
           <TrackApplication/>
         </Tabs.Item>
         

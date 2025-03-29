@@ -23,7 +23,7 @@ export function SiteFooter() {
               <Footer.Link href="https://twitter.com/Limpopoecon" target="_blank">Twitter</Footer.Link>
               <Footer.Link href="https://www.facebook.com/LimpopoEcon" target="_blank">LinkedIn</Footer.Link>
               <Footer.Link href="https://www.linkedin.com/company/limpopo-economic-development-agency/" target="_blank">Facebook</Footer.Link>
-              <Footer.Link as={Link} href="/contact">Contact Us</Footer.Link>
+              <Footer.Link href="https://edfd-sub-website.vercel.app/contact">Contact Us</Footer.Link>
             </Footer.LinkGroup>
           </div>
           <div>

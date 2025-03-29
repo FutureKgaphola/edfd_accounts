@@ -64,26 +64,26 @@ const Contacts = () => {
         }
     }, [data, success]);
     return (
-        <div className="relative">
+        <div className="relative mt-2 sm:mt-4 md:mt-4">
             <p className="text-sm absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Personal (Identification)</p>
             <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3" onSubmit={(e) => submitForm(Name, username, LName, userphone, IdNo, filename, pdfFile, data.id, e)}>
                 <div className="grid gap-2 grid-cols-2">
                     <div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="name" value="Name" />
+                                <Label htmlFor="name" value="Name *" />
                             </div>
                             <TextInput sizing="sm" onChange={(e: any) => SetName(e.target.value)} value={Name} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="Lname" value="Surname" />
+                                <Label htmlFor="Lname" value="Surname *" />
                             </div>
                             <TextInput sizing="sm" onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="Lname" type="text" placeholder="someone's name" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="email1" value="Email" />
+                                <Label htmlFor="email1" value="Email *" />
                             </div>
                             <TextInput className="hover:cursor-not-allowed" sizing="sm" readOnly
                                 onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
@@ -134,7 +134,7 @@ const Contacts = () => {
                     </Alert></Offline>
 
                 <fieldset className="flex max-w-md flex-wrap gap-4">
-                    <legend className="mb-4 break-words text-wrap">What is your marital Status?</legend>
+                    <legend className="mb-4 font-bold break-words text-wrap">What is your marital Status?</legend>
 
                     <div className="flex items-center gap-2">
                         <Radio
@@ -170,7 +170,14 @@ const Contacts = () => {
                     </div>
 
                 </fieldset>
-                <p className="mt-1">Marital Status: {marital}</p>
+                <div className="mt-2">
+                    <div>
+                        <Label htmlFor="file-upload-helper-text" value={marital == 'Single' ? "Affidavit proving your marital status" : marital == 'Married' ? "Marriage Certificate" : marital == 'Divorced' ? "Decree of divorce" : ""} />
+                    </div>
+                    <FileInput className="max-w-md"
+                        onChange={handleFileChange}
+                        sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
+                </div>
                 {
                     marital == "Married" ? (
                         <div className="relative mt-6">
@@ -179,14 +186,14 @@ const Contacts = () => {
                                 <div>
                                     <div>
                                         <div className="mb-2 block">
-                                            <Label htmlFor="name" value="Spouse Name" />
+                                            <Label htmlFor="name" value="Spouse Name *" />
                                         </div>
                                         <TextInput sizing="sm" onChange={(e: any) => SetSpouceName(e.target.value)} value={SpouceName} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
                                     </div>
 
                                     <div>
                                         <div className="mb-2 block">
-                                            <Label htmlFor="email1" value="Spouse Email" />
+                                            <Label htmlFor="email1" value="Spouse Email *" />
                                         </div>
                                         <TextInput className="hover:cursor-not-allowed" sizing="sm" readOnly
                                             onChange={(e: any) => SetSpouceEmail(e.target.value)} value={SpouceEmail} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />

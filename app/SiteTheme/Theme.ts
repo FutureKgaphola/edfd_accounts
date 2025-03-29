@@ -306,6 +306,7 @@ export const customselectTheme: CustomFlowbiteTheme['select'] = {
         }
     }
 };
+
 export const customSwitch:CustomFlowbiteTheme['toggleSwitch']={
   "toggle": {
     "base": "relative rounded-full after:absolute after:rounded-full after:border after:bg-white after:transition-all group-focus:ring-4",
