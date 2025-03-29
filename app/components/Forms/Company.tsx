@@ -17,6 +17,12 @@ import { CompanyInfoAlert } from "../Alerts/CompanyInfoAlert";
 import DirectorsForm from "../Modal/Directors";
 import EditDirectors from "../Modal/EditDirectors";
 import Franchisee from "../Documents/Franchisee";
+import Contacts from "./Company/Contacts";
+import Address from "./Company/Address";
+import Banking from "./Company/Banking";
+import ContactsUpt from "./Company/UpdateUI/Contacts";
+import AddressUpt from "./Company/UpdateUI/Address";
+import BankingUpt from "./Company/UpdateUI/Banking";
 
 
 const Company = () => {
@@ -32,7 +38,7 @@ const Company = () => {
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
     const Companyprop = useSelector((state: RootState) => state.CompanyReducer);
     const authEmail = Authprop?.user?.user_email ?? "";
-    
+
     const dispatch = useDispatch();
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setSelectedLoanType(event.target.value);
@@ -69,6 +75,7 @@ const Company = () => {
     });
 
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
+    const prop = useSelector((state: RootState) => state.AddCompSliceReducer);
     const regNo = selectedprop.regNo;
     return (
         <div className="w-full overflow-clip h-full mt-18 mb-8 items-center justify-center">
@@ -80,87 +87,28 @@ const Company = () => {
 
                         <div className="space-y-6">
                             <ProfileList user_email={authEmail} />
-                            
-                            <form onSubmit={(e) => handleSubmit(e)}>
-                                <div className="xl:flex lg:flex gap-2">
-                                    <div className="xl:flex gap-2 border p-2 rounded border-gray-200">
-
-                                        <div>
-
-                                            <div>
-                                                <div className="mb-2 block">
-                                                    <Label htmlFor="email" value="Email *" />
-                                                </div>
-                                                <TextInput
-                                                    className="min-w-[250px] max-w-md"
-                                                    onChange={(e) => setemail(e.target.value)}
-                                                    value={email}
-                                                    id="email"
-                                                    type="email"
-                                                    sizing="sm"
-                                                    placeholder="info@mailprovider.co.za"
-                                                    theme={customInputBoxTheme} color={"focuscolor"}
-                                                    required
-                                                />
-                                            </div>
-                                            <div>
-                                                <div className="mb-2 block">
-                                                    <Label htmlFor="phone" value="Phone *" />
-                                                </div>
-                                                <TextInput
-                                                    className="min-w-[250px] max-w-md"
-                                                    onChange={(e) => setphone(e.target.value)}
-                                                    value={phone}
-                                                    sizing="sm"
-                                                    id="phone" minLength={10} maxLength={10}
-                                                    theme={customInputBoxTheme} color={"focuscolor"}
-                                                    type="text" required />
-                                            </div>
-
-                                            <SelectDistrict SelectedDistrict={SelectedDistrict} setSelectedDistrict={setSelectedDistrict} />
-                                        </div>
-
-                                        <div>
-                                            <div>
-                                                <div className="mb-2 block">
-                                                    <Label htmlFor="cmpName" value="Trade Name *" />
-
-                                                </div>
-                                                <TextInput
-                                                    className="min-w-[250px] max-w-md"
-                                                    onChange={(e) => setCompanyName(e.target.value)}
-                                                    value={CompanyName}
-                                                    sizing="sm"
-                                                    id="cmpName" theme={customInputBoxTheme} color={"focuscolor"} type="text" required />
-                                            </div>
-                                            <div>
-                                                <div className="mb-2 block">
-                                                    <Label htmlFor="regNo" value="Registration No. *" />
-
-                                                </div>
-                                                <TextInput
-                                                    className="min-w-[250px] max-w-md"
-                                                    onChange={(e) => setCompReg(e.target.value)}
-                                                    value={CompReg}
-                                                    sizing="sm"
-                                                    id="regNo" placeholder="YYYY/NNNNNN/XX" theme={customInputBoxTheme} color={"focuscolor"} type="text" required />
-                                            </div>
-                                            <Button className="mt-2" isProcessing={loading} disabled={loading} type="submit" theme={customsubmitTheme} color="appsuccess">{loading ? "Adding..." : "Add"}</Button>
-                                        </div>
-
-
+                            {
+                                prop.isShowForms ? (
+                                    <div className="lg:flex xl:flex gap-2 pt-4 lg:overflow-x-auto xl:overflow-x-auto sm:overflow-y-auto md:overflow-y-auto max-w-full">
+                                        <Contacts />
+                                        <Address />
+                                        <Banking />
                                     </div>
-
-                                    {regNo && regNo?.trim() !== "" && regNo?.trim() !== "---" && <CompanyInfoAlert regNo={regNo} />}
-
-                                </div>
-
-
-                            </form>
+                                ) : null
+                            }
+                            {
+                                !prop.isShowForms && prop.actionClicked == "Update" && Companyprop?.companies?.length > 0 && regNo && regNo !== "" && regNo !== "---" ? (
+                                    <div className="lg:flex xl:flex gap-2 pt-4 lg:overflow-x-auto xl:overflow-x-auto sm:overflow-y-auto md:overflow-y-auto max-w-full">
+                                        <ContactsUpt />
+                                        <AddressUpt />
+                                        <BankingUpt />
+                                    </div>
+                                ) : null
+                            }
 
                             <hr />
                             {
-                                Companyprop?.companies?.length > 0 && regNo && regNo !== "" && regNo !== "---" ?
+                                !prop.isShowForms && prop.actionClicked == "Documents" && Companyprop?.companies?.length > 0 && regNo && regNo !== "" && regNo !== "---" ?
                                     (
                                         <div>
                                             <span className="bg-appGreen p-1 text-white">Company Documents</span>
@@ -224,19 +172,23 @@ const Company = () => {
                                                             loanType === "franchisee" ? <Franchisee /> : null;
                                             })()}
 
-                                            <div> 
-                                                <hr className="mt-4" />
-                                                <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>
-                                                <div className="flex-col gap-2 pt-2">
-                                                     <Button size="sm" theme={customsubmitTheme} onClick={()=>setOpenModal(true)} color="appsuccess">Add a Director</Button>
-                                                    <DirectorsForm openModal={openModal}  setOpenModal={setOpenModal} />
-                                                    <EditDirectors/>
-                                                    <DirectorTable />
-                                                </div>
-                                            </div>
-
                                         </div>
                                     ) : null
+                            }
+
+                            {
+                                !prop.isShowForms && prop.actionClicked == "Director" && Companyprop?.companies?.length > 0 && regNo && regNo !== "" && regNo !== "---" ? (
+                                    <div>
+                                        <hr className="mt-4" />
+                                        <span className="bg-appGreen p-1 text-white">Shareholder/Director&apos;s Documents</span>
+                                        <div className="flex-col gap-2 pt-2">
+                                            <Button size="sm" theme={customsubmitTheme} onClick={() => setOpenModal(true)} color="appsuccess">Add a Director</Button>
+                                            <DirectorsForm openModal={openModal} setOpenModal={setOpenModal} />
+                                            <EditDirectors />
+                                            <DirectorTable />
+                                        </div>
+                                    </div>
+                                ) : null
                             }
 
                         </div>

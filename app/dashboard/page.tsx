@@ -43,22 +43,22 @@ const dashboard = () => {
                             </Alert>
                             <div className="flex flex-wrap items-center justify-center gap-2">
 
-                                <Card href="#" className="max-w-sm flex items-center justify-center">
+                                <Card className="max-w-sm flex items-center justify-center">
                                     <Image src={user} className="h-12 w-12 self-center" alt="..." />
                                     <Button onClick={() => HandleProfileTab("owner")} size="xs" theme={customsubmitTheme} color="success">Lead Profile</Button>
                                     <p className="font-thin text-xs self-center">86% complete</p>
                                 </Card>
-                                <Card href="#" className="max-w-sm flex items-center justify-center">
+                                <Card className="max-w-sm flex items-center justify-center">
                                     <Image src={company} className="h-12 w-12 self-center" alt="..." />
                                     <Button onClick={() => HandleProfileTab("company")} size="xs" theme={customsubmitTheme} color="success">Company Profile</Button>
                                     <p className="font-thin text-xs self-center">6% complete</p>
                                 </Card>
-                                <Card href="#" className="max-w-sm flex items-center justify-center">
+                                <Card className="max-w-sm flex items-center justify-center">
                                     <Image src={accept} className="h-12 w-12 self-center" alt="..." />
                                     <Button onClick={() => HandleProfileTab("apply")} className="bg-slate-400 hover:bg-slate-400 hover:cursor-not-allowed" size="xs" theme={customsubmitTheme} color="">Apply</Button>
                                     <p className="font-thin text-xs self-center">Profile not ready</p>
                                 </Card>
-                                <Card href="#" className="max-w-sm flex items-center justify-center">
+                                <Card className="max-w-sm flex items-center justify-center">
                                     <Image src={loading} className="h-12 w-12 self-center" alt="..." />
                                     <Button onClick={() => router.push('/applicationstatus')}  size="xs" theme={customsubmitTheme} color="success">Applications Status</Button>
                                     <p className="font-thin text-xs self-center">Progress Bar</p>

@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 import { Offline, Online } from "react-detect-offline";
 import { handleDownload } from "@/app/services/FileDownloader";
 
-const Contacts = () => {
+const ContactsUpt = () => {
     const { data, isLoading, error } = useProfile();
     const [username, SetUserName] = useState("");
     const [IdNo, setIdNo] = useState("");
@@ -114,7 +114,7 @@ const Contacts = () => {
 
                 
                 <Online>
-                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
+                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
                     {/* <p className="text-sm">You may be required to login again after this action.</p> */}
                 </Online>
             </form>
@@ -122,4 +122,4 @@ const Contacts = () => {
     );
 }
 
-export default Contacts;
+export default ContactsUpt;

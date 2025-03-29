@@ -9,7 +9,7 @@ import { CiHome } from "react-icons/ci";
 import { GiPostOffice } from "react-icons/gi";
 import { handleDownload } from "@/app/services/FileDownloader";
 
-const Address = () => {
+const AddressUpt = () => {
 
     const [physical, setPhysical] = useState("");
     const [postal, SetPostal] = useState("");
@@ -125,11 +125,11 @@ const Address = () => {
                     </Alert></Offline>
 
                 <Online>
-                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
+                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
                 </Online>
             </form>
         </div>
     );
 }
 
-export default Address;
+export default AddressUpt;

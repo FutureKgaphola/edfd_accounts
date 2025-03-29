@@ -1,9 +1,9 @@
 import { History } from "@/app/constants/sharedconstants";
 import { customBadgeTheme, customProgTheme, customsubmitTheme, customTimeLine } from "@/app/SiteTheme/Theme";
-import { Badge, Button, Progress, Timeline } from "flowbite-react";
+import { Badge, Button, Progress, Timeline, Tooltip } from "flowbite-react";
 import { HiCalendar, HiCheck, HiClock } from "react-icons/hi";
 
-const TimeLineChildComponent = ({ id,date, status, category, title, body,stage,outcome }: History) => {
+const TimeLineChildComponent = ({ id,date, status, category, RegNo,Company, body,stage,outcome }: History) => {
     return (
             <Timeline className="rounded border shadow mt-2 relative" theme={customTimeLine}>
                 {status=="open" ? (<Button size="xs" className="mt-2 w-fit absolute top-0 right-1" theme={customsubmitTheme} type="submit" color="warning">Withdraw Application</Button>) :null }
@@ -11,6 +11,10 @@ const TimeLineChildComponent = ({ id,date, status, category, title, body,stage,o
                     <Timeline.Point icon={() => <HiCalendar color="white" />} />
                     <Timeline.Content>
                         <Timeline.Time>{date}</Timeline.Time>
+                        <Tooltip content={RegNo}>
+                        <Badge theme={customBadgeTheme} className="w-fit text-sm mb-1" color="light">{Company}</Badge>
+                        </Tooltip>
+                        
                         <div className="flex gap-2">
                             <Badge theme={customBadgeTheme} className="w-fit text-sm" color="success">Status : {status}</Badge>
                             <Badge theme={customBadgeTheme} className="w-fit text-sm" color="success">category : {category}</Badge>

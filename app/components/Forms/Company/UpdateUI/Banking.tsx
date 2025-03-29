@@ -9,7 +9,7 @@ import { Offline, Online } from "react-detect-offline";
 import { handleDownload } from "@/app/services/FileDownloader";
 import { CiBank } from "react-icons/ci";
 
-const Banking = () => {
+const BankingUpt = () => {
     const [bank, Setbank] = useState("");
     const [branch, SetBranck] = useState("");
     const [branchCode, setBranchCode] = useState("");
@@ -153,11 +153,11 @@ const Banking = () => {
                     </Alert></Offline>
 
                 <Online>
-                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
+                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
                 </Online>
             </form>
         </div>
     );
 }
 
-export default Banking;
+export default BankingUpt;

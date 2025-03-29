@@ -53,11 +53,11 @@ const TrackApplication = () => {
                             <div className="overflow-x-auto max-h-[400px] h-72 p-4">
                             {history
                                 ?.filter((item) =>
-                                    item.title.toLowerCase().includes(SerachResult.toLowerCase()) ||
+                                    item.RegNo.toLowerCase().includes(SerachResult.toLowerCase()) ||
                                     item.id.toString().includes(SerachResult)
                                 )
                                 .map((item) => (
-                                    <TimeLineChildComponent key={item.id} id={item.id} date={item.date} status={item.status} category={item.category} title={item.title} body={item.body} stage={item?.stage} outcome={item?.outcome} />
+                                    <TimeLineChildComponent key={item.id} id={item.id} date={item.date} Company={item.Company} status={item.status} category={item.category} RegNo={item.RegNo} body={item.body} stage={item?.stage} outcome={item?.outcome} />
                                 ))}
                             </div>
                         </Card>
