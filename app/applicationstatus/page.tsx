@@ -17,10 +17,17 @@ import { Card } from 'flowbite-react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { useRouter } from 'next/navigation';
+import { TabSliceAction } from "@/lib/features/Tabprofile/TabprofileSlice";
+
 const Applicationstatus = () => {
     const router = useRouter();
     const dispatch = useDispatch();
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
+    const HandleProfileTab = (value: string,applicationId:string) => {
+            dispatch(TabSliceAction.SelectedTab({ tab: value }));
+            dispatch(TackApplicationAction?.TrackwithEmailNRef({ userId: Authprop?.user?.user_email, applicationId: 'EDFD-01789| 28-02-2025' }))
+            router.push("/profile");
+        }
     return (
         <div>
             <Nav_bar />
@@ -43,14 +50,8 @@ const Applicationstatus = () => {
                         >
                             <h3 className="vertical-timeline-element-title text-white font-poppinsRegular text-lg">Basic Assessment and Due Deligence</h3>
                             <div className='flex flex-col'>
-                                <p onClick={() => {
-                                    dispatch(TackApplicationAction?.TrackwithEmailNRef({ userId: Authprop?.user?.user_email, applicationId: 'EDFD-01789| 28-02-2025' }))
-                                    router?.push('/profile');
-                                }} className='text-white underline hover:cursor-pointer'>1. Ref EDFD-01789| 28-02-2025</p>
-                                <p onClick={() => {
-                                    dispatch(TackApplicationAction?.TrackwithEmailNRef({ userId: Authprop?.user?.user_email, applicationId: 'EDFD-01911| 01-03-2025' }))
-                                    router?.push('/profile');
-                                }} className='text-white underline hover:cursor-pointer'>2. Ref EDFD-01911| 01-03-2025</p>
+                                <p onClick={() => HandleProfileTab('track','EDFD-01789| 28-02-2025')} className='text-white underline hover:cursor-pointer'>1. Ref EDFD-01789| 28-02-2025</p>
+                                <p onClick={() => HandleProfileTab('track','EDFD-01911| 01-03-2025')} className='text-white underline hover:cursor-pointer'>2. Ref EDFD-01911| 01-03-2025</p>
                             </div>
                         </VerticalTimelineElement>
                         <VerticalTimelineElement
