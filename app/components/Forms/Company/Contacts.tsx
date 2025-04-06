@@ -1,5 +1,5 @@
 import useProfile from "@/app/hooks/useProfile";
-import useSubmitPersonal from "@/app/hooks/useSubmitPersonal";
+import useSubmitPersonal from "@/app/hooks/useUpdatePersonal";
 import { customInputBoxTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
 import { NetworkMessage } from "@/app/TempData/StaticData";
 import { Alert, Button, FileInput, Label, Radio, TextInput } from "flowbite-react";
@@ -8,7 +8,7 @@ import { Offline, Online } from "react-detect-offline";
 import { handleDownload } from "@/app/services/FileDownloader";
 
 const Contacts = () => {
-    const { data, isLoading, error } = useProfile();
+    
     const [username, SetUserName] = useState("");
     const [IdNo, setIdNo] = useState("");
     const [id, setId] = useState("");
@@ -48,35 +48,35 @@ const Contacts = () => {
         }
     };
    
-    useEffect(() => {
-        if (data) {
-            const { first_name, last_name, phone, saId, user_email, filename: fln, id } = data;
-            SetUserName(user_email ?? "");
-            setIdNo(saId || "");
-            setuserphone(phone || "");
-            SetName(first_name || "");
-            SetLName(last_name || "");
-            setServerFileName(fln || "");
-            setId(id ?? "");
-        }
-    }, [data, success]);
+    // useEffect(() => {
+    //     if (data) {
+    //         const { first_name, last_name, phone, saId, user_email, filename: fln, id } = data;
+    //         SetUserName(user_email ?? "");
+    //         setIdNo(saId || "");
+    //         setuserphone(phone || "");
+    //         SetName(first_name || "");
+    //         SetLName(last_name || "");
+    //         setServerFileName(fln || "");
+    //         setId(id ?? "");
+    //     }
+    // }, [data, success]);
     return (
         <div className="relative mt-2 sm:mt-4 md:mt-4">
             <p className="text-sm absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Personal (Identification)</p>
-            <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3" onSubmit={(e) => submitForm(Name, username, LName, userphone, IdNo, filename, pdfFile, data.id, e)}>
+            <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3">
                 <div className="grid gap-2 grid-cols-2">
                     <div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="name" value="Trade Name *" />
                             </div>
-                            <TextInput sizing="sm" onChange={(e: any) => SetName(e.target.value)} value={Name} theme={customInputBoxTheme} color={"focuscolor"}  id="name" type="text" placeholder="someone's name" required />
+                            <TextInput sizing="sm" onChange={(e: any) => SetName(e.target.value)} value={Name} theme={customInputBoxTheme} color={"focuscolor"}  id="name" type="text" placeholder="Trade Name" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
                                 <Label htmlFor="Lname" value="Tax Number *" />
                             </div>
-                            <TextInput sizing="sm" onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"}  id="Lname" type="text" placeholder="someone's name" required />
+                            <TextInput sizing="sm" onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"}  id="Lname" type="text" placeholder="Tax Number" required />
                         </div>
                         
 
@@ -102,7 +102,7 @@ const Contacts = () => {
                                 <Label htmlFor="email1" value="VAT Number *" />
                             </div>
                             <TextInput className="hover:cursor-not-allowed" sizing="sm" readOnly
-                                onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} id="email1" type="email" placeholder="name@mailprovider.com" required />
+                                onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} id="email1" type="text" placeholder="VAT Number" required />
                         </div>
                     </div>
                 </div>

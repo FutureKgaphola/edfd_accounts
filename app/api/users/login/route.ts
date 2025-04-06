@@ -18,7 +18,7 @@ export const POST=async(req:Request)=>{
       // Query the database for the user by email
       const rows = await pool.request()
         .input("email", sql.VarChar, email.trim())
-        .query('SELECT TOP 1 * FROM AccountHolders WHERE user_email = @email');
+        .query('SELECT TOP 1 * FROM LeadContact WHERE user_email = @email');
       
       // Check if the user was found
       if (rows.recordset.length === 0) {

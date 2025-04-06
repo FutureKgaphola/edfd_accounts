@@ -1,15 +1,12 @@
 "use client"
 import { Alert, Button, Card } from "flowbite-react";
-import { customselectTheme, customsubmitTheme } from "../SiteTheme/Theme";
+import { customsubmitTheme } from "../SiteTheme/Theme";
 import Image from "next/image";
-import ledalogo from '../assets/images/logoleda.png';
 import accept from '../assets/images/accept.png';
 import loading from '../assets/images/loadingbar.png';
-
 import company from '../assets/images/asset.png';
 import user from '../assets/images/user.png';
 import { Nav_bar } from "../components/Navbar";
-import { useDomReady } from "../hooks/useDomReady";
 import { TabSliceAction } from "@/lib/features/Tabprofile/TabprofileSlice";
 import { useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";

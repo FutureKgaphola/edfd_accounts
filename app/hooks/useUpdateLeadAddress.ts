@@ -2,39 +2,42 @@ import { FormEvent, useState } from 'react';
 import axios from 'axios';
 import { failureMessage, successMessage } from '../notifications/successError';
 import { useSignout } from './useSignout';
+import { useQueryClient } from '@tanstack/react-query';
 
-const useSubmitPersonal = () => {
+const useUpdateLeadAddress = () => {
+    const queryClient = useQueryClient();
     const { handleSigOut } = useSignout();
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<boolean>(false);
-
-    const submitForm = async (first_name: string,user_email:string,last_name:string,phone:string,saId:string, filename: string, file: File| null,user_id:string,e: FormEvent<HTMLFormElement>) => {
+    const submitForm = async (e: FormEvent<HTMLFormElement>,physical:string,postal:string,file: (File | null)[],user_id:string,user_email:string) => {
         e.preventDefault();
-        if (file && file.size > 40 * 1024 * 1024) {
+        if (file && file[0] && file[0].size > 40 * 1024 * 1024) {
             setError('File size should not exceed 40MB');
             return;
         }
         
-
         const formData = new FormData();
-        formData.append('first_name', first_name);
-        formData.append('user_email', user_email);
-        formData.append('last_name', last_name);
-        formData.append('phone', phone);
-        formData.append('saId', saId);
+        formData.append('physical', physical);
+        formData.append('postal', postal);
         formData.append('id', user_id);
+        formData.append('user_email', user_email);
+             
         if (file) {
-            formData.append('filename', filename);
-            formData.append('file', file);
-        }
+            
+            if (file[0]) {
+                formData.append('file0', file[0]);
+                formData.append('filename', file[0]?.name || '');
+            }
 
+        }
+       
         try {
             setLoading(true);
             setError(null);
             setSuccess(false);
 
-            const response = await axios.patch('/api/upload/personal', formData, {
+            const response = await axios.patch('/api/upload/personal/address', formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -43,7 +46,8 @@ const useSubmitPersonal = () => {
             if (response.status === 200) {
                 //setSuccess(true);
                 successMessage("Successful update");
-                handleSigOut();
+                queryClient.invalidateQueries({ queryKey: ["leadAddress"] });
+                //handleSigOut();
             } else {
                 failureMessage("Failed to submit the form");
                 setError('Failed to submit the form');
@@ -59,4 +63,4 @@ const useSubmitPersonal = () => {
     return { loading, error, success, submitForm };
 };
 
-export default useSubmitPersonal;
+export default useUpdateLeadAddress;

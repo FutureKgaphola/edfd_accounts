@@ -9,7 +9,7 @@ export const GET = async (req: Request) => {
         const url = new URL(req.url);
         const id: string = url.searchParams.get("id")?.trim() || "";
         const user_email: string = url.searchParams.get("m")?.trim() || "";
-
+        
         // Validate the input parameters
         if (!id || !user_email) {
             return NextResponse.json({ message: "Missing required parameters." }, { status: 400 });
@@ -22,13 +22,14 @@ export const GET = async (req: Request) => {
         }
 
         const result = await pool.request()
-            .input("user_email", sql.VarChar, user_email)
+            .input("holderEmail", sql.VarChar, user_email)
             .input('id', sql.Int, parsedId)
-            .query("SELECT FileData FROM AccountHolders WHERE id = @id AND user_email = @user_email");
+            .query(`SELECT TOP 1 proofAddress, filename FROM LeadAddress WHERE id = @id AND holderEmail = @holderEmail`);
 
         if (result.recordset.length > 0) {
-            const fileData = result.recordset[0].FileData;
-            const fileName = result.recordset[0].filename || "downloadedFile";
+            
+            const fileData = result.recordset[0].proofAddress;
+            const fileName = result.recordset[0].filename || "downloaded_file"; // Use the provided filename or a default one
             const buffer = Buffer.from(fileData, 'base64');
 
             return new NextResponse(buffer, {

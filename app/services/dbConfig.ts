@@ -8,7 +8,7 @@ const config = {
   pool: {
     max: 10,
     min: 0,
-    idleTimeoutMillis: 30000
+    idleTimeoutMillis: 50000
   },
   options: {
     encrypt: false, // Use true if connecting to Azure SQL

@@ -85,25 +85,25 @@ const Register = () => {
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="name" value="Name" />
+                                <Label htmlFor="name" value="Name *" />
                             </div>
                             <TextInput onChange={(e: any) => SetName(e.target.value)} value={Name} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="name" type="text" placeholder="someone's name" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="Lname" value="Surname" />
+                                <Label htmlFor="Lname" value="Surname *" />
                             </div>
                             <TextInput onChange={(e: any) => SetLName(e.target.value)} value={LName} theme={customInputBoxTheme} color={"focuscolor"} icon={HiUserAdd} id="Lname" type="text" placeholder="someone's name" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="email1" value="Email" />
+                                <Label htmlFor="email1" value="Email *" />
                             </div>
                             <TextInput onChange={(e: any) => SetUserName(e.target.value)} value={username} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
                         </div>
                         <div>
                             <div className="mb-2 block">
-                                <Label htmlFor="password1" value="Password" />
+                                <Label htmlFor="password1" value="Password *" />
                                 <p className="text-sm font-thin">{password}</p>
                             </div>
                             <TextInput onChange={(e: any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" required />

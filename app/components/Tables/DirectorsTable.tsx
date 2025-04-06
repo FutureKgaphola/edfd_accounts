@@ -21,6 +21,7 @@ const dispatch = useDispatch();
                     <Table.Head className="sticky top-0 z-10">
                         <Table.HeadCell className='tblHeader'>Names</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>Email</Table.HeadCell>
+                        <Table.HeadCell className='tblHeader'>%</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>Date added</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>Proof of Ress</Table.HeadCell>
                         <Table.HeadCell className='tblHeader'>SA-ID</Table.HeadCell>
@@ -36,6 +37,7 @@ const dispatch = useDispatch();
                                         <Table.Row key={director.id} className="bg-white dark:border-gray-700 dark:bg-gray-800">
                                             <Table.Cell className="text-black">{director.fullnames}</Table.Cell>
                                             <Table.Cell>{director?.email}</Table.Cell>
+                                            <Table.Cell>{"25"}</Table.Cell>
                                             <Table.Cell>{director?.createdAt}</Table.Cell>
                                             <Table.Cell><p className="underline text-appGreen">{director?.proof_Resfilename}</p></Table.Cell>
                                             <Table.Cell><p className="underline text-appGreen">{director?.copy_safilename}</p></Table.Cell>

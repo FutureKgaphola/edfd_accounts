@@ -1,5 +1,5 @@
 
-import useSubmitPersonal from "@/app/hooks/useSubmitPersonal";
+import useSubmitPersonal from "@/app/hooks/useUpdatePersonal";
 import { customInputBoxTheme, customselectTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
 import { NetworkMessage } from "@/app/TempData/StaticData";
 import { Alert, Button, FileInput, Label, Select, TextInput } from "flowbite-react";

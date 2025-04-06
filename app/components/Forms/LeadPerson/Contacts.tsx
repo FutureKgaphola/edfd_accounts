@@ -1,12 +1,13 @@
 import useProfile from "@/app/hooks/useProfile";
-import useSubmitPersonal from "@/app/hooks/useSubmitPersonal";
+import useUpdatePersonal from "@/app/hooks/useUpdatePersonal";
 import { customInputBoxTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
 import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Button, FileInput, Label, Radio, TextInput } from "flowbite-react";
+import { Alert, Badge, Button, FileInput, Label, Radio, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiMail, HiInformationCircle, HiUserAdd, HiCloudDownload } from "react-icons/hi";
 import { Offline, Online } from "react-detect-offline";
 import { handleDownload } from "@/app/services/FileDownloader";
+import { failureMessage } from "@/app/notifications/successError";
 
 const Contacts = () => {
     const { data, isLoading, error } = useProfile();
@@ -17,56 +18,68 @@ const Contacts = () => {
     const [Name, SetName] = useState("");
     const [LName, SetLName] = useState("");
     const [marital, SetMarital] = useState("Single");
-    const [filename, setFilename] = useState('');
     const [ServerFileName, setServerFileName] = useState('');
-    const [pdfFile, setPdfFile] = useState<File | null>(null);
+    //const [pdfFile, setPdfFile] = useState<File | null>(null);
     const [Filerror, setError] = useState('');
-
+    const [maritalStatus, setMaritalStatus] = useState("undefined");
     //spouse
     const [SpouceName, SetSpouceName] = useState("");
     const [Spoucephone, SetSpoucephone] = useState("");
     const [SpouceEmail, SetSpouceEmail] = useState("");
     const [SpouceSID, SetSpouceSID] = useState("");
-    const [ServerSpMFileName, SetServerSpMFileName] = useState('');
+    const [ServerSpMFileName, setServerSpMFileName] = useState('');
     const [ServerSpIdFileName, SetServerSpIdFileName] = useState('');
-    const { loading, error: errorp, success, submitForm } = useSubmitPersonal();
+    const { loading, error: errorp, success, submitForm } = useUpdatePersonal();
+    const [files, setFiles] = useState<(File | null)[]>([null, null]);
+    const [FileIndexes, setFileIndexes] = useState<(number | null)[]>([]);
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            const file = event.target.files[0];
-            if (event.target.files === undefined || event.target.files === null) { setFilename(""); setPdfFile(null); return; }
-            if (event.target.files[0] === undefined || event.target.files[0] === null) { setFilename(""); setPdfFile(null); return; }
-            setFilename(event.target.files[0].name);
-
-            // Validate the file size (should not exceed 40MB)
-            if (file.size > 40 * 1024 * 1024) {  // 40MB in bytes
-                setError('File size exceeds the 40MB limit.');
-                setPdfFile(null);  // Clear the file
-            } else {
-                setError('');
-                setPdfFile(file);
+    const handleFileChange = (index: number, file: File | null) => {
+        if (file) {
+            if (file.type !== 'application/pdf') {
+                failureMessage('Please upload a valid PDF file.');
+                return;
+            }
+            if (file.size > 40 * 1024 * 1024) {
+                failureMessage('File size must be less than 40 MB.');
+                return;
             }
         }
+
+        const updatedFiles = [...files];
+        updatedFiles[index] = file;
+        setFiles(updatedFiles);
+        setFileIndexes([...FileIndexes, index]);
     };
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         SetMarital(event.target.value);
     };
     useEffect(() => {
         if (data) {
-            const { first_name, last_name, phone, saId, user_email, filename: fln, id } = data;
+            const { first_name, marital_status, last_name, phone, id, user_email, holderIDfilename, holdersaId } = data;
             SetUserName(user_email ?? "");
-            setIdNo(saId || "");
+            setIdNo(holdersaId || "");
             setuserphone(phone || "");
             SetName(first_name || "");
             SetLName(last_name || "");
-            setServerFileName(fln || "");
+            setServerFileName(holderIDfilename || "");
             setId(id ?? "");
+            setMaritalStatus(marital_status || "undefined");
+            SetMarital(marital_status || "undefined");
+            SetSpouceEmail(data?.SpouceEmail || "");
+            SetSpouceName(data?.SpouceName || "");
+            SetSpoucephone(data?.SpoucePhone || "");
+            SetSpouceSID(data?.SpouceId || "");
+            setServerFileName(data?.holderIDfilename || "");
+            SetServerSpIdFileName(data?.SpouceIDfilename || "");
+            setServerSpMFileName(data?.maritalDocfilename || "");
+
         }
     }, [data, success]);
     return (
         <div className="relative mt-2 sm:mt-4 md:mt-4">
             <p className="text-sm absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Personal (Identification)</p>
-            <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3" onSubmit={(e) => submitForm(Name, username, LName, userphone, IdNo, filename, pdfFile, data.id, e)}>
+            <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3" onSubmit={(e) => submitForm(Name, username, LName, userphone, IdNo, files, data.id, e, SpouceName, SpouceSID,
+                Spoucephone, SpouceEmail, marital)}>
                 <div className="grid gap-2 grid-cols-2">
                     <div>
                         <div>
@@ -116,12 +129,12 @@ const Contacts = () => {
                                 <Label htmlFor="file-upload-helper-text" value="Certified SA-ID copy*" />
                             </div>
                             <div className="flex gap-1">
-                                {ServerFileName ? (<HiCloudDownload onClick={() => handleDownload(id, username, ServerFileName)} className="hover:cursor-pointer" width={35} height={35} />) : null}
+                                {ServerFileName ? (<HiCloudDownload onClick={() => handleDownload(id, username, ServerFileName, "holderId")} className="hover:cursor-pointer" width={35} height={35} />) : null}
                                 <p className="text-xs">{ServerFileName}</p>
                             </div>
 
                             <FileInput className="max-w-md"
-                                onChange={handleFileChange}
+                                onChange={(e) => handleFileChange(0, e.target.files?.[0] || null)}
                                 sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
                         </div>
 
@@ -168,14 +181,19 @@ const Contacts = () => {
                         />
                         <Label htmlFor="Divorced">Divorced</Label>
                     </div>
-
+                    <Badge color="success">{maritalStatus}</Badge>
                 </fieldset>
                 <div className="mt-2">
                     <div>
                         <Label htmlFor="file-upload-helper-text" value={marital == 'Single' ? "Affidavit proving your marital status" : marital == 'Married' ? "Marriage Certificate" : marital == 'Divorced' ? "Decree of divorce" : ""} />
+                        <p className="font-thin text-xs text-red-600">must be 3 months valid with official stamp</p>
+                    </div>
+                    <div className="flex gap-1">
+                        {ServerSpMFileName ? (<HiCloudDownload onClick={() => handleDownload(id, username, ServerSpMFileName, "marital")} className="hover:cursor-pointer" width={35} height={35} />) : null}
+                        <p className="text-xs">{ServerSpMFileName}</p>
                     </div>
                     <FileInput className="max-w-md"
-                        onChange={handleFileChange}
+                        onChange={(e) => handleFileChange(1, e.target.files?.[0] || null)}
                         sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
                 </div>
                 {
@@ -195,20 +213,20 @@ const Contacts = () => {
                                         <div className="mb-2 block">
                                             <Label htmlFor="email1" value="Spouse Email *" />
                                         </div>
-                                        <TextInput className="hover:cursor-not-allowed" sizing="sm" readOnly
+                                        <TextInput className="hover:cursor-not-allowed" sizing="sm"
                                             onChange={(e: any) => SetSpouceEmail(e.target.value)} value={SpouceEmail} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
                                     </div>
                                     <div>
                                         <div>
-                                            <Label htmlFor="file-upload-helper-text" value="Marital Certificate*" />
+                                            <Label htmlFor="file-upload-helper-text" value="Certified SA-ID copy*" />
                                         </div>
                                         <div className="flex gap-1">
-                                            {ServerSpMFileName ? (<HiCloudDownload onClick={() => handleDownload(id, username, ServerFileName)} className="hover:cursor-pointer" width={35} height={35} />) : null}
-                                            <p className="text-xs">{ServerSpMFileName}</p>
+                                            {ServerSpIdFileName ? (<HiCloudDownload onClick={() => handleDownload(id, username, ServerFileName, 'SpouceId')} className="hover:cursor-pointer" width={35} height={35} />) : null}
+                                            <p className="text-xs">{ServerSpIdFileName}</p>
                                         </div>
 
                                         <FileInput className="max-w-md"
-                                            onChange={handleFileChange}
+                                            onChange={(e) => handleFileChange(2, e.target.files?.[0] || null)}
                                             sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
                                     </div>
                                     <p>{errorp}</p>
@@ -234,19 +252,7 @@ const Contacts = () => {
                                             required maxLength={13}
                                             onChange={(e: any) => SetSpouceSID(e.target.value)} value={SpouceSID} theme={customInputBoxTheme} color={"focuscolor"} id="idno" type="text" />
                                     </div>
-                                    <div>
-                                        <div>
-                                            <Label htmlFor="file-upload-helper-text" value="Certified SA-ID copy*" />
-                                        </div>
-                                        <div className="flex gap-1">
-                                            {ServerSpIdFileName ? (<HiCloudDownload onClick={() => handleDownload(id, username, ServerFileName)} className="hover:cursor-pointer" width={35} height={35} />) : null}
-                                            <p className="text-xs">{ServerSpIdFileName}</p>
-                                        </div>
 
-                                        <FileInput className="max-w-md"
-                                            onChange={handleFileChange}
-                                            sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
-                                    </div>
 
                                 </div>
                             </div>
@@ -255,7 +261,7 @@ const Contacts = () => {
                     ) : null
                 }
                 <Online>
-                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
+                    <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
                     {/* <p className="text-sm">You may be required to login again after this action.</p> */}
                 </Online>
             </form>

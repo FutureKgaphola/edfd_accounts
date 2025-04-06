@@ -17,23 +17,22 @@ export const GET = async (req: Request) => {
       const rows = await pool.request()
         .input("verify_tk", sql.VarChar, tmpTk)
         .input("verified", sql.VarChar, "verified")
-        .input("verified_date",sql.VarChar,v_update?.trim())
         .query(`
-          UPDATE AccountHolders
-          SET verify_tk = @verified , verified_date=@verified_date
+          UPDATE LeadContact
+          SET verify_tk = @verified 
           OUTPUT inserted.verify_tk
           WHERE verify_tk = @verify_tk
         `);
 
       if (rows.recordset.length === 0) {
         return NextResponse.json(
-          { message: "Failed to verify or token has already used" },
+          { message: "Failed to verify or token has already been used" },
           { status: 400 }
         );
       }
 
-      // Redirect to localhost:3000 if successful
-      return NextResponse.redirect("http://localhost:3000/");
+      // Redirect to login screen if successful
+      return NextResponse.redirect(process?.env.DOMAIN || "https://www.google.com/");
     } else {
       return NextResponse.json(
         { message: "Invalid token" },

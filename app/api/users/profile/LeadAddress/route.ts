@@ -12,21 +12,19 @@ export const GET=async(req:Request)=>{
       // Query the database for the user by email
       const rows = await pool.request()
         .input("id", sql.VarChar, id?.trim())
-        .query('SELECT TOP 1 * FROM AccountHolders WHERE id = @id');
+        .query('SELECT TOP 1 * FROM LeadAddress WHERE holderEmail = @id');
       
       // Check if the user was found
       if (rows.recordset.length === 0) {
         return NextResponse.json(
-          { message: 'Profile not found, contact administrator' },
+          { message: 'Address not found, contact administrator' },
           { status: 400 }
         );
       }
       const user = rows.recordset[0];
       
-  
-      const { password: _, ...userWithoutPassword } = user;
       return NextResponse.json(
-        { user: userWithoutPassword },
+        { user: user },
         { status: 200 }
       );
 

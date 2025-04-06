@@ -1,7 +1,7 @@
 import { customselectTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { Alert, Button, Select } from "flowbite-react";
+import { Alert, Button, Select, Tooltip } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import LoadingSpinner from "../Spinner/LoadingSpinner";
@@ -82,11 +82,24 @@ const ProfileList = ({user_email}:{user_email:string}) => {
  
             </Select>
             <div className="flex gap-2 flex-wrap">
+            <Tooltip content={"Create A Company"}>
             <Button onClick={()=>RefetchCompanyDocs("Create")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Create</Button>
-            <Button onClick={()=>RefetchCompanyDocs("Documents")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Documents</Button>
-            <Button onClick={()=>RefetchCompanyDocs("Update")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update(Indentification,Address,Banking)</Button>
-            <Button onClick={()=>RefetchCompanyDocs("Director")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Director</Button>
-            <Button onClick={()=>RefetchCompanyDocs("Delete")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="failure">Delete</Button>
+                </Tooltip>
+                <Tooltip content={"Manage your Documents"}>
+                <Button onClick={()=>RefetchCompanyDocs("Documents")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Documents</Button>
+                </Tooltip>
+
+                <Tooltip content={"Update your Indentification,Address & Banking"}>
+                <Button onClick={()=>RefetchCompanyDocs("Update")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
+                    </Tooltip>
+
+                <Tooltip content={"Manage your Directors"}>
+                <Button onClick={()=>RefetchCompanyDocs("Director")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Director</Button>
+                    </Tooltip>
+            
+           
+            
+            {/* <Button onClick={()=>RefetchCompanyDocs("Delete")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="failure">Delete</Button> */}
             </div>
             </div>
            

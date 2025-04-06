@@ -34,9 +34,9 @@ import TrackApplication from "../components/Timeline/TrackApplication";
         <Tabs.Item active={prop.tab=="company" ? true : false  } title="Companies(s)" icon={MdDashboard}>
           <Company/>
         </Tabs.Item>
-        <Tabs.Item active={prop.tab=="listings" ? true : false  } title="Company Listing(s)" icon={HiClipboardList}>
+        {/* <Tabs.Item active={prop.tab=="listings" ? true : false  } title="Company Listing(s)" icon={HiClipboardList}>
           <CompanyList/>
-        </Tabs.Item>
+        </Tabs.Item> */}
 
         <Tabs.Item active={prop.tab=="apply" ? true : false  } title="Apply" icon={HiClipboardList}>
           <ApplyLoan/>
