@@ -12,6 +12,7 @@ export const handleDownload = async (
     marital: `/api/users/download/maritaldoc?id=${id}&m=${username}`,
     SpouceId: `/api/users/download/spouceId?id=${id}&m=${username}`,
     leadproofAddress: `/api/users/download/leadAddress?id=${id}&m=${username}`,
+    leadproofBankng: `/api/users/download/leadBanking?id=${id}&m=${username}`,
   };
 
   const url = apiRoutes[requester];
