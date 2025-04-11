@@ -1,13 +1,14 @@
 
-import { customInputBoxTheme, customsubmitTheme, customSwitch, NetworkTitle } from "@/app/SiteTheme/Theme";
+import { customInputBoxTheme, customselectTheme, customsubmitTheme, customSwitch, NetworkTitle } from "@/app/SiteTheme/Theme";
 import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Button, FileInput, Label, Radio, TextInput, ToggleSwitch } from "flowbite-react";
+import { Alert, Button, FileInput, Label, Radio, Select, TextInput, ToggleSwitch } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiInformationCircle, HiUserAdd } from "react-icons/hi";
 import { Offline, Online } from "react-detect-offline";
 import { CiHome } from "react-icons/ci";
 import { GiPostOffice } from "react-icons/gi";
 import { handleDownload } from "@/app/services/FileDownloader";
+import { useDistricts } from "@/app/hooks/useDistricts";
 
 const Address = () => {
 
@@ -16,9 +17,12 @@ const Address = () => {
     const [property, Setproperty] = useState("Own");
     const [filename, setFilename] = useState('');
     const [ServerFileName, setServerFileName] = useState('');
+    const [MyDistrict, SetMyDistrict] = useState("");
+    const [District, SetDistrict] = useState([]);
     const [pdfFile, setPdfFile] = useState<File | null>(null);
     const [Filerror, setError] = useState('');
     const [switch1, setSwitch1] = useState(false);
+    const { data } = useDistricts();
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
             const file = event.target.files[0];
@@ -37,12 +41,10 @@ const Address = () => {
         }
     };
     useEffect(() => {
-        // if (data) {
-        //     const { first_name, last_name, phone, saId, user_email, filename: fln, id } = data;
-        //     SetPostal(user_email || "");
-        //     setPhysical(saId || "");
-        // }
-    }, []);
+        if (data) {
+            SetDistrict(data.data.Districts);
+        }
+    }, [data]);
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         Setproperty(event.target.value);
@@ -67,6 +69,25 @@ const Address = () => {
                             <TextInput sizing="sm" onChange={(e: any) => SetPostal(e.target.value)} value={postal} theme={customInputBoxTheme} color={"focuscolor"} icon={GiPostOffice} id="Lname" type="text" placeholder="Postal Address" required />
                         </div>)
                     }
+                    <div>
+                        <div className="mb-2 block">
+                            <Label htmlFor="name" value="District *" />
+                        </div>
+                        <Select sizing="sm"
+                            className=""
+                            id="Service"
+                            theme={customselectTheme}
+                            color="success"
+                            required
+                        >
+                            <option>---</option>
+                            {
+                                District?.map((d: any) => (
+                                    <option onSelect={() => SetMyDistrict(d?.districtName)} key={d.id} value={d?.districtName}>{d?.districtName}</option>
+                                ))
+                            }
+                        </Select>
+                    </div>
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="postal" value="Proof of Address *" />
@@ -105,16 +126,16 @@ const Address = () => {
                     {
                         property == 'leased' ? (
                             <div className="mt-2">
-                        <div>
-                            <Label htmlFor="file-upload-helper-text" value={"Lease Agreement"} />
-                        </div>
-                        <FileInput className="max-w-md"
-                            onChange={handleFileChange}
-                            sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
-                    </div>
-                        ): null
+                                <div>
+                                    <Label htmlFor="file-upload-helper-text" value={"Lease Agreement"} />
+                                </div>
+                                <FileInput className="max-w-md"
+                                    onChange={handleFileChange}
+                                    sizing="sm" id="file-upload-helper-text" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
+                            </div>
+                        ) : null
                     }
-                    
+
 
                 </div>
 
