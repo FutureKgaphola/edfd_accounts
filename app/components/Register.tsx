@@ -41,6 +41,7 @@ const Register = () => {
         e.preventDefault();
         try {
             const result = await handleSignup({ username, phone, Name, LName, IdNo, password });
+            console.log("result", result);
             await fetch("/api/users/sendVerifylink", {
                 headers: {
                     "Content-Type": "application/json"

@@ -5,6 +5,7 @@ import fs from 'fs';
 
 export const mailClientVeficationToken = async (info: any) => {
     const { email, name, token } = info;
+    console.log("Email:", email);
     try {
         const defaultDomain = process.env.DOMAIN || 'https://www.google.com/';
         const readFileAsync = promisify(fs.readFile);

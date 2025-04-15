@@ -1,5 +1,5 @@
 import { customsubmitTheme } from "@/app/SiteTheme/Theme";
-import { Alert, Button, Card, Label, Radio } from "flowbite-react";
+import { Alert, Button, Card, Label, Radio, Timeline, TimelineContent, TimelineItem, TimelinePoint, TimelineTime } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
 import { FormEvent, useEffect, useState } from "react";
 import { DirectorTable } from "../Tables/DirectorsTable";
@@ -25,7 +25,7 @@ import BankingUpt from "./Company/UpdateUI/Banking";
 
 const Company = () => {
     const queryClient = useQueryClient();
-    const { handleAddCompanies, loading } = useAddCompanies();
+    // const { handleAddCompanies, loading } = useAddCompanies();
     const [openEditModal, setOpenEditModal] = useState(false);
     const [email, setemail] = useState("");
     const [phone, setphone] = useState("");
@@ -50,10 +50,10 @@ const Company = () => {
 
     const [SelectedDistrict, setSelectedDistrict] = useState("");
 
-    const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-        e?.preventDefault();
-        await addCompanyMutation();
-    }
+    // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    //     e?.preventDefault();
+    //     await addCompanyMutation();
+    // }
 
     const resetCompanyInfoForm = () => {
         setemail("");
@@ -62,15 +62,15 @@ const Company = () => {
         setCompanyName("");
     }
 
-    const { mutateAsync: addCompanyMutation } = useMutation({
-        mutationFn: () => handleAddCompanies({
-            user_email: authEmail, compName: CompanyName, phone: phone, regNo: CompReg, districtName: SelectedDistrict, compEmail: email
-        }),
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ["Registeredcompanies"] });
-            resetCompanyInfoForm();
-        }
-    });
+    // const { mutateAsync: addCompanyMutation } = useMutation({
+    //     mutationFn: () => handleAddCompanies({
+    //         user_email: authEmail, compName: CompanyName, phone: phone, regNo: CompReg, districtName: SelectedDistrict, compEmail: email
+    //     }),
+    //     onSuccess: () => {
+    //         queryClient.invalidateQueries({ queryKey: ["Registeredcompanies"] });
+    //         resetCompanyInfoForm();
+    //     }
+    // });
 
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
     const prop = useSelector((state: RootState) => state.AddCompSliceReducer);
@@ -89,9 +89,31 @@ const Company = () => {
                                 prop.isShowForms ? (
                                     <div className="lg:flex xl:flex gap-2 pt-4 lg:overflow-x-auto xl:overflow-x-auto sm:overflow-y-auto md:overflow-y-auto max-w-full">
                                         <Contacts />
-                                        <Address />
-                                        <Banking />
+                                        {/* <Address />
+                                        <Banking /> */}
+
+                                        <Timeline>
+                                            <TimelineItem>
+                                                <TimelinePoint />
+                                                <TimelineContent>
+                                                    <TimelineTime color="#000000">Add A company here</TimelineTime>
+                                                </TimelineContent>
+                                            </TimelineItem>
+                                            <TimelineItem>
+                                                <TimelinePoint />
+                                                <TimelineContent>
+                                                    <TimelineTime>Select your company from the dropdown</TimelineTime>
+                                                </TimelineContent>
+                                            </TimelineItem>
+                                            <TimelineItem>
+                                                <TimelinePoint />
+                                                <TimelineContent>
+                                                    <TimelineTime>Click on update to add more details of your company</TimelineTime>
+                                                </TimelineContent>
+                                            </TimelineItem>
+                                        </Timeline>
                                     </div>
+
                                 ) : null
                             }
                             {

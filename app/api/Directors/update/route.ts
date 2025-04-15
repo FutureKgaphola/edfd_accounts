@@ -11,6 +11,7 @@ export const PATCH = async (req: Request) => {
     const phone = formData.get('phone') as string;
     const regNo = formData.get('regNo') as string;
     const email = formData.get('email') as string;
+    const percentage=formData.get('percentage') as string;
     const fileDataRess = formData.get(`fileDataRess`) as File | null;
     const fileDataCopyId = formData.get(`fileDataCopyId`) as File | null;
     const tableref = regNo.replace(/[^a-zA-Z0-9]/g, '');
@@ -28,7 +29,7 @@ export const PATCH = async (req: Request) => {
 
     // Connect to the database
     const pool = await connectToDatabase();
-    let l_update = moment().format("YYYY-MM-DD HH:mm:ss");
+    let l_update = moment().format("YYYY-MM-DD HH:mm:ss"); //unused ignore
     try {
         if ((fileDataRess && fileDataRess instanceof File) && (fileDataCopyId && fileDataCopyId instanceof File)) {
             const resfileBuffer = Buffer.from(await fileDataRess.arrayBuffer());
@@ -36,15 +37,17 @@ export const PATCH = async (req: Request) => {
             const result = await pool.request()
                 .input("fullnames", sql.VarChar, fullnames?.trim())
                 .input("email", sql.VarChar, email?.trim())
+                .input("percentage",sql.VarChar,percentage?.trim())
                 .input('copy_sa_id', sql.VarBinary, copyid_fileBuffer)
                 .input('proofRes', sql.VarBinary, resfileBuffer)
                 .input("phone", sql.VarChar, phone?.trim())
                 .input("proof_Resfilename", sql.VarChar, fileDataRess.name?.trim())
                 .input("copy_safilename", sql.VarChar, fileDataCopyId.name?.trim())
-                .input('last_update', sql.VarChar, l_update)
+                .input("last_update", sql.DateTime, new Date())
                 .query(`UPDATE Directors${tableref} 
                  SET fullnames = @fullnames,
                 phone=@phone,
+                percentage=@percentage,
                 proof_Resfilename=@proof_Resfilename,
                 copy_safilename=@copy_safilename,
                 copy_sa_id=@copy_sa_id,
@@ -60,18 +63,19 @@ export const PATCH = async (req: Request) => {
             }
         } else if ((fileDataRess && fileDataRess instanceof File)) {
             const resfileBuffer = Buffer.from(await fileDataRess.arrayBuffer());
-            console.log("ress");
             // Insert data into the database
             const result = await pool.request()
                 .input("fullnames", sql.VarChar, fullnames?.trim())
                 .input("email", sql.VarChar, email?.trim())
+                .input("percentage",sql.VarChar,percentage?.trim())
                 .input('proofRes', sql.VarBinary, resfileBuffer)
                 .input("phone", sql.VarChar, phone?.trim())
                 .input("proof_Resfilename", sql.VarChar, fileDataRess.name?.trim())
-                .input('last_update', sql.VarChar, l_update)
+                .input("last_update", sql.DateTime, new Date())
                 .query(`UPDATE Directors${tableref} 
                  SET fullnames = @fullnames,
                 phone=@phone,
+                percentage=@percentage,
                 proof_Resfilename=@proof_Resfilename,
                 proofRes=@proofRes,
                 last_update=@last_update
@@ -90,13 +94,15 @@ export const PATCH = async (req: Request) => {
             const result = await pool.request()
                 .input("fullnames", sql.VarChar, fullnames?.trim())
                 .input("email", sql.VarChar, email?.trim())
+                .input("percentage",sql.VarChar,percentage?.trim())
                 .input('copy_sa_id', sql.VarBinary, copyid_fileBuffer)
                 .input("phone", sql.VarChar, phone?.trim())
                 .input("copy_safilename", sql.VarChar, fileDataCopyId.name?.trim())
-                .input('last_update', sql.VarChar, l_update)
+                .input("last_update", sql.DateTime, new Date())
                 .query(`UPDATE Directors${tableref} 
                  SET fullnames = @fullnames,
                 phone=@phone,
+                percentage=@percentage,
                 copy_safilename=@copy_safilename,
                 copy_sa_id=@copy_sa_id,
                 last_update=@last_update
@@ -113,11 +119,13 @@ export const PATCH = async (req: Request) => {
             const result = await pool.request()
                 .input("fullnames", sql.VarChar, fullnames?.trim())
                 .input("email", sql.VarChar, email?.trim())
+                .input("percentage",sql.VarChar,percentage?.trim())
                 .input("phone", sql.VarChar, phone?.trim())
-                .input('last_update', sql.VarChar, l_update)
+                .input("last_update", sql.DateTime, new Date())
                 .query(`UPDATE Directors${tableref} 
                  SET fullnames = @fullnames,
                 phone=@phone,
+                percentage=@percentage,
                 last_update=@last_update
                 where email=@email`);
 

@@ -2,9 +2,9 @@ import sql from "mssql";
 
 const config = {
   user: 'future', // Replace with your SQL Server username
-  password: '123456', // Replace with your SQL Server password
+  password: '1234567', // Replace with your SQL Server password
   server: 'localhost', // Replace with your SQL Server host (e.g., localhost or an IP address)
-  database: 'edfdDB', // Replace with your database name
+  database: 'edfd', // Replace with your database name
   pool: {
     max: 10,
     min: 0,

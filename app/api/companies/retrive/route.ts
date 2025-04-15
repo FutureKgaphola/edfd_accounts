@@ -10,7 +10,7 @@ export const GET=async(req:Request)=>{
       // Query the database for the user by email
       const rows = await pool.request()
         .input("user_email", sql.VarChar, user_email?.trim())
-        .query('SELECT * FROM Companies WHERE user_email = @user_email');
+        .query('SELECT * FROM CompaniesIdentification WHERE user_email = @user_email');
       
       // Check if the companies were found
       if (rows.recordset.length === 0) {

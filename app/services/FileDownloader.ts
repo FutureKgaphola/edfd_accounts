@@ -13,6 +13,9 @@ export const handleDownload = async (
     SpouceId: `/api/users/download/spouceId?id=${id}&m=${username}`,
     leadproofAddress: `/api/users/download/leadAddress?id=${id}&m=${username}`,
     leadproofBankng: `/api/users/download/leadBanking?id=${id}&m=${username}`,
+    companyproofAddress : `/api/users/download/company/address/proofaddress?id=${id}&m=${username}`,
+    leaseAgrement: `/api/users/download/company/address/lease?id=${id}&m=${username}`,
+    companyproofBankng: `/api/users/download/company/banking/proof?id=${id}&m=${username}`,
   };
 
   const url = apiRoutes[requester];

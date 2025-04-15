@@ -1,55 +1,65 @@
 
-import useSubmitPersonal from "@/app/hooks/useUpdatePersonal";
 import { customInputBoxTheme, customselectTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
 import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Button, FileInput, Label, Select, TextInput } from "flowbite-react";
+import { Alert, Badge, Button, FileInput, Label, Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiInformationCircle } from "react-icons/hi";
+import { HiCloudDownload, HiInformationCircle } from "react-icons/hi";
 import { Offline, Online } from "react-detect-offline";
-import { handleDownload } from "@/app/services/FileDownloader";
 import { CiBank } from "react-icons/ci";
 
+import { failureMessage } from "@/app/notifications/successError";
+import { handleDownload } from "@/app/services/FileDownloader";
+import useFetchCompanyBanking from "@/app/hooks/useFetchCompanyBanking";
+import useUpdateCompanyBanking from "@/app/hooks/useUpdateCompanyBanking";
+
 const BankingUpt = () => {
+    const { data, isLoading, error } = useFetchCompanyBanking();
+    const { loading, error: errorp, success, submitForm } = useUpdateCompanyBanking();
+    const [ServerFileName, setServerFileName] = useState('');
+    const [UserEmail, SetUserEmail] = useState("");
     const [bank, Setbank] = useState("");
+    const [bankOther, SetbankOther] = useState("");
+    const [user_id, setuser_id] = useState("");
     const [branch, SetBranck] = useState("");
     const [branchCode, setBranchCode] = useState("");
     const [accountNumber, SetAccountNumber] = useState("");
-    const [accountname, SetAccountName] = useState("");
+    const [accountHoldername, SetAccountHolderName] = useState("");
     const [accountType, SetaccountType] = useState('');
-    const [Filename, setFilename] = useState('');
-    const [pdfFile, setPdfFile] = useState<File | null>(null);
-    const [Filerror, setError] = useState('');
-    const { loading, error: errorp, success, submitForm } = useSubmitPersonal();
+    const [files, setFiles] = useState<(File | null)[]>([null]);
+    const [FileIndexes, setFileIndexes] = useState<(number | null)[]>([]);
 
-    const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        if (event.target.files) {
-            const file = event.target.files[0];
-            if (event.target.files === undefined || event.target.files === null) { setFilename(""); setPdfFile(null); return; }
-            if (event.target.files[0] === undefined || event.target.files[0] === null) { setFilename(""); setPdfFile(null); return; }
-            setFilename(event.target.files[0].name);
-
-            // Validate the file size (should not exceed 40MB)
-            if (file.size > 40 * 1024 * 1024) {  // 40MB in bytes
-                setError('File size exceeds the 40MB limit.');
-                setPdfFile(null);  // Clear the file
-            } else {
-                setError('');
-                setPdfFile(file);
+    const handleFileChange = (index: number, file: File | null) => {
+        if (file) {
+            if (file.type !== 'application/pdf') {
+                failureMessage('Please upload a valid PDF file.');
+                return;
+            }
+            if (file.size > 40 * 1024 * 1024) {
+                failureMessage('File size must be less than 40 MB.');
+                return;
             }
         }
+
+        const updatedFiles = [...files];
+        updatedFiles[index] = file;
+        setFiles(updatedFiles);
+        setFileIndexes([...FileIndexes, index]);
     };
     useEffect(() => {
-        // if (data) {
-        //     const { first_name, last_name, phone, saId, user_email, filename: fln, id } = data;
-        //     SetUserName(user_email || "");
-        //     setIdNo(saId || "");
-        //     setuserphone(phone || "");
-        //     SetName(first_name || "");
-        //     SetLName(last_name || "");
-        //     setServerFileName(fln || "");
-        //     setId(id || "");
-        // }
-    }, []);
+        if (data) {
+            // const { id, holderEmail } = data;
+            SetUserEmail(data.holderEmail || "");
+            Setbank(data.bankName || "");
+            setuser_id(data.id || "");
+            SetBranck(data.branchName || "");
+            setBranchCode(data.branchCode || "");
+            SetAccountNumber(data.accountNumber || "");
+            SetAccountHolderName(data.accountHolder || "");
+            SetaccountType(data.accountType || "");
+            setServerFileName(data.filename || "");
+        }
+    }, [data, success]);
+
 
     const Banks = [
         { id: '0', BankName: "Absa", branchCode: '632005' },
@@ -59,11 +69,15 @@ const BankingUpt = () => {
         { id: '4', BankName: "FNB", branchCode: '250655' },
         { id: '5', BankName: "Investec Bank", branchCode: '580105' },
         { id: '6', BankName: "Other/Not Listed", branchCode: '' }
-    ]
+    ];
+
     return (
         <div className="relative mt-2 sm:mt-4 md:mt-4">
-            <p className="text-sm absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Banking</p>
-            <form className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3">
+            <p className="text-sm flex absolute left-2 -top-3 bg-appGreen text-white font-poppinsRegular rounded p-1">Banking
+                {<Badge color="success" className="text-xs w-fit">{bank}</Badge>}
+            </p>
+            <form onSubmit={(e) => submitForm(e, bank == "Other/Not Listed" ? bankOther : bank, branch, branchCode, accountNumber, accountHoldername, accountType, files, user_id || "", UserEmail || "")}
+                className="max-w-md gap-4 w-fit border shadow rounded p-4 pt-3">
                 <div className="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                         <div className="mb-2 block">
@@ -84,7 +98,7 @@ const BankingUpt = () => {
                             <option>---</option>
                             {
                                 Banks?.map((b: any) => (
-                                    <option onSelect={()=>setBranchCode(b?.branchCode)} key={b.id} value={b?.BankName}>{b?.BankName}</option>
+                                    <option onSelect={() => setBranchCode(b?.branchCode)} key={b.id} value={b?.BankName}>{b?.BankName}</option>
                                 ))
                             }
                         </Select>
@@ -96,7 +110,9 @@ const BankingUpt = () => {
                                 <div className="mb-2 block">
                                     <Label htmlFor="Bank" value="State your Bank *" />
                                 </div>
-                                <TextInput sizing="sm" onChange={(e: any) => Setbank(e.target.value)} value={branch} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Bank" required />
+                                <TextInput sizing="sm"
+                                    maxLength={20}
+                                    onChange={(e: any) => SetbankOther(e.target.value)} value={bankOther} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Bank" required />
                             </div>
                         ) : null
                     }
@@ -119,14 +135,18 @@ const BankingUpt = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="Lname" value="Account Number *" />
                         </div>
-                        <TextInput sizing="sm" onChange={(e: any) => SetAccountNumber(e.target.value)} value={accountNumber} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Account Number" required />
+                        <TextInput
+                            autoComplete="off"
+                            sizing="sm" onChange={(e: any) => SetAccountNumber(e.target.value)} value={accountNumber} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Account Number" required />
                     </div>
 
                     <div>
                         <div className="mb-2 block">
                             <Label htmlFor="Lname" value="Account Holder Name *" />
                         </div>
-                        <TextInput sizing="sm" onChange={(e: any) => SetAccountName(e.target.value)} value={accountname} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Account Holder Name" required />
+                        <TextInput
+                            autoComplete="off"
+                            sizing="sm" onChange={(e: any) => SetAccountHolderName(e.target.value)} value={accountHoldername} theme={customInputBoxTheme} color={"focuscolor"} icon={CiBank} id="Lname" type="text" placeholder="Account Holder Name" required />
                     </div>
 
                     <div>
@@ -140,8 +160,13 @@ const BankingUpt = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="postal" value="Proof of Account *" />
                         </div>
+                        <div className="flex gap-1">
+                            {ServerFileName ? (<HiCloudDownload onClick={() => handleDownload(user_id, UserEmail, ServerFileName, 'companyproofBankng')} className="hover:cursor-pointer" width={35} height={35} />) : null}
+                            <p className="text-xs">{ServerFileName}</p>
+                        </div>
                         <FileInput className="max-w-md mt-2"
-                            onChange={handleFileChange}
+                            key={ServerFileName + loading}
+                            onChange={(e) => handleFileChange(0, e.target.files?.[0] || null)}
                             sizing="sm" id="postal" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
                     </div>
                 </div>
@@ -153,7 +178,7 @@ const BankingUpt = () => {
                     </Alert></Offline>
 
                 <Online>
-                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
+                    <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
                 </Online>
             </form>
         </div>

@@ -1,34 +1,28 @@
 
 import { useState } from "react";
 import { failureMessage, successMessage } from "../notifications/successError";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const useAddCompanies = () => {
+    const queryClient = useQueryClient();
     const [loading, setLoading] = useState(false);
     interface companyData {
         user_email: string;
-        compName: string;
-        phone: string;
+        TradeName: string;
         regNo: string;
-        districtName: string;
-        compEmail: string;
+        TaxNo:string;
+        VatNo:string;
     }
-
-    const handleAddCompanies = async ({ user_email, compName, phone, regNo, districtName, compEmail }: companyData) => {
+    const handleAddCompanies = async ({ user_email, TradeName, regNo,TaxNo, VatNo }: companyData) => {
         setLoading(true);
         try {
-            const response = await fetch("/api/companies/register", {
+            const response = await fetch("/api/companies/register/identification", {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    user_email,
-                    compName,
-                    phone,
-                    regNo,
-                    districtName,
-                    compEmail
-
+                    user_email, TradeName, regNo,TaxNo, VatNo
                 }),
             });
             const result = await response?.json();
@@ -36,9 +30,14 @@ export const useAddCompanies = () => {
                 failureMessage(result?.message || "An unexpected error occurred");
                 return;
             }
+            queryClient.invalidateQueries({ queryKey: ["Registeredcompanies"] });
             successMessage(result?.message);
             return result; //return an object
-        } finally {
+        }catch(error:any){
+            failureMessage(error?.message || "An unexpected error occurred");
+            return;
+        }
+         finally {
             setLoading(false);
         }
     }

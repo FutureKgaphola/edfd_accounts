@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 export const useDirector = () => {
     const queryClient = useQueryClient();
     const prop = useSelector((state: RootState) => state.SelectedCompanyReducer);
-    //http://localhost:3000/api/Directors/retrive?regno=2008/324567/06
+   
     const { data, error, isLoading } = useQuery({
         queryFn: () => axios.get(`/api/Directors/retrive?regno=${prop?.regNo}`),
         queryKey: ['dir' + prop?.regNo],
@@ -39,17 +39,16 @@ export const useDirector = () => {
     };
 
     const { mutateAsync: addDirectorWithDocs } = useMutation({
-        mutationFn: async ({ regNo, fullnames, email, phone, called }:
-            { regNo: string; fullnames: string; email: string; phone: string, called: string }) =>
-            handleMultiplePdfUpload(regNo, fullnames, email, phone, called),
+        mutationFn: async ({ regNo, fullnames, email, phone, called,percentage }:
+            { regNo: string; fullnames: string; email: string; phone: string, called: string,percentage:string }) =>
+            handleMultiplePdfUpload(regNo, fullnames, email, phone, called,percentage),
         onSuccess: () => {
             queryClient.invalidateQueries({ queryKey: ["dir" + prop?.regNo] });
         },
     });
 
-    const handleMultiplePdfUpload = async (regNo: string, fullnames: string, email: string, phone: string, called: string) => {
+    const handleMultiplePdfUpload = async (regNo: string, fullnames: string, email: string, phone: string, called: string,percentage:string) => {
         
-        //console.log( "hello "+called);
         if (called == "add") {
             if (!files.every(file => file !== null)) {
                 failureMessage("Please upload both required files.");
@@ -66,6 +65,7 @@ export const useDirector = () => {
         formData.append("phone", phone);
         formData.append("regNo", regNo);
         formData.append("email", email);
+        formData.append("percentage",percentage);
 
         FileIndexes.forEach((index:any, idx:any) => formData.append(`FileIndexes${idx}`, index !== null ? index.toString() : ''));
         formData.append("fileDataCopyId", files[1] as File);

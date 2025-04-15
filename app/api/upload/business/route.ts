@@ -16,17 +16,61 @@ export const POST = async (req: Request) => {
 
     try {
         await pool.request().query(`
-            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='${tables[parseInt(loanId)]}' AND xtype='U')
-            CREATE TABLE ${tables[parseInt(loanId)]} (
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='BusinessDocs' AND xtype='U')
+      BEGIN
+            CREATE TABLE BusinessDocs (
             id INT IDENTITY(1,1) PRIMARY KEY,
             filenames VARCHAR(255),
             fileIndexes VARCHAR(255),
             loanCat_id VARCHAR(255),
-            regNo VARCHAR(255) FOREIGN KEY REFERENCES Companies(regNo),
+            regNo VARCHAR(255),
             filesData VARBINARY(MAX),
-            createdAt DATETIME DEFAULT GETDATE(),
-            last_update VARCHAR(255) DEFAULT 'never'
-            )
+            createdAt DATETIME NOT NULL DEFAULT GETDATE(),
+            last_update DATETIME NOT NULL DEFAULT GETDATE()
+            );
+            END
+
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='ProcurementDocs' AND xtype='U')
+            BEGIN
+            CREATE TABLE ProcurementDocs (
+            id INT IDENTITY(1,1) PRIMARY KEY,
+            filenames VARCHAR(255),
+            fileIndexes VARCHAR(255),
+            loanCat_id VARCHAR(255),
+            regNo VARCHAR(255),
+            filesData VARBINARY(MAX),
+            createdAt DATETIME NOT NULL DEFAULT GETDATE(),
+            last_update DATETIME NOT NULL DEFAULT GETDATE()
+            );
+            END
+
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='BuildingDocs' AND xtype='U')
+            BEGIN
+            CREATE TABLE BuildingDocs (
+            id INT IDENTITY(1,1) PRIMARY KEY,
+            filenames VARCHAR(255),
+            fileIndexes VARCHAR(255),
+            loanCat_id VARCHAR(255),
+            regNo VARCHAR(255),
+            filesData VARBINARY(MAX),
+            createdAt DATETIME NOT NULL DEFAULT GETDATE(),
+            last_update DATETIME NOT NULL DEFAULT GETDATE()
+            );
+            END
+
+            IF NOT EXISTS (SELECT * FROM sysobjects WHERE name='franchiseeDocs' AND xtype='U')
+            BEGIN
+            CREATE TABLE franchiseeDocs (
+            id INT IDENTITY(1,1) PRIMARY KEY,
+            filenames VARCHAR(255),
+            fileIndexes VARCHAR(255),
+            loanCat_id VARCHAR(255),
+            regNo VARCHAR(255),
+            filesData VARBINARY(MAX),
+            createdAt DATETIME NOT NULL DEFAULT GETDATE(),
+            last_update DATETIME NOT NULL DEFAULT GETDATE()
+            );
+            END
         `);
         for (let i = 0; i < docsCount; i++) {
             const FileIndexes = formData.get(`FileIndexes${i}`) as string;

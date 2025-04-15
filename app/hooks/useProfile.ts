@@ -14,8 +14,8 @@ const useProfile = () => {
     const userid= Authprop.user?.id;
     const {data,isLoading,error} =useQuery({
         queryFn : ()=>fetchContacts(userid),
-        queryKey: ['userProfile',{userid}]
-        
+        queryKey: ['userProfile',{userid}],
+        enabled: !!userid,
     });
 
     return {data,isLoading,error};

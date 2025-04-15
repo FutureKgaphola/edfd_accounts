@@ -1,24 +1,50 @@
 
 "use client";
 
-import { successMessage } from "@/app/notifications/successError";
+import { failureMessage, successMessage } from "@/app/notifications/successError";
 import { customCheckboxTheme, customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
 import { Alert, Button, Checkbox, Label, Modal, Radio, TextInput } from "flowbite-react";
 import { usePathname, useRouter } from "next/navigation";
 import { Dispatch, SetStateAction, useState } from "react";
 import { HiInformationCircle } from "react-icons/hi";
 import { GiTakeMyMoney } from "react-icons/gi";
+import axios from "axios";
 
-export function ConfirmApplicationModal({ company, setOpenModal, openModal }: { company: string, setOpenModal: Dispatch<SetStateAction<boolean>>, openModal: boolean }) {
+export function ConfirmApplicationModal({ DistID, DistrName,user_email,regNo,companyName, setOpenModal, openModal }: { DistID:string,DistrName:string,user_email:string,regNo:string,companyName:string,setOpenModal: Dispatch<SetStateAction<boolean>>, openModal: boolean }) {
   const router = useRouter();
   const pathname = usePathname();
   const [selectedLoanType, setSelectedLoanType] = useState<string>('Business');
   const loans = "Business";
+  const [Amount,setAmount]=useState('0');
+  const [isUploading,setisUploading]=useState(false);
   const [tncs, setTnCs] = useState<boolean>(false);
   const gotoTypeLoan = `https://edfd-sub-website.vercel.app/details/${loans.toLocaleLowerCase()}`;
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedLoanType(event.target.value);
   };
+  const SubmitApplication=async()=>{    
+    setisUploading(true);
+    if(Amount=='0') return;
+    try {
+      const resp=await axios.post('/api/companies/apply',{ user_email:user_email,companyName:companyName,districtId:DistID,regNo:regNo,amount:Amount, loanDocs :selectedLoanType});
+    if(resp.status==200){
+      successMessage(resp.data.message);
+      setisUploading(false);
+      setOpenModal(false);
+      router.back();
+    }else if(resp.status!==200){
+      failureMessage(resp.data.message);
+      setisUploading(false);
+    }
+    } catch (error:any) {
+      console.log(error)
+      failureMessage(error?.message ||"unexpected error occured");
+      setisUploading(false);
+    }finally{
+      setisUploading(false);
+      setOpenModal(false);
+    }
+  }
   return (
     <>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>
@@ -26,7 +52,7 @@ export function ConfirmApplicationModal({ company, setOpenModal, openModal }: { 
         <Modal.Body>
           <div className="space-y-6">
             <fieldset className="flex max-w-md flex-wrap gap-4">
-              <legend className="mb-4 text-nowrap">Choose for which loan type you will be using this Document for?</legend>
+              <legend className="mb-4 text-nowrap">Choose the loan you want to apply for</legend>
 
               <div className="flex items-center gap-2">
                 <Radio
@@ -79,6 +105,7 @@ export function ConfirmApplicationModal({ company, setOpenModal, openModal }: { 
                 <Label htmlFor="money" value="Requested Amount" />
               </div>
               <TextInput
+              onChange={(e)=>setAmount(e.target.value)}
                 min={10000}
                 max={50000000}
                 maxLength={8}
@@ -118,11 +145,9 @@ export function ConfirmApplicationModal({ company, setOpenModal, openModal }: { 
           </div>
         </Modal.Body>
         <Modal.Footer>
-          <Button as={"button"} theme={customsubmitTheme} color="success" onClick={() => {
+          <Button isProcessing={isUploading} disabled={isUploading} as={"button"} theme={customsubmitTheme} color="success" onClick={() => {
             if (tncs === false) return;
-            setOpenModal(false);
-            successMessage("Application submitted succesful");
-            router.back();
+            SubmitApplication();
           }}>I accept</Button>
           <Button color="gray" onClick={() => setOpenModal(false)}>
             Decline
