@@ -1,14 +1,10 @@
 
 "use client";
-import { Offline, Online } from "react-detect-offline";
-import { Alert, Button, FooterDivider, Label, TextInput } from "flowbite-react";
+import { Alert, Button, Label, TextInput } from "flowbite-react";
 import Link from "next/link";
 import { NetworkMessage, NetworkTitle, customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
 import { HiInformationCircle, HiMail } from "react-icons/hi";
 import { useState } from "react";
-import { failureMessage, successMessage } from "../notifications/successError";
-import validator from 'validator';
-import { usePublic_pages } from "../hooks/usePublic_pages";
 
 export default function Resetpassword() {
 
@@ -36,12 +32,7 @@ export default function Resetpassword() {
                             <TextInput value={pass} onChange={(e: any) => setPass(e.target.value)} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="pass" type="password" placeholder="******" required />
                         </div>
                         {pass && <p className="font-poppinsLight">{pass}</p>}
-                        <Online><Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="button" color="appsuccess">Save Password</Button></Online>
-                        <Offline>
-                            <Alert color="warning" icon={HiInformationCircle}>
-                                <span className="font-medium">Info alert!</span> {NetworkTitle}
-                                <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                            </Alert></Offline>
+                        <Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="button" color="appsuccess">Save Password</Button>
                         <hr></hr>
                         <div className="flex justify-end gap-2">
                             <p>Done?, let's</p> <Link className="text-appGreen" href={"/"}> Login</Link>

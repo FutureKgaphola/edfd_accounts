@@ -3,9 +3,8 @@
 import { Button } from "flowbite-react";
 import { customsubmitTheme } from "../SiteTheme/Theme";
 import { useRouter } from "next/navigation";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import ActiveBusiness_loan from "./ActiveBusiness_loan";
-import NoHistory from "./NoHistory";
 import { HistoryTable } from "./HistoryTable";
 
 const Business = ({loanType}:{loanType:string}) => {

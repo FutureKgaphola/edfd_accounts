@@ -1,10 +1,8 @@
 
-import { customInputBoxTheme, customselectTheme, customsubmitTheme, customSwitch, NetworkTitle } from "@/app/SiteTheme/Theme";
-import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Badge, Button, FileInput, Label, Radio, Select, TextInput, ToggleSwitch } from "flowbite-react";
+import { customInputBoxTheme, customselectTheme, customsubmitTheme, customSwitch } from "@/app/SiteTheme/Theme";
+import { Badge, Button, FileInput, Label, Radio, Select, TextInput, ToggleSwitch } from "flowbite-react";
 import { useEffect, useMemo, useState } from "react";
-import { HiCloudDownload, HiInformationCircle, HiUserAdd } from "react-icons/hi";
-import { Offline, Online } from "react-detect-offline";
+import { HiCloudDownload } from "react-icons/hi";
 import { CiHome } from "react-icons/ci";
 import { GiPostOffice } from "react-icons/gi";
 import { failureMessage } from "@/app/notifications/successError";
@@ -12,7 +10,6 @@ import useUpdateCompamyAddress from "@/app/hooks/useUpdateCompanyAddress";
 import useFetchCompanyAddress from "@/app/hooks/useFetchCompanyAddress";
 import { handleDownload } from "@/app/services/FileDownloader";
 import { useDistricts } from "@/app/hooks/useDistricts";
-import axios from "axios";
 import { getDistrict } from "@/app/services/Find_district_by_id";
 
 const AddressUpt = () => {
@@ -31,19 +28,19 @@ const AddressUpt = () => {
     const [District, SetDistrict] = useState([]);
     const [files, setFiles] = useState<(File | null)[]>([null, null]);
     const [FileIndexes, setFileIndexes] = useState<(number | null)[]>([]);
-    const [CurrentDistrict,setCurrentDistrict]=useState("");
+    const [CurrentDistrict, setCurrentDistrict] = useState("");
     const { data } = useFetchCompanyAddress();
     const { loading, success, submitForm } = useUpdateCompamyAddress();
     const { data: districtData } = useDistricts();
 
     const districtOptions = useMemo(() => {
         return District?.map((d: any) => (
-          <option key={d.id} value={d.id}>
-            {d.districtName}
-          </option>
+            <option key={d.id} value={d.id}>
+                {d.districtName}
+            </option>
         ));
-      }, [District]);
-      
+    }, [District]);
+
     const handleFileChange = (index: number, file: File | null) => {
         if (file) {
             if (file.type !== 'application/pdf') {
@@ -67,7 +64,7 @@ const AddressUpt = () => {
         }
     }, [districtData]);
 
-    
+
     useEffect(() => {
         const fetchDistrict = async () => {
             if (data) {
@@ -125,7 +122,7 @@ const AddressUpt = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="name" value="District *" />
                             {CurrentDistrict && <Badge className="w-fit" color="success">{CurrentDistrict}</Badge>}
-                            
+
                         </div>
                         <Select
                             sizing="sm"
@@ -198,18 +195,8 @@ const AddressUpt = () => {
                             </div>
                         ) : null
                     }
-
                 </div>
-
-                <Offline>
-                    <Alert color="warning" icon={HiInformationCircle}>
-                        <span className="font-medium">Info alert!</span> {NetworkTitle}
-                        <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                    </Alert></Offline>
-
-                <Online>
-                    <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
-                </Online>
+                <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
             </form>
         </div>
     );

@@ -4,6 +4,7 @@
 import { Footer } from "flowbite-react";
 import Link from "next/link";
 import { BsFacebook, BsLinkedin, BsTwitter } from "react-icons/bs";
+import {FaXTwitter} from 'react-icons/fa6';
 
 export function SiteFooter() {
   return (
@@ -20,7 +21,7 @@ export function SiteFooter() {
           <div>
             <Footer.Title title="help center" />
             <Footer.LinkGroup col>
-              <Footer.Link href="https://twitter.com/Limpopoecon" target="_blank">Twitter</Footer.Link>
+              <Footer.Link href="https://twitter.com/Limpopoecon" target="_blank">X</Footer.Link>
               <Footer.Link href="https://www.facebook.com/LimpopoEcon" target="_blank">LinkedIn</Footer.Link>
               <Footer.Link href="https://www.linkedin.com/company/limpopo-economic-development-agency/" target="_blank">Facebook</Footer.Link>
               <Footer.Link href="https://edfd-sub-website.vercel.app/contact">Contact Us</Footer.Link>
@@ -37,10 +38,10 @@ export function SiteFooter() {
           
         </div>
         <div className="w-full bg-gray-700 px-4 py-6 sm:flex sm:items-center sm:justify-between">
-          <Footer.Copyright color="white" className="text-white" href="#" by="Limpopo Connexion™" year={2024} />
+          <Footer.Copyright color="white" className="text-white" href="#" by="Limpopo Connexion™" year={2025} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <Footer.Icon href="https://www.facebook.com/LimpopoEcon" target="_blank" icon={BsFacebook} />
-            <Footer.Icon href="https://twitter.com/Limpopoecon" target="_blank" icon={BsTwitter} />
+            <Footer.Icon href="https://twitter.com/Limpopoecon" target="_blank" icon={FaXTwitter} />
             <Footer.Icon href="https://www.linkedin.com/company/limpopo-economic-development-agency/" target="_blank" icon={BsLinkedin} />
           </div>
         </div>

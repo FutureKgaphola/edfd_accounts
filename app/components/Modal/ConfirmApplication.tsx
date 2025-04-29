@@ -22,29 +22,51 @@ export function ConfirmApplicationModal({ DistID, DistrName,user_email,regNo,com
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedLoanType(event.target.value);
   };
-  const SubmitApplication=async()=>{    
+  
+  const SubmitApplication = async () => {
+    if (!Amount || Amount === '0') {
+      failureMessage("Please enter a valid amount.");
+      return;
+    }
+  
     setisUploading(true);
-    if(Amount=='0') return;
+  
     try {
-      const resp=await axios.post('/api/companies/apply',{ user_email:user_email,companyName:companyName,districtId:DistID,regNo:regNo,amount:Amount, loanDocs :selectedLoanType});
-    if(resp.status==200){
-      successMessage(resp.data.message);
+      const response = await axios.post('/api/companies/apply', {
+        user_email,
+        companyName,
+        districtId: DistID,
+        regNo,
+        amount: Amount,
+        loanDocs: selectedLoanType,
+      });
+  
+      const { status, data } = response;
+  
+      if (status == 200 || status == 201) {
+        successMessage(data.message || "Application submitted successfully.");
+        router.back();
+      } else {
+        failureMessage(data?.message || "Something went wrong. Please try again.");
+      }
+  
+    } catch (error: any) {
+      console.error("API error:", error);
+  
+      // Attempt to extract error from response if available
+      const apiMessage =
+        error?.response?.data?.message ||
+        error?.message ||
+        "An unexpected error occurred.";
+  
+      failureMessage(apiMessage);
+  
+    } finally {
       setisUploading(false);
       setOpenModal(false);
-      router.back();
-    }else if(resp.status!==200){
-      failureMessage(resp.data.message);
-      setisUploading(false);
     }
-    } catch (error:any) {
-      console.log(error)
-      failureMessage(error?.message ||"unexpected error occured");
-      setisUploading(false);
-    }finally{
-      setisUploading(false);
-      setOpenModal(false);
-    }
-  }
+  };
+  
   return (
     <>
       <Modal show={openModal} onClose={() => setOpenModal(false)}>

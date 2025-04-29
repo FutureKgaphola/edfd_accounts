@@ -1,12 +1,8 @@
 
 import useSubmitPersonal from "@/app/hooks/useUpdatePersonal";
-import { customInputBoxTheme, customselectTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
-import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Button, FileInput, Label, Select, TextInput } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { HiInformationCircle } from "react-icons/hi";
-import { Offline, Online } from "react-detect-offline";
-import { handleDownload } from "@/app/services/FileDownloader";
+import { customInputBoxTheme, customselectTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
+import { Button, FileInput, Label, Select, TextInput } from "flowbite-react";
+import { useState } from "react";
 import { CiBank } from "react-icons/ci";
 
 const Banking = () => {
@@ -38,18 +34,6 @@ const Banking = () => {
             }
         }
     };
-    useEffect(() => {
-        // if (data) {
-        //     const { first_name, last_name, phone, saId, user_email, filename: fln, id } = data;
-        //     SetUserName(user_email || "");
-        //     setIdNo(saId || "");
-        //     setuserphone(phone || "");
-        //     SetName(first_name || "");
-        //     SetLName(last_name || "");
-        //     setServerFileName(fln || "");
-        //     setId(id || "");
-        // }
-    }, []);
 
     const Banks = [
         { id: '0', BankName: "Absa", branchCode: '632005' },
@@ -146,15 +130,7 @@ const Banking = () => {
                     </div>
                 </div>
 
-                <Offline>
-                    <Alert color="warning" icon={HiInformationCircle}>
-                        <span className="font-medium">Info alert!</span> {NetworkTitle}
-                        <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                    </Alert></Offline>
-
-                <Online>
-                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
-                </Online>
+                <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
             </form>
         </div>
     );

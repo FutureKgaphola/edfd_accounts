@@ -1,8 +1,8 @@
 "use client"
 
-import { Button, Card, Label, Select } from "flowbite-react";
+import { Button, Card } from "flowbite-react";
 import { QualifiedClientAert } from "./Alerts/Qualifyclient";
-import { customselectTheme, customsubmitTheme } from "../SiteTheme/Theme";
+import { customsubmitTheme } from "../SiteTheme/Theme";
 import { Slider } from "@nextui-org/slider";
 import { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";

@@ -85,14 +85,10 @@ export interface History {
   Company:string;
   RegNo: string;
   body: string;
-  stage?: string[];
+  stage?: string;
   outcome?: string;
 }
 
-const LoanHistory:History[] = [
-  { id: "EDFD-01789| 28-02-2025",outcome:'failed', date: 'January 08 2025', status: 'closed', category: 'Bussiness',Company:'Maloke Holdings', RegNo: '2022/123456/03', body: 'LEDA is reviewing basic information such as phone, email and name to ensure that they are correct and up to date.',stage:['Basic Assessment and Due Deligence'] },  
-  { id: "EDFD-01911| 01-03-2025",outcome:'in progress', date: 'March 27 2025', status: 'open', category: 'Procurement',Company:'Seroka PTY LTD', RegNo: '2021/453276/23', body: 'Assesment of your submitted document is underway.',stage:['Basic Assessment and Due Deligence','Assessment and Review'] },
-];
 
 const isValidateCompanyRegNumber = (regNum: string): boolean => {
   const sectors = ['07', '06', '08', '23', '21', '30', '10'];
@@ -153,4 +149,4 @@ function validateSAID(idNumber: string): boolean {
   return sum % 10 === 0; // Valid if Luhn checksum passes
 }
 
-export { Lorems, procurementDef, franchiseDef, BuildingDef, BusinessDef, isValidateCompanyRegNumber, validateSAID, BusinesDocs, ProcurementDocs,LoanHistory }
+export { Lorems, procurementDef, franchiseDef, BuildingDef, BusinessDef, isValidateCompanyRegNumber, validateSAID, BusinesDocs, ProcurementDocs }

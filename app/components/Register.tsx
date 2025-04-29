@@ -1,11 +1,9 @@
 "use client"
 
-import { Alert, Button, Checkbox, Label, TextInput } from "flowbite-react";
-import { Offline, Online } from "react-detect-offline";
+import { Button, Checkbox, Label, TextInput } from "flowbite-react";
 import Link from "next/link";
-import { HiMail, HiInformationCircle, HiUserAdd } from "react-icons/hi";
+import { HiMail, HiUserAdd } from "react-icons/hi";
 import { FormEvent, useEffect, useState } from "react";
-import { NetworkMessage, NetworkTitle } from "../TempData/StaticData";
 import { customCheckboxTheme, customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
 import { useRouter } from "next/navigation";
 import { useSignup } from "../hooks/useSignup";
@@ -133,15 +131,7 @@ const Register = () => {
                             </Link>
                         </Label>
                     </div>
-                    <Online></Online>
-                    <Online>
-                        <Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="submit" color="appsuccess">Sign Up</Button>
-                    </Online>
-                    <Offline>
-                        <Alert color="warning" icon={HiInformationCircle}>
-                            <span className="font-medium">Info alert!</span> {NetworkTitle}
-                            <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                        </Alert></Offline>
+                    <Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="submit" color="appsuccess">Sign Up</Button>
                     {note && <p className="text-appGreen">{note}</p>}
                     <hr></hr>
                     <div className="flex justify-end gap-2">

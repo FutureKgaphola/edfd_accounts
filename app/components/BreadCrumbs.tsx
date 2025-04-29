@@ -2,13 +2,11 @@
 "use client";
 
 import { Breadcrumb } from "flowbite-react";
-import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
 import { HiHome, HiDocument } from "react-icons/hi";
 
 export function Breadcrumbs() {
     const pathname = usePathname();
-    const router = useRouter();
     return (
         <>
             <Breadcrumb aria-label="Default breadcrumb example" className="bg-gray-50 px-5 py-3 dark:bg-gray-800 gap-3">

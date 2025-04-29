@@ -1,7 +1,7 @@
 import { customsubmitTheme } from "@/app/SiteTheme/Theme";
 import { Alert, Button, Card, Label, Radio, Timeline, TimelineContent, TimelineItem, TimelinePoint, TimelineTime } from "flowbite-react";
 import { HiInformationCircle } from "react-icons/hi";
-import { FormEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { DirectorTable } from "../Tables/DirectorsTable";
 import Business from "../Documents/Business";
 import Procurement from "../Documents/Procurement";
@@ -9,28 +9,18 @@ import Building from "../Documents/Building";
 import ProfileList from "../Alerts/ProfileList";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
-import { useAddCompanies } from "@/app/hooks/useAddCompany";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { SelectedCompanyAction } from "@/lib/features/Companies/SelectedCompanySlice";
 import DirectorsForm from "../Modal/Directors";
 import EditDirectors from "../Modal/EditDirectors";
 import Franchisee from "../Documents/Franchisee";
 import Contacts from "./Company/Contacts";
-import Address from "./Company/Address";
-import Banking from "./Company/Banking";
 import ContactsUpt from "./Company/UpdateUI/Contacts";
 import AddressUpt from "./Company/UpdateUI/Address";
 import BankingUpt from "./Company/UpdateUI/Banking";
 
 
 const Company = () => {
-    const queryClient = useQueryClient();
-    // const { handleAddCompanies, loading } = useAddCompanies();
-    const [openEditModal, setOpenEditModal] = useState(false);
-    const [email, setemail] = useState("");
-    const [phone, setphone] = useState("");
-    const [CompanyName, setCompanyName] = useState("");
-    const [CompReg, setCompReg] = useState("");
+
     const [openModal, setOpenModal] = useState(false);
     const [selectedLoanType, setSelectedLoanType] = useState<string>('Business');
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
@@ -47,30 +37,6 @@ const Company = () => {
         setSelectedLoanType('Business');
         SelectedCompanyAction.SetGlobalselectedcompLoanType({ loanCat_id: '0' });
     }, []);
-
-    const [SelectedDistrict, setSelectedDistrict] = useState("");
-
-    // const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    //     e?.preventDefault();
-    //     await addCompanyMutation();
-    // }
-
-    const resetCompanyInfoForm = () => {
-        setemail("");
-        setphone("");
-        setCompReg("");
-        setCompanyName("");
-    }
-
-    // const { mutateAsync: addCompanyMutation } = useMutation({
-    //     mutationFn: () => handleAddCompanies({
-    //         user_email: authEmail, compName: CompanyName, phone: phone, regNo: CompReg, districtName: SelectedDistrict, compEmail: email
-    //     }),
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries({ queryKey: ["Registeredcompanies"] });
-    //         resetCompanyInfoForm();
-    //     }
-    // });
 
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
     const prop = useSelector((state: RootState) => state.AddCompSliceReducer);
@@ -89,9 +55,6 @@ const Company = () => {
                                 prop.isShowForms ? (
                                     <div className="lg:flex xl:flex gap-2 pt-4 lg:overflow-x-auto xl:overflow-x-auto sm:overflow-y-auto md:overflow-y-auto max-w-full">
                                         <Contacts />
-                                        {/* <Address />
-                                        <Banking /> */}
-
                                         <Timeline>
                                             <TimelineItem>
                                                 <TimelinePoint />

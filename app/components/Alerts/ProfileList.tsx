@@ -3,7 +3,6 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import { Alert, Button, Select, Tooltip } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiInformationCircle } from "react-icons/hi";
 import LoadingSpinner from "../Spinner/LoadingSpinner";
 import { CompanyAction } from "@/lib/features/Companies/CompanySlice";
 import { useDispatch } from "react-redux";
@@ -59,8 +58,12 @@ const ProfileList = ({ user_email }: { user_email: string }) => {
             queryClient.invalidateQueries({ queryKey: ["BDocs"] });
         }
     });
+    const [hydrated, setHydrated] = useState(false);
 
-    if (isLoading) return <LoadingSpinner color="warning" size="sm" />
+    useEffect(() => {
+        setHydrated(true);
+    }, []);
+    if (hydrated && isLoading) return <LoadingSpinner color="warning" size="sm" />
 
     return (
         <Alert color="warning" rounded>
@@ -97,10 +100,6 @@ const ProfileList = ({ user_email }: { user_email: string }) => {
                     <Tooltip content={"Manage your Directors"}>
                         <Button onClick={() => RefetchCompanyDocs("Director")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Director</Button>
                     </Tooltip>
-
-
-
-                    {/* <Button onClick={()=>RefetchCompanyDocs("Delete")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="failure">Delete</Button> */}
                 </div>
             </div>
 

@@ -4,7 +4,6 @@ import { NetworkMessage } from "@/app/TempData/StaticData";
 import { Alert, Badge, Button, FileInput, Label, Select, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
 import { HiCloudDownload, HiInformationCircle } from "react-icons/hi";
-import { Offline, Online } from "react-detect-offline";
 import { CiBank } from "react-icons/ci";
 import useFetchLeadBanking from "@/app/hooks/useFetchLeadBanking";
 import useUpdateLeadBanking from "@/app/hooks/useUpdateLeadBanking";
@@ -169,16 +168,7 @@ const Banking = () => {
                             sizing="sm" id="postal" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
                     </div>
                 </div>
-
-                <Offline>
-                    <Alert color="warning" icon={HiInformationCircle}>
-                        <span className="font-medium">Info alert!</span> {NetworkTitle}
-                        <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                    </Alert></Offline>
-
-                <Online>
-                    <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
-                </Online>
+                <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
             </form>
         </div>
     );

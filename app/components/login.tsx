@@ -1,11 +1,9 @@
 "use client"
 
-import { Alert, Button, FooterDivider, Label, TextInput } from "flowbite-react";
-import { Offline, Online } from "react-detect-offline";
+import { Button, FooterDivider, Label, TextInput } from "flowbite-react";
 import Link from "next/link";
-import { HiMail,HiInformationCircle } from "react-icons/hi";
+import { HiMail } from "react-icons/hi";
 import { FormEvent, useState } from "react";
-import { NetworkMessage, NetworkTitle } from "../TempData/StaticData";
 import { customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
 import { useRouter } from "next/navigation";
 import { useLogin } from "../hooks/useLogin";
@@ -19,7 +17,11 @@ const Login = () => {
     const {handleLogin, loading}=useLogin();
     const router=useRouter();
     const handleSubmit=(e:FormEvent<HTMLFormElement>)=>{
-        e.preventDefault();
+        e?.preventDefault();
+        if (!username.includes("@")) {
+            failureMessage("Enter a valid email address.");
+            return;
+          }
         handleLogin(username,password).then(()=>{
             if (!sessionStorage.getItem('utoken') || sessionStorage.getItem('utoken') == null) return;
             SetUserName("");
@@ -38,7 +40,7 @@ const Login = () => {
                         width={65}
                         height={65}
                         src={ledalogo}
-                        alt="loda logo"
+                        alt="leda logo"
                         />
                     <h2 className="text-lg">Log Into Your Account</h2>
                     <div>
@@ -53,14 +55,9 @@ const Login = () => {
                         </div>
                         <TextInput onChange={(e:any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" required />
                     </div>
-                    <Online>
+                    
                         <Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="submit" color="appsuccess">Log In</Button>
-                    </Online>
-                    <Offline>
-                        <Alert color="warning" icon={HiInformationCircle}>
-                            <span className="font-medium">Info alert!</span> {NetworkTitle}
-                            <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                        </Alert></Offline>
+                    
                     <FooterDivider></FooterDivider>
                     <div className="flex justify-between">
                         <Link href={"/register"}>Not yet register?</Link>

@@ -1,6 +1,5 @@
-import { Button, FileInput } from 'flowbite-react';
+import { FileInput } from 'flowbite-react';
 import { useState } from 'react';
-import { customsubmitTheme } from '../SiteTheme/Theme';
 
 export default function PDFUploader() {
     const [files, setFiles] = useState<(File | null)[]>([null, null, null]);

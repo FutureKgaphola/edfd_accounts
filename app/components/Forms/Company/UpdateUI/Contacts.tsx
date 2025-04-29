@@ -1,11 +1,7 @@
-import useProfile from "@/app/hooks/useProfile";
-import useSubmitPersonal from "@/app/hooks/useUpdatePersonal";
-import { customInputBoxTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
-import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Button, FileInput, Label, Radio, TextInput } from "flowbite-react";
+
+import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
+import { Alert, Button, Label, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { Offline, Online } from "react-detect-offline";
-import { handleDownload } from "@/app/services/FileDownloader";
 import useCompanyIdentification from "@/app/hooks/useCompanyIdentification";
 import useupdateCompindentification from "@/app/hooks/useupdateCompindentification";
 
@@ -74,17 +70,7 @@ const ContactsUpt = () => {
                         </div>
                     </div>
                 </div>
-                <Offline>
-                    <Alert color="warning" >
-                        <span className="font-medium">Info alert!</span> {NetworkTitle}
-                        <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                    </Alert></Offline>
-
-                
-                <Online>
-                    <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
-                    {/* <p className="text-sm">You may be required to login again after this action.</p> */}
-                </Online>
+                <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
             </form>
         </div>
     );

@@ -7,23 +7,20 @@ import tree from "../../assets/images/tree.jpg";
 import { useDomReady } from "@/app/hooks/useDomReady";
 import { Breadcrumbs } from "../BreadCrumbs";
 import { ConfirmApplicationModal } from "../Modal/ConfirmApplication";
-import { useRouter } from "next/navigation";
 import { HiInformationCircle } from "react-icons/hi";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "@/lib/store";
 import { getCompanyDistrictID } from "@/app/services/Find_CompanyAddress_district";
 import { getDistrict } from "@/app/services/Find_district_by_id";
+import { useSelector } from "react-redux";
 
 const SelectCompanyForm = () => {
     const [company, setCompany] = useState<string>('---');
     const [openModal, setOpenModal] = useState(false);
-    const router = useRouter();
     const { domReady } = useDomReady();
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
     const authEmail = Authprop?.user?.user_email ?? "";
-    const dispatch = useDispatch();
 
     const [DistID, setDistID] = useState("");
     const [DistrName, setDistrName] = useState("");
@@ -84,8 +81,8 @@ const SelectCompanyForm = () => {
         <div>
             <div className="w-full overflow-clip h-full mt-18 mb-8 items-center justify-center">
                 <div className="relative">
-                    <Image className="w-full h-40 bg-no-repeat object-cover" src={tree} alt=".." />
-
+                    <Image priority
+                        placeholder="blur" className="w-full h-40 bg-no-repeat object-cover" src={tree} alt="leda logo" />
                 </div>
 
                 <div className="flex justify-center items-center">

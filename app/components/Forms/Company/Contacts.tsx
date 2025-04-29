@@ -4,8 +4,7 @@ import { customInputBoxTheme, customsubmitTheme, NetworkTitle } from "@/app/Site
 import { NetworkMessage } from "@/app/TempData/StaticData";
 import { RootState } from "@/lib/store";
 import { Alert, Button, Label, TextInput } from "flowbite-react";
-import { useEffect, useState } from "react";
-import { Offline, Online } from "react-detect-offline";
+import { useState } from "react";
 import { useSelector } from "react-redux";
 
 const Contacts = () => {
@@ -70,15 +69,7 @@ const Contacts = () => {
                         </div>
                     </div>
                 </div>
-                <Offline>
-                    <Alert color="warning" >
-                        <span className="font-medium">Info alert!</span> {NetworkTitle}
-                        <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                    </Alert></Offline>
-                <Online>
-                    <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
-                    {/* <p className="text-sm">You may be required to login again after this action.</p> */}
-                </Online>
+                <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
             </form>
         </div>
     );

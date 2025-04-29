@@ -1,16 +1,10 @@
 "use client"
 
-import { Alert, Button, Card, Checkbox, FileInput, Label, Select, TextInput } from "flowbite-react";
-import { customCheckboxTheme, customInputBoxTheme, customselectTheme, customsubmitTheme } from "../../SiteTheme/Theme";
-import { HiInformationCircle } from "react-icons/hi";
-import { useState } from "react";
-import { Slider } from "@nextui-org/slider";
 import Business from "@/app/components/ApplicationForms/Business";
 import Procurement from "@/app/components/ApplicationForms/Procurement";
 import Franchisee from "@/app/components/ApplicationForms/Franchisee";
 import { Nav_bar } from "@/app/components/Navbar";
 import Building from "@/app/components/ApplicationForms/Building";
-
 
 const Apply = ({ params }: { params: { slug: string } }) => {
     

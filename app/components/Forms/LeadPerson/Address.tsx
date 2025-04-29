@@ -1,10 +1,8 @@
 
-import { customInputBoxTheme, customsubmitTheme, customSwitch, NetworkTitle } from "@/app/SiteTheme/Theme";
-import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Button, FileInput, Label, TextInput, ToggleSwitch } from "flowbite-react";
+import { customInputBoxTheme, customsubmitTheme, customSwitch } from "@/app/SiteTheme/Theme";
+import { Button, FileInput, Label, TextInput, ToggleSwitch } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiCloudDownload, HiInformationCircle } from "react-icons/hi";
-import { Offline, Online } from "react-detect-offline";
+import { HiCloudDownload } from "react-icons/hi";
 import { CiHome } from "react-icons/ci";
 import { GiPostOffice } from "react-icons/gi";
 import { failureMessage } from "@/app/notifications/successError";
@@ -99,15 +97,7 @@ const Address = () => {
 
                 </div>
 
-                <Offline>
-                    <Alert color="warning" icon={HiInformationCircle}>
-                        <span className="font-medium">Info alert!</span> {NetworkTitle}
-                        <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                    </Alert></Offline>
-
-                <Online>
-                    <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
-                </Online>
+                <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
             </form>
         </div>
     );

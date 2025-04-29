@@ -1,6 +1,5 @@
 
 "use client";
-import { Offline, Online } from "react-detect-offline";
 import { Alert, Button, FooterDivider, Label, TextInput } from "flowbite-react";
 import Link from "next/link";
 import { NetworkMessage, NetworkTitle, customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
@@ -68,12 +67,7 @@ export default function ForgotPassword() {
                             </div>
                             <TextInput value={email} onChange={(e: any) => setEmail(e.target.value)} theme={customInputBoxTheme} color={"focuscolor"} icon={HiMail} id="email1" type="email" placeholder="name@mailprovider.com" required />
                         </div>
-                        <Online><Button isProcessing={loading} disabled={loading} onClick={() => SendResetLink()} theme={customsubmitTheme} type="button" color="appsuccess">Sent Password Reset</Button></Online>
-                        <Offline>
-                            <Alert color="warning" icon={HiInformationCircle}>
-                                <span className="font-medium">Info alert!</span> {NetworkTitle}
-                                <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                            </Alert></Offline>
+                        <Button isProcessing={loading} disabled={loading} onClick={() => SendResetLink()} theme={customsubmitTheme} type="button" color="appsuccess">Sent Password Reset</Button>
                         <FooterDivider></FooterDivider>
                         <div className="flex justify-end gap-2">
                             <p>Already have an account?</p> <Link className="text-appGreen" href={"/"}> Login</Link>
@@ -82,6 +76,5 @@ export default function ForgotPassword() {
                 </div>
             </div>
         </div>
-
     );
 }

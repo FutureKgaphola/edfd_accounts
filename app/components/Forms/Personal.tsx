@@ -1,5 +1,4 @@
 
-
 import {Card } from "flowbite-react";
 import TruthfullAlert from "../Alerts/TruthfullAlert";
 import Contacts from "./LeadPerson/Contacts";

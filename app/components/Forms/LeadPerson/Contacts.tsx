@@ -1,11 +1,9 @@
 import useProfile from "@/app/hooks/useProfile";
 import useUpdatePersonal from "@/app/hooks/useUpdatePersonal";
-import { customInputBoxTheme, customsubmitTheme, NetworkTitle } from "@/app/SiteTheme/Theme";
-import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Badge, Button, FileInput, Label, Radio, TextInput } from "flowbite-react";
+import { customInputBoxTheme, customsubmitTheme } from "@/app/SiteTheme/Theme";
+import { Badge, Button, FileInput, Label, Radio, TextInput } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiMail, HiInformationCircle, HiUserAdd, HiCloudDownload } from "react-icons/hi";
-import { Offline, Online } from "react-detect-offline";
+import { HiMail, HiUserAdd, HiCloudDownload } from "react-icons/hi";
 import { handleDownload } from "@/app/services/FileDownloader";
 import { failureMessage } from "@/app/notifications/successError";
 
@@ -19,7 +17,7 @@ const Contacts = () => {
     const [LName, SetLName] = useState("");
     const [marital, SetMarital] = useState("Single");
     const [ServerFileName, setServerFileName] = useState('');
-    //const [pdfFile, setPdfFile] = useState<File | null>(null);
+    
     const [Filerror, setError] = useState('');
     const [maritalStatus, setMaritalStatus] = useState("undefined");
     //spouse
@@ -140,11 +138,7 @@ const Contacts = () => {
 
                     </div>
                 </div>
-                <Offline>
-                    <Alert color="warning" icon={HiInformationCircle}>
-                        <span className="font-medium">Info alert!</span> {NetworkTitle}
-                        <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                    </Alert></Offline>
+                
 
                 <fieldset className="flex max-w-md flex-wrap gap-4">
                     <legend className="mb-4 font-bold break-words text-wrap">What is your marital Status?</legend>
@@ -260,10 +254,7 @@ const Contacts = () => {
 
                     ) : null
                 }
-                <Online>
-                    <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
-                    {/* <p className="text-sm">You may be required to login again after this action.</p> */}
-                </Online>
+                 <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
             </form>
         </div>
     );

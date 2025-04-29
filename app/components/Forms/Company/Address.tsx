@@ -1,13 +1,9 @@
 
-import { customInputBoxTheme, customselectTheme, customsubmitTheme, customSwitch, NetworkTitle } from "@/app/SiteTheme/Theme";
-import { NetworkMessage } from "@/app/TempData/StaticData";
-import { Alert, Button, FileInput, Label, Radio, Select, TextInput, ToggleSwitch } from "flowbite-react";
+import { customInputBoxTheme, customselectTheme, customsubmitTheme, customSwitch } from "@/app/SiteTheme/Theme";
+import { Button, FileInput, Label, Radio, Select, TextInput, ToggleSwitch } from "flowbite-react";
 import { useEffect, useState } from "react";
-import { HiInformationCircle, HiUserAdd } from "react-icons/hi";
-import { Offline, Online } from "react-detect-offline";
 import { CiHome } from "react-icons/ci";
 import { GiPostOffice } from "react-icons/gi";
-import { handleDownload } from "@/app/services/FileDownloader";
 import { useDistricts } from "@/app/hooks/useDistricts";
 
 const Address = () => {
@@ -16,7 +12,6 @@ const Address = () => {
     const [postal, SetPostal] = useState("");
     const [property, Setproperty] = useState("Own");
     const [filename, setFilename] = useState('');
-    const [ServerFileName, setServerFileName] = useState('');
     const [MyDistrict, SetMyDistrict] = useState("");
     const [District, SetDistrict] = useState([]);
     const [pdfFile, setPdfFile] = useState<File | null>(null);
@@ -135,19 +130,8 @@ const Address = () => {
                             </div>
                         ) : null
                     }
-
-
                 </div>
-
-                <Offline>
-                    <Alert color="warning" icon={HiInformationCircle}>
-                        <span className="font-medium">Info alert!</span> {NetworkTitle}
-                        <p className="text-xs text-gray-500">{NetworkMessage}</p>
-                    </Alert></Offline>
-
-                <Online>
-                    <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
-                </Online>
+                <Button className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
             </form>
         </div>
     );

@@ -1,5 +1,4 @@
 import { Alert } from "flowbite-react";
-import { HiInformationCircle } from "react-icons/hi";
 import LoadingSpinner from "../Spinner/LoadingSpinner";
 
 const LoadingAlert = () => {
