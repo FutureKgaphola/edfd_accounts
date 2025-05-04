@@ -21,9 +21,9 @@ export const POST = async (req: Request) => {
 
   try {
     const { user_email, password, phone, first_name, last_name, saId }: UserInput = await req.json();
-
+    //console.log("Received data:", { user_email, password, phone, first_name, last_name, saId });
     if (!isValidData(user_email, first_name, last_name, password, phone, saId)) {
-      return NextResponse.json({ message: "Invalid form submitted" }, { status: 400 });
+      return NextResponse.json({ message: isError(user_email, first_name, last_name, password, phone, saId) }, { status: 400 });
     }
 
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -171,4 +171,47 @@ const isValidData = (
     saIdRegex.test(saId.trim()) &&
     validateSAID(saId.trim())
   );
+};
+
+const isError = (
+  user_email: string,
+  first_name: string,
+  last_name: string,
+  password: string,
+  phone: string,
+  saId: string
+): string => {
+  const phoneRegex = /^\d{10}$/;
+  const saIdRegex = /^\d{13}$/;
+
+  const isStrongPassword = password.length >= 8 &&
+  /[A-Z]/.test(password) &&
+  /[a-z]/.test(password) &&
+  /\d/.test(password);
+  
+      if(!isStrongPassword){
+        return "Password is not strong enough"
+      }
+      if(!validator.isEmail(user_email.trim())){
+        return "Email is not valid";
+      }
+      if(first_name.trim().length <= 0){
+        return "First name is not valid";
+      }
+      if(last_name.trim().length <= 0){
+        return "Last name is not valid";
+      }
+      if(!phoneRegex.test(phone.trim())){
+        return "Phone number is not valid";
+      }
+      if(!saIdRegex.test(saId.trim())){
+        return "SA ID is not valid";
+      }
+      if(!validateSAID(saId.trim())){
+        return "SA ID is not valid";
+      }
+      if(!phoneRegex.test(phone.trim())){ 
+        return "Phone number is not valid";
+      }
+      return "No error";
 };

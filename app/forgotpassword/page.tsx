@@ -1,6 +1,6 @@
 
 "use client";
-import { Alert, Button, FooterDivider, Label, Radio, TextInput } from "flowbite-react";
+import { Button, FooterDivider, Label, Radio, TextInput } from "flowbite-react";
 import Link from "next/link";
 import { customInputBoxTheme, customsubmitTheme } from "../SiteTheme/Theme";
 import { HiMail } from "react-icons/hi";
@@ -24,30 +24,93 @@ export default function ForgotPassword() {
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         SetTabChice(event.target.value);
     };
-    const SendResetLink = () => {
-        if (email !== "") {
-            if (!validator.isEmail(email?.trim())) return failureMessage(String("Invalid Email format."));
-            try {
-                setloading(true);
-                ///call api here
-                const resp = true; //if resp from api is true then successful
-                if (resp) {
-                    successMessage('Password reset link has been sent to :' + email);
-                    setloading(false);
-                    setEmail("");
+
+    const HandleRequestOTP = async () => {
+        if (!email || !validator.isEmail(email)) {
+            return failureMessage("Please provide a valid email address.");
+        }
+
+        try {
+            setloading(true);
+            // Check if the email is already registered
+            const res = await fetch("/api/users/checkemail", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+            const data = await res.json();
+            if (data && data?.exists) {
+                // request OTP
+                const res1 = await fetch("/api/otp/request", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email }),
+                });
+
+                const created = await res1.json();
+                if (created && created?.otp) {
+                    // Send OTP to the email address
+                    const res = await fetch("/api/otp/sendotp", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({ email, otp: created.otp }),
+                    });
+
+                    const data = await res.json();
+                    if (data) {
+                        successMessage("OTP sent successfully.");
+                    } else {
+                        failureMessage(data.message);
+                    }
                 } else {
-                    failureMessage('Email provided is not found/registered on the system.');
-                    setloading(false);
+                    failureMessage("Failed to create OTP.");
                 }
-            } catch (error: any) {
-                failureMessage(String(error));
-                setloading(false);
+
             }
-        } else {
-            failureMessage("Email is required");
+            if (data && !data?.exists) {
+                failureMessage(data.message);
+            }
+
+            if (!data) {
+                return failureMessage(data.message);
+            }
+
+        } catch (error) {
+            failureMessage(String(error));
+        } finally {
             setloading(false);
         }
-    }
+    };
+
+    const HandleResetPassword = async () => {
+        if (!otp || !newpassword || !validator.isStrongPassword(newpassword)) {
+            return failureMessage("Please provide a valid OTP and strong password.");
+        }
+
+        try {
+            setloading(true);
+            const res = await fetch("/api/otp/resetpassword", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email, otp, newpassword }),
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                successMessage("Password reset successfully.");
+                setEmail("");
+                setNewPassword("");
+                setOTP("");
+            } else {
+                failureMessage(data.message);
+            }
+        } catch (error) {
+            failureMessage(String(error));
+        } finally {
+            setloading(false);
+        }
+    };
+
     return (
         <div className="items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]" style={{
             backgroundPosition: 'center',
@@ -106,26 +169,29 @@ export default function ForgotPassword() {
                                     <div className="mb-2 block">
                                         <Label htmlFor="otp" value="OTP" />
                                     </div>
-                                    <TextInput value={otp} onChange={(e: any) => setOTP(e.target.value)} theme={customInputBoxTheme} color={"focuscolor"} icon={TbNumber123} id="otp" type="text" placeholder="Enter OTP" required />
+                                    <TextInput max={6} minLength={1} maxLength={6} value={otp} onChange={(e: any) => setOTP(e.target.value)} theme={customInputBoxTheme} color={"focuscolor"} icon={TbNumber123} id="otp" type="text" placeholder="Enter OTP" required />
                                 </div> : null
                         }
                         {
                             TabChice === "I have an OTP" ?
                                 <div>
                                     <div className="mb-2 block">
-                                        <Label htmlFor="newpassword" value="New Password" />
+                                       <div className="flex items-center gap-2">
+                                       <Label htmlFor="newpassword" value="New Password" />
+                                       <p className="text-sm font-thin">{newpassword}</p>
+                                       </div>
                                     </div>
-                                    <TextInput value={newpassword} onChange={(e: any) => setNewPassword(e.target.value)} theme={customInputBoxTheme} color={"focuscolor"} icon={TbNumber123} id="newpassword" type="password" placeholder="Enter New Password" required />
+                                    <TextInput value={newpassword} max={15} maxLength={15} onChange={(e: any) => setNewPassword(e.target.value)} theme={customInputBoxTheme} color={"focuscolor"} icon={TbNumber123} id="newpassword" type="password" placeholder="Enter New Password" required />
                                 </div> : null
                         }
                         {
-                            TabChice === "Request OTP" ? <Button isProcessing={loading} disabled={loading} onClick={() => SendResetLink()} theme={customsubmitTheme} type="button" color="appsuccess">Request OTP</Button> : null
+                            TabChice === "Request OTP" ? <Button isProcessing={loading} disabled={loading} onClick={() => HandleRequestOTP()} theme={customsubmitTheme} type="button" color="appsuccess">Request OTP</Button> : null
                         }
-                        
+
                         {
-                            TabChice === "I have an OTP" ? <Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="button" color="appsuccess">Reset My Password</Button> : null
+                            TabChice === "I have an OTP" ? <Button isProcessing={loading} disabled={loading} onClick={()=>HandleResetPassword()} theme={customsubmitTheme} type="button" color="appsuccess">Reset My Password</Button> : null
                         }
-                        
+
                         <FooterDivider></FooterDivider>
                         <div className="flex justify-end gap-2">
                             <p>Done with reset?</p> <Link className="text-appGreen" href={"/"}> Login</Link>

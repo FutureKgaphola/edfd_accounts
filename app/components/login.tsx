@@ -53,7 +53,7 @@ const Login = () => {
                         <div className="mb-2 block">
                             <Label htmlFor="password1" value="Your password" />
                         </div>
-                        <TextInput onChange={(e:any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" required />
+                        <TextInput onChange={(e:any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" max={15} maxLength={15} required />
                     </div>
                     
                         <Button isProcessing={loading} disabled={loading} theme={customsubmitTheme} type="submit" color="appsuccess">Log In</Button>

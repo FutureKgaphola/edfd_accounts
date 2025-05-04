@@ -105,7 +105,7 @@ const Register = () => {
                                 <Label htmlFor="password1" value="Password *" />
                                 <p className="text-sm font-thin">{password}</p>
                             </div>
-                            <TextInput onChange={(e: any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" required />
+                            <TextInput onChange={(e: any) => setPassword(e.target.value)} value={password} theme={customInputBoxTheme} color={"focuscolor"} id="password1" type="password" max={15} maxLength={15} required />
                         </div>
                         <div>
                             <div className="mb-2 block">
