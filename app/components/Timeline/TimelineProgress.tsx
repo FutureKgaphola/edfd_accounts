@@ -22,30 +22,30 @@ import { useEffect, useState } from "react";
 const TimelineProgress = () => {
   const dispatch = useDispatch();
   const router = useRouter();
-  const [groupOne,setgroupOne] = useState([]);
-  const [groupTwo,setgroupTwo] = useState([]);
-  const [groupThree,setgroupThree] = useState([]);
-  const [groupFour,setgroupFour] = useState([]);
-  const [groupFive,setgroupFive] = useState([]);
-  const [groupSix,setgroupSix] = useState([]);
-  const [groupSeven,setgroupSeven] = useState([]);
+  const [groupOne, setgroupOne] = useState([]);
+  const [groupTwo, setgroupTwo] = useState([]);
+  const [groupThree, setgroupThree] = useState([]);
+  const [groupFour, setgroupFour] = useState([]);
+  const [groupFive, setgroupFive] = useState([]);
+  const [groupSix, setgroupSix] = useState([]);
+  const [groupSeven, setgroupSeven] = useState([]);
   const Authprop = useSelector((state: RootState) => state.AuthReducer);
 
   const { data, isLoading, error } = useQuery({
     queryFn: () => axios.get(`api/application_group_by_stages?user_email=${Authprop?.user?.user_email}`),
     queryKey: ["applicationsByStages"],
-   enabled: !!Authprop?.user?.user_email
-});
+    enabled: !!Authprop?.user?.user_email
+  });
 
-useEffect(()=>{
-  setgroupOne(data?.data?.groupOne)
-  setgroupTwo(data?.data?.groupTwo)
-  setgroupThree(data?.data?.groupThree)
-  setgroupFour(data?.data?.groupFour)
-  setgroupFive(data?.data?.groupFive)
-  setgroupSix(data?.data?.groupSix)
-  setgroupSeven(data?.data?.groupSeven)
-},[data]);
+  useEffect(() => {
+    setgroupOne(data?.data?.groupOne)
+    setgroupTwo(data?.data?.groupTwo)
+    setgroupThree(data?.data?.groupThree)
+    setgroupFour(data?.data?.groupFour)
+    setgroupFive(data?.data?.groupFive)
+    setgroupSix(data?.data?.groupSix)
+    setgroupSeven(data?.data?.groupSeven)
+  }, [data]);
   const HandleProfileTab = (value: string, applicationId: string) => {
     dispatch(TabSliceAction.SelectedTab({ tab: value }));
     dispatch(TackApplicationAction?.TrackwithEmailNRef({
@@ -70,7 +70,7 @@ useEffect(()=>{
         <div className='flex flex-col relative overflow-x-auto max-h-[400px] h-32'>
           {groupOne?.map((item: any, index: number) => (
             <div key={index} className="flex flex-row items-center justify-between mt-2 bg-appGray rounded-lg p-2">
-              <p className="font-thin text-xs bg-amber-500 rounded-md p-1">{item?.companyName}</p>
+              <p className="font-thin text-xs bg-slate-300 rounded-md p-1">{item?.companyName}</p>
               <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
               <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
             </div>
@@ -89,9 +89,10 @@ useEffect(()=>{
         <div className='flex flex-col relative overflow-x-auto max-h-[400px] h-32'>
           {groupTwo?.map((item: any, index: number) => (
             <div key={index} className="flex flex-row items-center justify-between mt-2 bg-appGray rounded-lg p-2">
-            <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
-            <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
-          </div>
+              <p className="font-thin text-xs bg-slate-300 rounded-md p-1">{item?.companyName}</p>
+              <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
+              <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
+            </div>
           ))}
         </div>
       </VerticalTimelineElement>
@@ -107,9 +108,10 @@ useEffect(()=>{
         <div className='flex flex-col relative overflow-x-auto max-h-[400px] h-32'>
           {groupThree?.map((item: any, index: number) => (
             <div key={index} className="flex flex-row items-center justify-between mt-2 bg-appGray rounded-lg p-2">
-            <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
-            <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
-          </div>
+              <p className="font-thin text-xs bg-slate-300 rounded-md p-1">{item?.companyName}</p>
+              <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
+              <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
+            </div>
           ))}
         </div>
       </VerticalTimelineElement>
@@ -122,7 +124,15 @@ useEffect(()=>{
         icon={<PiNumberCircleFourBold />}
       >
         <h3 className="vertical-timeline-element-title text-white font-poppinsRegular text-lg">Review of Credit and Risk Assessment</h3>
-
+        <div className='flex flex-col relative overflow-x-auto max-h-[400px] h-32'>
+          {groupFour?.map((item: any, index: number) => (
+            <div key={index} className="flex flex-row items-center justify-between mt-2 bg-appGray rounded-lg p-2">
+              <p className="font-thin text-xs bg-slate-300 rounded-md p-1">{item?.companyName}</p>
+              <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
+              <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
+            </div>
+          ))}
+        </div>
       </VerticalTimelineElement>
       <VerticalTimelineElement
         visible={true}
@@ -133,6 +143,15 @@ useEffect(()=>{
         iconStyle={{ background: '#92981b', color: 'white' }}
         icon={<PiNumberCircleFiveBold />}
       >
+        <div className='flex flex-col relative overflow-x-auto max-h-[400px] h-32'>
+          {groupFive?.map((item: any, index: number) => (
+            <div key={index} className="flex flex-row items-center justify-between mt-2 bg-appGray rounded-lg p-2">
+              <p className="font-thin text-xs bg-slate-300 rounded-md p-1">{item?.companyName}</p>
+              <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
+              <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
+            </div>
+          ))}
+        </div>
         <h3 className="vertical-timeline-element-title text-white font-poppinsRegular text-lg">Considerations and Approval or Recommendation</h3>
 
       </VerticalTimelineElement>
@@ -146,7 +165,15 @@ useEffect(()=>{
         icon={<PiNumberCircleSixBold />}
       >
         <h3 className="vertical-timeline-element-title text-black font-poppinsRegular text-lg">Final Approval and or Recommendation</h3>
-
+        <div className='flex flex-col relative overflow-x-auto max-h-[400px] h-32'>
+          {groupSix?.map((item: any, index: number) => (
+            <div key={index} className="flex flex-row items-center justify-between mt-2 bg-appGray rounded-lg p-2">
+              <p className="font-thin text-xs bg-slate-300 rounded-md p-1">{item?.companyName}</p>
+              <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
+              <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
+            </div>
+          ))}
+        </div>
       </VerticalTimelineElement>
       <VerticalTimelineElement
         visible={true}
@@ -158,7 +185,15 @@ useEffect(()=>{
         icon={<PiNumberCircleSevenBold />}
       >
         <h3 className="vertical-timeline-element-title text-black font-poppinsRegular text-lg">Review of Security Documents and Check Payment Requisitions</h3>
-
+        <div className='flex flex-col relative overflow-x-auto max-h-[400px] h-32'>
+          {groupSeven?.map((item: any, index: number) => (
+            <div key={index} className="flex flex-row items-center justify-between mt-2 bg-appGray rounded-lg p-2">
+              <p className="font-thin text-xs bg-slate-300 rounded-md p-1">{item?.companyName}</p>
+              <p className="text-white font-poppinsRegular text-sm">{item?.applicationRef}</p>
+              <button onClick={() => HandleProfileTab("track", item?.applicationRef)} className="bg-white text-appGreen font-poppinsRegular text-sm px-2 py-1 rounded">View</button>
+            </div>
+          ))}
+        </div>
       </VerticalTimelineElement>
     </VerticalTimeline>
   );
