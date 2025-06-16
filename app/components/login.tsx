@@ -23,11 +23,12 @@ const Login = () => {
             return;
           }
         handleLogin(username,password).then(()=>{
-            if (!sessionStorage.getItem('utoken') || sessionStorage.getItem('utoken') == null) return;
+            if (!sessionStorage.getItem('utoken') || sessionStorage.getItem('utoken') == null || !sessionStorage.getItem('utoken')) return;
             SetUserName("");
             setPassword("");
             router.push('/dashboard');
         }).catch((error:any)=>{
+             sessionStorage.clear();
             failureMessage(String(error.message));
         })
        

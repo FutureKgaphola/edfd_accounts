@@ -26,8 +26,23 @@ export const useLogin = () => {
     
             successMessage(result.message);
             sessionStorage.setItem("utoken", result.token);
-            sessionStorage.setItem("user", JSON.stringify(result.user));
-            dispatch(AuthActions.setAuthToken({ token: result.token, user: result.user }));
+            sessionStorage.setItem("user", JSON.stringify({
+                user_email: result.user.user_email,
+                first_name: result.user.first_name,
+                id: result.user.id,
+                last_name: result.user.last_name,
+                phone: result.user.phone,
+                verify_tk: result.user.verify_token
+            }));
+           
+            dispatch(AuthActions.setAuthToken({ token: result.token, user: {
+                user_email: result.user.user_email,
+                first_name: result.user.first_name,
+                id: result.user.id,
+                last_name: result.user.last_name,
+                phone: result.user.phone,
+                verify_tk: result.user.verify_token
+            } }));
         } catch (error) {
             console.error("Login error:", error);
             failureMessage("Failed to login. Please try again later.");

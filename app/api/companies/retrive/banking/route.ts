@@ -8,11 +8,13 @@ export const GET=async(req:Request)=>{
         //const {id}=await req.json();
       const url= new URL(req.url);
       const id=url.searchParams.get('id');
+      const regNo=url.searchParams.get('regNo');
       //console.log(id);
       // Query the database for the user by email
       const rows = await pool.request()
         .input("id", sql.VarChar, id?.trim())
-        .query('SELECT TOP 1 * FROM CompaniesBanking WHERE holderEmail = @id');
+        .input("regNo", sql.VarChar, regNo?.trim())
+        .query('SELECT TOP 1 * FROM CompaniesBanking WHERE holderEmail = @id AND regNo = @regNo');
       
       // Check if the user was found
       if (rows.recordset.length === 0) {

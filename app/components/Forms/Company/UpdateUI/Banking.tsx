@@ -168,7 +168,7 @@ const BankingUpt = () => {
                             sizing="sm" id="postal" accept="application/pdf" helperText=".pdf(MAX. 40MB)." />
                     </div>
                 </div>
-                <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Save</Button>
+                <Button isProcessing={loading} disabled={loading} className="mt-2 w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
             </form>
         </div>
     );

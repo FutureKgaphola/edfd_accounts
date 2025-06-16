@@ -5,16 +5,18 @@ import { useSelector } from 'react-redux';
 import { RootState } from '@/lib/store';
 import { useQuery } from '@tanstack/react-query';
 
-const fetchuser=async(userid:string)=>{
-   const resp= await axios.get(`/api/companies/retrive/banking?id=${userid}`)
+const fetchuser=async(userid:string,regNo:string)=>{
+   const resp= await axios.get(`/api/companies/retrive/banking?id=${userid}&regNo=${regNo}`)
     return resp.data?.user;
 }
 const useFetchCompanyBanking= () => {
     const Authprop = useSelector((state: RootState) => state.AuthReducer);
+    const selected = useSelector((state: RootState) => state.SelectedCompanyReducer);
     const userid= Authprop.user?.user_email;
+    const regNo= selected.regNo;
     const {data,isLoading,error} =useQuery({
-        queryFn : ()=>fetchuser(userid),
-        queryKey: ['companyBanking',{userid}]
+        queryFn : ()=>fetchuser(userid,regNo),
+        queryKey: ['companyBanking',{userid,regNo}]
         
     });
 
