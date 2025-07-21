@@ -32,11 +32,14 @@ export const POST = async (req: Request) => {
         const requestData: ApplicationData = await req.json();
         regCopy = requestData.regNo;
 
+        console.log(requestData.loanDocs);
+
         // Validate all data first before any DB operations
         if (!validateAllData(requestData)) {
+            
             let errorMessage="";
             if(!isValidData(requestData.user_email, requestData.companyName, requestData.regNo, requestData.amount, requestData.districtId, requestData.loanDocs)){
-                errorMessage='Invalid/insufficient data provided from your account or browser. Refresh your browser and try again.';
+                errorMessage='Invalid/insufficient data provided(company Name, amount, district, LoanType selected) from your account or browser. Make sure your account is complete & Refresh your browser and try again.';
             }else if(!isValidLeadContacts(requestData.leadContacts)){
                 errorMessage='Invalid/insufficient lead contact Details provided';
             }
@@ -52,7 +55,7 @@ export const POST = async (req: Request) => {
             else if(!isValidCompanyContacts(requestData.Companycontacts) ){
                 errorMessage='Invalid/insufficient company contacts Details provided';
             }
-            else if(isValidCompanyAddress(requestData.Companyaddress)){
+            else if(!isValidCompanyAddress(requestData.Companyaddress)){
                 errorMessage='Invalid/insufficient company address Details provided';
             }
             else if(!isValidCompanyBanking(requestData.Companybanking)){
@@ -85,7 +88,7 @@ export const POST = async (req: Request) => {
             await insertApplicationData(transaction, requestData, applicationRef);
 
             // Copy all related data to submitted tables
-            await copyDataToSubmittedTables(transaction, requestData.regNo, requestData.user_email, applicationRef, tableref);
+            await copyDataToSubmittedTables(transaction, requestData.regNo, requestData.user_email, applicationRef, tableref,requestData.loanDocs);
 
             await transaction.commit();
 
@@ -371,137 +374,148 @@ async function insertApplicationData(transaction: sql.Transaction, data: Applica
 }
 
 async function copyDataToSubmittedTables(
-    transaction: sql.Transaction,
-    regNo: string,
-    user_email: string,
-    applicationRef: string,
-    tableref: string
+  transaction: sql.Transaction,
+  regNo: string,
+  user_email: string,
+  applicationRef: string,
+  tableref: string,
+  loanDocs: string // add this param from requestData.loanDocs
 ) {
-    const copyQuery = `
-        -- Lead Person
-        INSERT INTO SubmittedLeadPerson (
-            applicationRef, email, phone, surname, SaId, Name, IdCopy, maritalStatus, statusProof
-        )
-        SELECT 
-            @applicationRef, user_email, phone, last_name, holdersaId, first_name, holderIDcopy,
-            marital_status, maritalDocument
-        FROM LeadContact
-        WHERE user_email = @user_email;
+  let conditionalDocInsert = "";
 
-        -- Lead Spouse
-        INSERT INTO SubmittedLeadSpounce (
-            applicationRef, email, phone, SaId, Name, IdCopy
-        )
-        SELECT 
-            @applicationRef, SpouceEmail, SpoucePhone, SpouceId, SpouceName, SpouceIDcopy
-        FROM LeadContact
-        WHERE user_email = @user_email;
-
-         -- SubmittedLeadAddress
-  INSERT INTO SubmittedLeadAddress (
-    applicationRef, physical, postal, proofAddress
-  )
-  SELECT 
-    @applicationRef, physicalAddress, postal, proofAddress
-  FROM LeadAddress
-  WHERE holderEmail = @user_email;
-
-  -- SubmittedLeadBanking
-  INSERT INTO SubmittedLeadBanking (
-    applicationRef, Bank, Branch, AccountNumber, BranchCode, AccountHolderName, TypeAccount, proofAccount
-  )
-  SELECT 
-    @applicationRef, bankName, branchName, accountNumber, branchCode, accountHolder, accountType, proofBank
-  FROM LeadBanking
-  WHERE holderEmail = @user_email;
-
-  -- SubmittedCompanyContacts
-  INSERT INTO SubmittedCompanyContacts (
-    applicationRef, user_email, regNo, TradeName, TaxNo, VatNo
-  )
-  SELECT 
-    @applicationRef, user_email, regNo, TradeName, TaxNo, VatNo
-  FROM CompaniesIdentification
-  WHERE regNo = @regNo;
-
-  -- SubmittedCompanyAddress
-  INSERT INTO SubmittedCompanyAddress (
-    applicationRef, physicalAddress, districtId, postal, holderEmail, regNo, proofAddress,
-    proof_filename, leased, leaseAgreement, lease_filename
-  )
-  SELECT 
-    @applicationRef, physicalAddress, districtId, postal, holderEmail, regNo, proofAddress,
-    proof_filename, leased, leaseAgreement, lease_filename
-  FROM CompaniesAddress
-  WHERE regNo = @regNo;
-
-  -- SubmittedCompanyBanking
-  INSERT INTO SubmittedCompanyBanking (
-    applicationRef, bankName, accountNumber, branchCode, branchName, holderEmail, regNo, accountType,
-    accountHolder, proofBank, filename
-  )
-  SELECT 
-    @applicationRef, bankName, accountNumber, branchCode, branchName, holderEmail, regNo, accountType,
-    accountHolder, proofBank, filename
-  FROM CompaniesBanking
-  WHERE regNo = @regNo;
-
-  -- SubmittedBusinessDocs
-  INSERT INTO SubmittedBusinessDocs (
-     applicationRef,filenames, fileIndexes, loanCat_id, regNo, filesData
-  )
-  SELECT 
-    @applicationRef,filenames, fileIndexes, loanCat_id, regNo, filesData
-  FROM BusinessDocs
-  WHERE regNo = @regNo;
-
-  -- SubmittedProcurementDocs
-  INSERT INTO SubmittedProcurementDocs (
-    applicationRef,filenames, fileIndexes, loanCat_id, regNo, filesData
-  )
-  SELECT 
-    @applicationRef,filenames, fileIndexes, loanCat_id, regNo, filesData
-  FROM ProcurementDocs
-  WHERE regNo = @regNo;
-
-  -- SubmittedBuildingDocs
-  INSERT INTO SubmittedBuildingDocs (
-    applicationRef,filenames, fileIndexes, loanCat_id, regNo, filesData
-  )
-  SELECT 
-    @applicationRef,filenames, fileIndexes, loanCat_id, regNo, filesData
-  FROM BuildingDocs
-  WHERE regNo = @regNo;
-
-  -- SubmittedfranchiseeDocs
-  INSERT INTO SubmittedfranchiseeDocs (
-    applicationRef,filenames, fileIndexes, loanCat_id, regNo, filesData
-  )
-  SELECT 
-    @applicationRef,filenames, fileIndexes, loanCat_id, regNo, filesData
-  FROM franchiseeDocs
-  WHERE regNo = @regNo;
-
-        
-        -- Directors
-        INSERT INTO SubmittedDirectors${tableref} (
-            applicationRef, fullnames, regNo, email, percentage, phone, proof_Resfilename, copy_safilename,
-            proof_Res_Indexes, copy_sa_Indexes, proofRes, copy_sa_id
-        )
-        SELECT 
-            @applicationRef, fullnames, regNo, email, percentage, phone, proof_Resfilename, copy_safilename,
-            proof_Res_Indexes, copy_sa_Indexes, proofRes, copy_sa_id
-        FROM Directors${tableref}
-        WHERE regNo = @regNo;
+  if (loanDocs === "Business") {
+    conditionalDocInsert = `
+      INSERT INTO SubmittedBusinessDocs (
+        applicationRef, filenames, fileIndexes, loanCat_id, regNo, filesData
+      )
+      SELECT 
+        @applicationRef, filenames, fileIndexes, loanCat_id, regNo, filesData
+      FROM BusinessDocs
+      WHERE regNo = @regNo;
     `;
+  } else if (loanDocs === "Procurement") {
+    conditionalDocInsert = `
+      INSERT INTO SubmittedProcurementDocs (
+        applicationRef, filenames, fileIndexes, loanCat_id, regNo, filesData
+      )
+      SELECT 
+        @applicationRef, filenames, fileIndexes, loanCat_id, regNo, filesData
+      FROM ProcurementDocs
+      WHERE regNo = @regNo;
+    `;
+  } else if (loanDocs === "Building") {
+    conditionalDocInsert = `
+      INSERT INTO SubmittedBuildingDocs (
+        applicationRef, filenames, fileIndexes, loanCat_id, regNo, filesData
+      )
+      SELECT 
+        @applicationRef, filenames, fileIndexes, loanCat_id, regNo, filesData
+      FROM BuildingDocs
+      WHERE regNo = @regNo;
+    `;
+  } else if (loanDocs === "Franchisee") {
+    conditionalDocInsert = `
+      INSERT INTO SubmittedfranchiseeDocs (
+        applicationRef, filenames, fileIndexes, loanCat_id, regNo, filesData
+      )
+      SELECT 
+        @applicationRef, filenames, fileIndexes, loanCat_id, regNo, filesData
+      FROM franchiseeDocs
+      WHERE regNo = @regNo;
+    `;
+  }
 
-    const request = transaction.request();
-    request.input("applicationRef", sql.VarChar, applicationRef);
-    request.input("user_email", sql.VarChar, user_email);
-    request.input("regNo", sql.VarChar, regNo);
+  const copyQuery = `
+    -- Lead Person
+    INSERT INTO SubmittedLeadPerson (
+        applicationRef, email, phone, surname, SaId, Name, IdCopy, maritalStatus, statusProof
+    )
+    SELECT 
+        @applicationRef, user_email, phone, last_name, holdersaId, first_name, holderIDcopy,
+        marital_status, maritalDocument
+    FROM LeadContact
+    WHERE user_email = @user_email;
 
-    await request.query(copyQuery);
+    -- Lead Spouse
+    INSERT INTO SubmittedLeadSpounce (
+        applicationRef, email, phone, SaId, Name, IdCopy
+    )
+    SELECT 
+        @applicationRef, SpouceEmail, SpoucePhone, SpouceId, SpouceName, SpouceIDcopy
+    FROM LeadContact
+    WHERE user_email = @user_email;
+
+    -- SubmittedLeadAddress
+    INSERT INTO SubmittedLeadAddress (
+      applicationRef, physical, postal, proofAddress
+    )
+    SELECT 
+      @applicationRef, physicalAddress, postal, proofAddress
+    FROM LeadAddress
+    WHERE holderEmail = @user_email;
+
+    -- SubmittedLeadBanking
+    INSERT INTO SubmittedLeadBanking (
+      applicationRef, Bank, Branch, AccountNumber, BranchCode, AccountHolderName, TypeAccount, proofAccount
+    )
+    SELECT 
+      @applicationRef, bankName, branchName, accountNumber, branchCode, accountHolder, accountType, proofBank
+    FROM LeadBanking
+    WHERE holderEmail = @user_email;
+
+    -- SubmittedCompanyContacts
+    INSERT INTO SubmittedCompanyContacts (
+      applicationRef, user_email, regNo, TradeName, TaxNo, VatNo
+    )
+    SELECT 
+      @applicationRef, user_email, regNo, TradeName, TaxNo, VatNo
+    FROM CompaniesIdentification
+    WHERE regNo = @regNo;
+
+    -- SubmittedCompanyAddress
+    INSERT INTO SubmittedCompanyAddress (
+      applicationRef, physicalAddress, districtId, postal, holderEmail, regNo, proofAddress,
+      proof_filename, leased, leaseAgreement, lease_filename
+    )
+    SELECT 
+      @applicationRef, physicalAddress, districtId, postal, holderEmail, regNo, proofAddress,
+      proof_filename, leased, leaseAgreement, lease_filename
+    FROM CompaniesAddress
+    WHERE regNo = @regNo;
+
+    -- SubmittedCompanyBanking
+    INSERT INTO SubmittedCompanyBanking (
+      applicationRef, bankName, accountNumber, branchCode, branchName, holderEmail, regNo, accountType,
+      accountHolder, proofBank, filename
+    )
+    SELECT 
+      @applicationRef, bankName, accountNumber, branchCode, branchName, holderEmail, regNo, accountType,
+      accountHolder, proofBank, filename
+    FROM CompaniesBanking
+    WHERE regNo = @regNo;
+
+    ${conditionalDocInsert}  -- This line inserts only the matched document type
+
+    -- Directors
+    INSERT INTO SubmittedDirectors${tableref} (
+        applicationRef, fullnames, regNo, email, percentage, phone, proof_Resfilename, copy_safilename,
+        proof_Res_Indexes, copy_sa_Indexes, proofRes, copy_sa_id
+    )
+    SELECT 
+        @applicationRef, fullnames, regNo, email, percentage, phone, proof_Resfilename, copy_safilename,
+        proof_Res_Indexes, copy_sa_Indexes, proofRes, copy_sa_id
+    FROM Directors${tableref}
+    WHERE regNo = @regNo;
+  `;
+
+  const request = transaction.request();
+  request.input("applicationRef", sql.VarChar, applicationRef);
+  request.input("user_email", sql.VarChar, user_email);
+  request.input("regNo", sql.VarChar, regNo);
+
+  await request.query(copyQuery);
 }
+
 
 function validateAllData(data: ApplicationData): boolean {
     
@@ -585,6 +599,7 @@ const isValidCompanyContacts = (companyContacts: any): boolean => {
 
 const isValidCompanyAddress = (companyAddress: any): boolean => {
     if (!companyAddress) return false;
+    console.log(companyAddress);
     // Iterate through each property of the object
     if (companyAddress.leased == "Leased") {
         for (const key in companyAddress) {
@@ -594,16 +609,11 @@ const isValidCompanyAddress = (companyAddress: any): boolean => {
         }
 
         return true; // All properties are valid
-    } else if (companyAddress.leased == "Own") {
-        if (companyAddress.physicalAddress !== null && companyAddress.postal !== null
+    } else if (companyAddress.leased == "Own" && companyAddress.physicalAddress !== null && companyAddress.postal !== null
             && companyAddress.proofAddress !== null && companyAddress.proof_filename !== null
             && companyAddress.districtId !== null
             && companyAddress.holderEmail !== null && companyAddress.regNo !== null) {
-            return true; // All properties are valid
-        }
-        else {
-            return false; // All properties are valid
-        }
+        return true;
 
     } else {
         return false; // properties are invalid

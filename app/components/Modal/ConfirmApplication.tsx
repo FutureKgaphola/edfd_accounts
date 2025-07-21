@@ -223,15 +223,19 @@ export function ConfirmApplicationModal({
         successMessage(response.data.message || "Application submitted successfully.");
         router.back();
       } else {
+        setSelectedLoanType("Business");
         failureMessage(response.data?.message || "Something went wrong. Please try again.");
       }
     } catch (error: any) {
+      setSelectedLoanType("Business");
       console.error("API error:", error);
       const apiMessage = error?.response?.data?.message ||
         error?.message ||
         "An unexpected error occurred.";
       failureMessage(apiMessage);
     } finally {
+      setAmount('');
+      setSelectedLoanType("Business");
       setisUploading(false);
       setOpenModal(false);
     }
@@ -254,7 +258,10 @@ export function ConfirmApplicationModal({
   }
 
   return (
-    <Modal show={openModal} onClose={() => setOpenModal(false)}>
+    <Modal show={openModal} onClose={() =>{
+      setOpenModal(false);
+      setSelectedLoanType("Business");
+    } }>
       <Modal.Header>Confirmation of your details</Modal.Header>
       <Modal.Body>
         <div className="space-y-6">
@@ -286,7 +293,7 @@ export function ConfirmApplicationModal({
               <Label htmlFor="procurement-loan">Procurement</Label>
             </div>
 
-            <div className="flex items-center gap-2">
+            {/* <div className="flex items-center gap-2">
               <Radio
                 id="building-loan"
                 name="loanType"
@@ -306,7 +313,7 @@ export function ConfirmApplicationModal({
                 onChange={handleChange}
               />
               <Label htmlFor="franchisee-loan">Franchisee</Label>
-            </div>
+            </div> */}
           </fieldset>
 
           <div>

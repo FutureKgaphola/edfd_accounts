@@ -87,6 +87,7 @@ export interface History {
   body: string;
   stage?: string;
   outcome?: string;
+  recommendations?: string;
 }
 
 

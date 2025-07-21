@@ -14,7 +14,8 @@ const TimeLineChildComponent = ({
     Company,
     body,
     stage,
-    outcome
+    outcome,
+    recommendations
 }: History) => {
     const [stageName, setStageName] = useState<string>("");
 
@@ -59,10 +60,11 @@ const TimeLineChildComponent = ({
                             {outcome ? "Outcome : " + outcome : null}
                         </p>
                     )}
+                    {recommendations && recommendations!==""&& (<p className="bg-appGray w-fit p-1 rounded-sm text-white">Recommedation : {recommendations}</p>)}
                 </Timeline.Content>
             </Timeline.Item>
 
-            <Badge className={`w-fit m-2 ${outcome === "failed" ? 'bg-red-700' : 'bg-appGreen'} text-white`} icon={HiCheck}>
+            <Badge className={`w-fit m-2 ${outcome === "failed" || outcome === "Rejected" ? 'bg-red-700' : 'bg-appGreen'} text-white`} icon={HiCheck}>
                 {stageName}
             </Badge>
         </Timeline>

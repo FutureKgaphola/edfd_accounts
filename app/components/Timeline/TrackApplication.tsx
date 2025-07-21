@@ -60,7 +60,7 @@ const TrackApplication = () => {
                                     item.applicationRef.toString().includes(SerachResult)
                                 )
                                 ?.map((item:any) => (
-                                    <TimeLineChildComponent key={item.id} id={item.applicationRef} date={item.create_date} Company={item.companyName} status={item.status} category={item.loanDocs} RegNo={item.regNo} body={item.message} stage={item?.stageAt} outcome={item?.outcome} />
+                                    <TimeLineChildComponent key={item.id} id={item.applicationRef} date={item.create_date} Company={item.companyName} status={item.status} category={item.loanDocs} RegNo={item.regNo} body={item.message} stage={item?.stageAt} outcome={item?.outcome} recommendations={item.recommendations} />
                                 ))}
                             </div>
                         </Card>
