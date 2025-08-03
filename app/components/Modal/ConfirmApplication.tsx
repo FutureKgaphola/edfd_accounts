@@ -293,7 +293,7 @@ export function ConfirmApplicationModal({
               <Label htmlFor="procurement-loan">Procurement</Label>
             </div>
 
-            {/* <div className="flex items-center gap-2">
+             <div className="flex items-center gap-2">
               <Radio
                 id="building-loan"
                 name="loanType"
@@ -313,7 +313,7 @@ export function ConfirmApplicationModal({
                 onChange={handleChange}
               />
               <Label htmlFor="franchisee-loan">Franchisee</Label>
-            </div> */}
+            </div>
           </fieldset>
 
           <div>
@@ -390,7 +390,11 @@ export function ConfirmApplicationModal({
         >
           {isUploading ? 'Submitting...' : 'I accept'}
         </Button>
-        <Button color="gray" onClick={() => setOpenModal(false)}>
+        <Button color="gray" onClick={() =>{
+          setAmount('');
+          setTnCs(false);
+          setOpenModal(false);
+        } }>
           Decline
         </Button>
       </Modal.Footer>

@@ -43,6 +43,7 @@ export const POST = async (req: Request) => {
           last_name VARCHAR(100) NOT NULL,
           password VARCHAR(255) NOT NULL,
           phone VARCHAR(10) NOT NULL,
+          active INT NOT NULL DEFAULT 1,
           holdersaId VARCHAR(13) NOT NULL UNIQUE,
           verify_tk VARCHAR(255) NOT NULL,
           holderIDcopy VARBINARY(MAX) NULL,

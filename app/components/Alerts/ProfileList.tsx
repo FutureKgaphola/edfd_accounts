@@ -85,22 +85,29 @@ const ProfileList = ({ user_email }: { user_email: string }) => {
                     }
 
                 </Select>
+
                 <div className="flex gap-2 flex-wrap">
                     <Tooltip content={"Create A Company"}>
                         <Button onClick={() => RefetchCompanyDocs("Create")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Create</Button>
                     </Tooltip>
-                    <Tooltip content={"Manage your Documents"}>
-                        <Button onClick={() => RefetchCompanyDocs("Documents")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Documents</Button>
-                    </Tooltip>
+                    {selectedinput !== "---" ? (
+                        <div className="flex gap-2 flex-wrap">
+                            <Tooltip content={"Manage your Documents"}>
+                                <Button onClick={() => RefetchCompanyDocs("Documents")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Documents</Button>
+                            </Tooltip>
 
-                    <Tooltip content={"Update your Indentification,Address & Banking"}>
-                        <Button onClick={() => RefetchCompanyDocs("Update")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
-                    </Tooltip>
+                            <Tooltip content={"Update your Indentification,Address & Banking"}>
+                                <Button onClick={() => RefetchCompanyDocs("Update")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Update</Button>
+                            </Tooltip>
 
-                    <Tooltip content={"Manage your Directors"}>
-                        <Button onClick={() => RefetchCompanyDocs("Director")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Director</Button>
-                    </Tooltip>
+                            <Tooltip content={"Manage your Directors"}>
+                                <Button onClick={() => RefetchCompanyDocs("Director")} size="xs" className="w-fit" theme={customsubmitTheme} type="submit" color="appsuccess">Director</Button>
+                            </Tooltip>
+                        </div>
+                    ) : null}
                 </div>
+
+
             </div>
 
         </Alert>

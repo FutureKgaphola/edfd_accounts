@@ -32,7 +32,7 @@ export const POST = async (req: Request) => {
         const requestData: ApplicationData = await req.json();
         regCopy = requestData.regNo;
 
-        console.log(requestData.loanDocs);
+        //console.log(requestData.loanDocs);
 
         // Validate all data first before any DB operations
         if (!validateAllData(requestData)) {
@@ -136,6 +136,7 @@ async function createApplicationTables(transaction: sql.Transaction, tableref: s
             outcome VARCHAR(255) NOT NULL,
             stageAt VARCHAR(255) NOT NULL,
             message VARCHAR(255) NOT NULL,
+            recommendation text NULL,
             empno VARCHAR(8) NOT NULL DEFAULT '00000000',
             managerId VARCHAR(11) NOT NULL DEFAULT '00000000',
             companyName VARCHAR(255) NOT NULL,
@@ -352,11 +353,11 @@ async function insertApplicationData(transaction: sql.Transaction, data: Applica
     const insertQuery = `
         INSERT INTO Applications (
             user_email, companyName, regNo, districtId, status, outcome, 
-            stageAt, message, amount, loanDocs, applicationRef
+            stageAt, message,recommendation, amount, loanDocs, applicationRef
         )
         VALUES (
             @user_email, @companyName, @regNo, @districtId, 'open', 
-            '', '1', 'Assessment of your submitted document is underway.', 
+            '', '1', 'Basic Assessment and Due Deligence.', '',
             @amount, @loanDocs, @applicationRef
         );
     `;
@@ -671,7 +672,12 @@ const isValidCompanyDocs = (companyDocs: any[], loanDocs: string): boolean => {
     else if (loanDocs?.trim() == "Procurement" && companyDocs.length == 9) {
 
         return true; // All properties are valid
-    } else {
+    }else if (loanDocs?.trim() == "Building" && companyDocs.length == 9) {
+        return true; // All properties are valid
+    }
+    else if (loanDocs?.trim() == "Franchisee" && companyDocs.length == 8) {
+        return true; // All properties are valid
+    }else {
         return false; // All properties are valid
     }
 }

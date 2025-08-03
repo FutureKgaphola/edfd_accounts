@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query';
 
 const fetchapplications=async(user_email:string)=>{
    const resp= await axios.get(`/api/companies/retrive/applications?user_email=${user_email}`)
-   console.log(resp.data?.applications)
     return resp.data?.applications || [];
 }
 const useApplications= () => {

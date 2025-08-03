@@ -96,7 +96,7 @@ const Company = () => {
                                         <div>
                                             <span className="bg-appGreen p-1 text-white">Company Documents</span>
                                             <Alert color="warning" icon={HiInformationCircle}>
-                                                <span className="font-medium">Info alert!</span> All documents must be of an extension file .pdf and should not exceed 40 MB individually.
+                                                <span className="font-medium">Info alert!</span> All documents must be of an extension file .pdf and should not exceed 20 MB individually.
                                             </Alert>
                                             <fieldset className="flex max-w-md flex-wrap gap-4">
                                                 <legend className="mb-4 text-nowrap">Choose for which loan type you will be using this Document for?</legend>

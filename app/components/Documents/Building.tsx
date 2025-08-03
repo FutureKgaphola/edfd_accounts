@@ -1,13 +1,9 @@
-"use client";
 
-import { HiInformationCircle } from "react-icons/hi";
-import { Alert } from "flowbite-react";
+import BuildingUploader from "../FileInput/BuildingDocsuploader";
 
 const Building = () => {
     return (
-        <Alert color="failure" icon={HiInformationCircle}>
-            <span className="font-medium">Info alert!</span> This part of the system is under maintenace and will be available soon.
-        </Alert>
+        <BuildingUploader/>
     );
 }
 

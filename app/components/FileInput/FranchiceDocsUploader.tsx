@@ -9,9 +9,10 @@ import LoadingSpinnerOnly from '../Spinner/LoadingSpinneronly';
 import { HiCloudDownload } from "react-icons/hi";
 import { DownloadCompanyDocs } from '@/app/services/handleDownloadCompanyDocs';
 import ProccesingAlert from '../Alerts/ProcessingRequest';
-import { BusinesDocs } from '@/app/constants/sharedconstants';
+import { FranchiceDocs } from '@/app/constants/sharedconstants';
 
-export default function BusinessPDFUploader() {
+export default function FranchiceUploader() {
+
     const { handleFileChange, AddCompanyDocs, Isuploaading } = useUploadBusiness();
     const { data, isLoading, UpdateCompanyDocs, IsuploadingUpdates, RemoveCompanyDocs, handleFileChange_update } = useBusinessDocs();
 
@@ -36,10 +37,10 @@ export default function BusinessPDFUploader() {
             e.preventDefault();
             AddCompanyDocs({ regNo: regNo, loanId: loanCat_id })
         }} >
-            {BusinesDocs?.map((item, index) => (
+            {FranchiceDocs?.map((item, index) => (
                 <div key={item?.id}>
                     <div className="flex justify-between items-center">
-                        <p className="text-wrap w-7/12 break-words text-sm mr-2">{item?.desc}</p>
+                        <p className="text-wrap w-7/12 break-words text-sm mr-2">{item?.p}</p>
                         <div className="flex gap-1 items-center">
                             {
                                 isLoading ? <LoadingSpinnerOnly color='success' size='sm' /> :
@@ -48,7 +49,7 @@ export default function BusinessPDFUploader() {
                                             <HiCloudDownload onClick={() => DownloadCompanyDocs(docs[index]?.regNo, loanCat_id, docs[index]?.filenames, docs[index]?.id)} className="hover:cursor-pointer" width={35} height={35} />
                                             <Button onClick={() => RemoveCompanyDocs({ id: docs[index]?.id, regNo: docs[index]?.regNo, loanCat_id: docs[index]?.loanCat_id,fileIndexes: docs[index]?.fileIndexes })} className="z-0" theme={customsubmitTheme} color='failure' size="xs">Delete</Button>
                                             <Button onClick={() => UpdateCompanyDocs({ regNo: docs[index]?.regNo, loanCat_id: loanCat_id, fileIndexes: docs[index]?.fileIndexes, id: docs[index]?.id })} className="z-0" theme={customsubmitTheme} color='success' size="xs">Update</Button></>
-                                            : docs ? null : null}
+                                             : docs ? null/*<Button onClick={() => AddCompanyDocs({ regNo: regNo, loanId: loanCat_id })} color='warning' size="xs">Upload</Button>*/ : null}
                                     </div>
                             }
 
@@ -65,7 +66,7 @@ export default function BusinessPDFUploader() {
             {IsuploadingUpdates && <ProccesingAlert action_message={"Processing your request ..."}/>}
             
             <a className='text-sm break-words text-appGreen underline' target='_blank' href='#'>Download Statement of personal Assets and Liabilities form</a>
-           <Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>
+            <Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>
 
         </form>
     );

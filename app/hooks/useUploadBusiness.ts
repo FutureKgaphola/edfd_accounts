@@ -16,8 +16,8 @@ export const useUploadBusiness = () => {
                 failureMessage('Please upload a valid PDF file.');
                 return;
             }
-            if (file.size > 40 * 1024 * 1024) {
-                failureMessage('File size must be less than 40 MB.');
+            if (file.size > 20 * 1024 * 1024) { // 20MB in bytes
+                failureMessage('File size must be less than 20 MB.');
                 return;
             }
         }

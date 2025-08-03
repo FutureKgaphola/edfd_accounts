@@ -45,6 +45,12 @@ export const POST=async(req:Request)=>{
           { status: 400 }
         );
       }
+      if(user.active!==parseInt("1")){
+        return NextResponse.json(
+          { message: 'Unathorized account access not granted' },
+          { status: 400 }
+        );
+      }
       const token = CreateToken(user.user_email);
       return NextResponse.json(
         { message: 'Login successful', user: userWithoutPassword,token },

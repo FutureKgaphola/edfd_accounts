@@ -28,6 +28,10 @@ const config: Config = {
         appGreen:"#92981B",
         appGray:'#837676',
       },
+      fill:{
+        appGreen:"#92981B",
+        appGray:'#837676',
+      },
       borderColor:{
         appGreen:"#92981B",
         appGray:'#837676',

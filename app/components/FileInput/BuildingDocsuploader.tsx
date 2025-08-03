@@ -9,20 +9,21 @@ import LoadingSpinnerOnly from '../Spinner/LoadingSpinneronly';
 import { HiCloudDownload } from "react-icons/hi";
 import { DownloadCompanyDocs } from '@/app/services/handleDownloadCompanyDocs';
 import ProccesingAlert from '../Alerts/ProcessingRequest';
-import { BusinesDocs } from '@/app/constants/sharedconstants';
+import { BuildingDocs } from '@/app/constants/sharedconstants';
 
-export default function BusinessPDFUploader() {
+export default function BuildingUploader() {
+
     const { handleFileChange, AddCompanyDocs, Isuploaading } = useUploadBusiness();
     const { data, isLoading, UpdateCompanyDocs, IsuploadingUpdates, RemoveCompanyDocs, handleFileChange_update } = useBusinessDocs();
 
-    const [docs, setDocs] = useState<(null | any)[]>([null, null, null, null, null, null, null, null]);
+    const [docs, setDocs] = useState<(null | any)[]>([null, null, null, null, null, null, null, null, null]);
     const [error, seterror] = useState<Error | null>();
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
     const regNo = selectedprop.regNo;
     const loanCat_id = selectedprop.loanCat_id;
     useEffect(() => {
         if (data) {
-            const updatedFiles = Array(8).fill(null);
+            const updatedFiles = Array(9).fill(null);
             data.forEach((element: any) => {
                 updatedFiles[element.fileIndexes] = element;
             });
@@ -36,10 +37,10 @@ export default function BusinessPDFUploader() {
             e.preventDefault();
             AddCompanyDocs({ regNo: regNo, loanId: loanCat_id })
         }} >
-            {BusinesDocs?.map((item, index) => (
+            {BuildingDocs?.map((item, index) => (
                 <div key={item?.id}>
                     <div className="flex justify-between items-center">
-                        <p className="text-wrap w-7/12 break-words text-sm mr-2">{item?.desc}</p>
+                        <p className="text-wrap w-7/12 break-words text-sm mr-2">{item?.p}</p>
                         <div className="flex gap-1 items-center">
                             {
                                 isLoading ? <LoadingSpinnerOnly color='success' size='sm' /> :
@@ -65,8 +66,8 @@ export default function BusinessPDFUploader() {
             {IsuploadingUpdates && <ProccesingAlert action_message={"Processing your request ..."}/>}
             
             <a className='text-sm break-words text-appGreen underline' target='_blank' href='#'>Download Statement of personal Assets and Liabilities form</a>
-           <Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>
-
+            {/* {data?.length == 0 && <Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save All</Button>} */}
+<Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>
         </form>
     );
 }

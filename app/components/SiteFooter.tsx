@@ -2,11 +2,16 @@
 "use client";
 
 import { Footer } from "flowbite-react";
+import moment from "moment";
 import Link from "next/link";
-import { BsFacebook, BsLinkedin, BsTwitter } from "react-icons/bs";
+import { BsFacebook, BsLinkedin } from "react-icons/bs";
 import {FaXTwitter} from 'react-icons/fa6';
 
 export function SiteFooter() {
+  const currentYear = moment()?.year();
+  const d = new Date();
+  let year = d?.getFullYear();
+
   return (
     <Footer className="bg-appGreen -mt-4">
       <div className="fdiv w-full">
@@ -24,7 +29,7 @@ export function SiteFooter() {
               <Footer.Link href="https://twitter.com/Limpopoecon" target="_blank">X</Footer.Link>
               <Footer.Link href="https://www.facebook.com/LimpopoEcon" target="_blank">LinkedIn</Footer.Link>
               <Footer.Link href="https://www.linkedin.com/company/limpopo-economic-development-agency/" target="_blank">Facebook</Footer.Link>
-              <Footer.Link href="https://edfd-sub-website.vercel.app/contact">Contact Us</Footer.Link>
+              <Footer.Link href="https://edfd-sub-website.vercel.app/contact" target="_blank">Contact Us</Footer.Link>
             </Footer.LinkGroup>
           </div>
           <div>
@@ -38,7 +43,7 @@ export function SiteFooter() {
           
         </div>
         <div className="w-full bg-gray-700 px-4 py-6 sm:flex sm:items-center sm:justify-between">
-          <Footer.Copyright color="white" className="text-white" href="#" by="Limpopo Connexion™" year={2025} />
+          <Footer.Copyright color="white" className="text-white" href="#" by="Limpopo Connexion™" year={currentYear || year} />
           <div className="mt-4 flex space-x-6 sm:mt-0 sm:justify-center">
             <Footer.Icon href="https://www.facebook.com/LimpopoEcon" target="_blank" icon={BsFacebook} />
             <Footer.Icon href="https://twitter.com/Limpopoecon" target="_blank" icon={FaXTwitter} />

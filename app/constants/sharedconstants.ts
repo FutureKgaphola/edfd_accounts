@@ -15,74 +15,188 @@ secured (requiring collateral) or unsecured (based on creditworthiness).`;
 const Lorems = `Lorem Ipsum is simply dummy text of the printing and typesetting
  industry. Lorem Ipsum has been the industry's standard dummy text ever since 
  the 1500s, when an unknown printer took a galley of type and scrambled it to
-  make a type specimen book.`
+  make a type specimen book.`;
 
 const BusinesDocs = [
   {
-    id: 0, desc: 'Cession Agreement'
+    id: 0,
+    desc: "Cession Agreement *",
   },
   {
-    id: 1, desc: 'Resolution for delegationof authority to act on behalf of the company if there is more than one memeber/director'
+    id: 1,
+    desc: "Resolution for delegation of authority to act on behalf of the company if there is more than one memeber/director *",
   },
   {
-    id: 2, desc: 'Lease Agreement/Letter of Intent to Lease/Proof of Business Address'
+    id: 2,
+    desc: "Lease Agreement/Letter of Intent to Lease/Proof of Business Address *",
   },
   {
-    id: 3, desc: 'Affidavit declaring the company address of registered Office',
+    id: 3,
+    desc: "Affidavit declaring the company address of registered Office *",
   },
   {
-    id: 4, desc: 'Three/Six months bank statement of an active business'
+    id: 4,
+    desc: "Three/Six months bank statement of an active business *",
   },
   {
-    id: 5, desc: 'Quotation with bankng details for the respective supplier and delivery cost (Delivery cost can be free, included OR charged for Delivery/Transport)'
+    id: 5,
+    desc: "Quotation with bankng details for the respective supplier and delivery cost (Delivery cost can be free, included OR charged for Delivery/Transport) *",
   },
   {
-    id: 6, desc: 'Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple'
+    id: 6,
+    desc: "Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple *",
   },
   {
-    id: 7, desc: 'Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link below to download the form)'
-  }
+    id: 7,
+    desc: "Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link below to download the form) *",
+  },
 ];
 
 const ProcurementDocs = [
   {
-    id: 0, p: 'Appointment Letter/Order/JBCC contract/Service Level Agrement & Specification*', li: []
+    id: 0,
+    p: "Appointment Letter/Order/JBCC contract/Service Level Agrement & Specification *",
+    li: [],
   },
   {
-    id: 1, p: "Resolution for delegationof authority to act on behalf of the company if there is more than one memeber/director*", li: []
-  },
-  { id: 2, p: 'Lease Agreement/Letter of Intent to Lease/Proof of Business Address *', li: [] },
-  {
-    id: 3, p: 'Affidavit declaring the company address of registration Office *', li: []
-  },
-  { id: 4, p: 'Three months bank statement of an active business *', li: [] },
-  {
-    id: 5, p: `Quotation with bankng details for the respective supplier and delivery cost
-(Delivery cost can be free, included OR charged for Delivery/Transport) *`, li: []
+    id: 1,
+    p: "Resolution for delegationof authority to act on behalf of the company if there is more than one memeber/director *",
+    li: [],
   },
   {
-    id: 6, p: 'If you are aware of that you are listed, then attach one of the following',
+    id: 2,
+    p: "Lease Agreement/Letter of Intent to Lease/Proof of Business Address *",
+    li: [],
+  },
+  {
+    id: 3,
+    p: "Affidavit declaring the company address of registration Office *",
+    li: [],
+  },
+  { id: 4, p: "Three months bank statement of an active business *", li: [] },
+  {
+    id: 5,
+    p: `Quotation with bankng details for the respective supplier and delivery cost
+(Delivery cost can be free, included OR charged for Delivery/Transport) *`,
+    li: [],
+  },
+  {
+    id: 6,
+    p: "If you are aware of that you are listed, then attach one of the following *",
     li: [
-      { li: 'Proof of payment if debt is settled in full' },
-      { li: 'A latter from the creditor indicating the nature of thepayment arrangements if the dept is still having an outstanding.' },
+      { li: "Proof of payment if debt is settled in full" },
       {
-        li: 'Proof of payment'
-
-      }]
+        li: "A latter from the creditor indicating the nature of thepayment arrangements if the dept is still having an outstanding.",
+      },
+      {
+        li: "Proof of payment",
+      },
+    ],
   },
   {
-    id: 7, p: `Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of
-widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple *`, li: []
+    id: 7,
+    p: `Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of
+widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple *`,
+    li: [],
   },
-  { id: 8, p: `Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link to download the form) *`, li: [] },
+  {
+    id: 8,
+    p: `Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link to download the form) *`,
+    li: [],
+  },
 ];
+
+const BuildingDocs = [
+  {
+    id: 0,
+    p: "Cession Agreement *",
+    li: [],
+  },
+  {
+    id: 1,
+    p: `Appointment Letter & Form of Acceptance/Order/Contract/Service Level Agreement and
+specification. *`,
+    li: [],
+  },
+  {
+    id: 2,
+    p: `Resolution letter for delegation of authority to act on behalf of the company if there is more
+than one member/director. *`,
+    li: [],
+  },
+  {
+    id: 3,
+    p: `Lease Agreement/Letter of Intent to Lease/Proof of business operation. *`,
+    li: [],
+  },
+  {
+    id: 4,
+    p: "Affidavit declaring the company address of registered Office *",
+    li: [],
+  },
+  {
+    id: 5,
+    p: "Six months bank statement (existing businesses) / Letter from the bank. *",
+    li: [],
+  },
+  {
+    id: 6,
+    p: `Quotation with bankng details for the respective supplier and delivery cost (Delivery cost can be free, included OR charged for Delivery/Transport)`,
+    li: [],
+  },
+  {
+    id: 7,
+    p: `Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of widow/widower/copy of degree of divorce in case of divorcee/copy of Marriage certificate in case od married couple *`,
+    li: [],
+  },
+  {
+    id: 8,
+    p: `Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link to download the form) *`,
+    li: [],
+  },
+];
+
+const FranchiceDocs = [
+  {
+    id: 0,
+    p: "Cession Agreement *",
+  },
+  {
+    id: 1,
+    p: "Resolution for delegation of authority to act on behalf of the company if there is more than one memeber/director *",
+  },
+  {
+    id: 2,
+    p: "Lease Agreement/Letter of Intent to Lease/Proof of Business Address *",
+  },
+  {
+    id: 3,
+    p: "Affidavit declaring the company address of registered Office *",
+  },
+  {
+    id: 4,
+    p: "Three/Six months bank statement of an active business *",
+  },
+  {
+    id: 5,
+    p: "Quotation with bankng details for the respective supplier and delivery cost (Delivery cost can be free, included OR charged for Delivery/Transport) *",
+  },
+  {
+    id: 6,
+    p: "Declaration in case of unmarried applicant (Affidavit)/Copy of Death certificate in case of widow/widower/copy of degree of devorce in case of divorcee/copy of Marriage certificate in case od married couple *",
+  },
+  {
+    id: 7,
+    p: "Statement of personal Assets and Liabilities of memebers/directors of the company. (click on the link below to download the form) *",
+  },
+]
 
 export interface History {
   id: string;
   date: string;
   status: string;
   category: string;
-  Company:string;
+  Company: string;
   RegNo: string;
   body: string;
   stage?: string;
@@ -90,9 +204,8 @@ export interface History {
   recommendations?: string;
 }
 
-
 const isValidateCompanyRegNumber = (regNum: string): boolean => {
-  const sectors = ['07', '06', '08', '23', '21', '30', '10'];
+  const sectors = ["07", "06", "08", "23", "21", "30", "10"];
 
   // Ensure the format follows YYYY/NNNNNN/XX
   const regex = /^\d{4}\/\d{6}\/\d{2}$/;
@@ -150,4 +263,16 @@ function validateSAID(idNumber: string): boolean {
   return sum % 10 === 0; // Valid if Luhn checksum passes
 }
 
-export { Lorems, procurementDef, franchiseDef, BuildingDef, BusinessDef, isValidateCompanyRegNumber, validateSAID, BusinesDocs, ProcurementDocs }
+export {
+  Lorems,
+  procurementDef,
+  franchiseDef,
+  BuildingDef,
+  BusinessDef,
+  isValidateCompanyRegNumber,
+  validateSAID,
+  BusinesDocs,
+  ProcurementDocs,
+  BuildingDocs,
+  FranchiceDocs
+};

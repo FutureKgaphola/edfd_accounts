@@ -15,14 +15,14 @@ export default function ProcurementPDFUploader() {
     const { handleFileChange, AddCompanyDocs, Isuploaading } = useUploadBusiness();
     const { data, isLoading, UpdateCompanyDocs, IsuploadingUpdates, RemoveCompanyDocs, handleFileChange_update } = useBusinessDocs();
 
-    const [docs, setDocs] = useState<(null | any)[]>([null, null, null, null, null, null, null, null]);
+    const [docs, setDocs] = useState<(null | any)[]>([null, null, null, null, null, null, null, null,null]);
     const [error, seterror] = useState<Error | null>();
     const selectedprop = useSelector((state: RootState) => state.SelectedCompanyReducer);
     const regNo = selectedprop.regNo;
     const loanCat_id = selectedprop.loanCat_id;
     useEffect(() => {
         if (data) {
-            const updatedFiles = Array(8).fill(null);
+            const updatedFiles = Array(9).fill(null);
             data.forEach((element: any) => {
                 updatedFiles[element.fileIndexes] = element;
             });
@@ -51,7 +51,7 @@ export default function ProcurementPDFUploader() {
                                             <HiCloudDownload onClick={() => DownloadCompanyDocs(docs[index]?.regNo, loanCat_id, docs[index]?.filenames, docs[index]?.id)} className="hover:cursor-pointer" width={35} height={35} />
                                             <Button onClick={() => RemoveCompanyDocs({ id: docs[index]?.id, regNo: docs[index]?.regNo, loanCat_id: docs[index]?.loanCat_id,fileIndexes: docs[index]?.fileIndexes })} className="z-0" theme={customsubmitTheme} color='failure' size="xs">Delete</Button>
                                             <Button onClick={() => UpdateCompanyDocs({ regNo: docs[index]?.regNo, loanCat_id: loanCat_id, fileIndexes: docs[index]?.fileIndexes, id: docs[index]?.id })} className="z-0" theme={customsubmitTheme} color='success' size="xs">Update</Button></>
-                                            : docs ? <Button onClick={() => AddCompanyDocs({ regNo: regNo, loanId: loanCat_id })} color='warning' size="xs">Upload</Button> : null}
+                                            : docs ? null : null}
                                     </div>
                             }
 
@@ -68,7 +68,7 @@ export default function ProcurementPDFUploader() {
             {IsuploadingUpdates && <ProccesingAlert action_message={"Processing your request ..."}/>}
             
             <a className='text-sm break-words text-appGreen underline' target='_blank' href='#'>Download Statement of personal Assets and Liabilities form</a>
-            {data?.length == 0 && <Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save All</Button>}
+            <Button isProcessing={Isuploaading} disabled={Isuploaading} className='mt-4' type="submit" theme={customsubmitTheme} color="appsuccess">Save</Button>
 
         </form>
     );
