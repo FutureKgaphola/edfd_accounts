@@ -11,6 +11,7 @@ import { AddCompSliceAction } from "@/lib/features/AddCompany/AddCompanySlice";
 
 const ProfileList = ({ user_email }: { user_email: string }) => {
     const queryClient = useQueryClient();
+    const dispatch = useDispatch();
     const [selectedinput, Setselectedinput] = useState("---");
     const setSelectedCompany = (selected: string) => {
         Setselectedinput(selected);
@@ -37,7 +38,7 @@ const ProfileList = ({ user_email }: { user_email: string }) => {
         }
 
     }
-    const dispatch = useDispatch();
+    
     const { data, error, isLoading } = useQuery({
         queryFn: () => axios.get(`/api/companies/retrive/?user_email=${user_email}`),
         queryKey: ['Registeredcompanies'],

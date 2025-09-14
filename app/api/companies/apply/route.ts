@@ -136,7 +136,7 @@ async function createApplicationTables(transaction: sql.Transaction, tableref: s
             outcome VARCHAR(255) NOT NULL,
             stageAt VARCHAR(255) NOT NULL,
             message VARCHAR(255) NOT NULL,
-            recommendation text NULL,
+            recommendation VARCHAR(MAX) NULL,
             empno VARCHAR(8) NOT NULL DEFAULT '00000000',
             managerId VARCHAR(11) NOT NULL DEFAULT '00000000',
             companyName VARCHAR(255) NOT NULL,
